@@ -9,7 +9,7 @@
 <h1>Downloads</h1>
 {% endblock %}
 {% block content %}
-<form action="{% url 'index' %}" method="get">
+<form action="{% url 'index' analysis_method %}" method="get">
     <div class="form-row">
         <div class="col">
             {{ form.start.label_tag }}
@@ -24,7 +24,7 @@
             {{ form.user }}
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row mb-2">
         <div class="col">
             {{ form.dataset.label_tag }}
             {{ form.dataset }}
@@ -39,8 +39,52 @@
         </div>
     </div>
     
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <div class="input-group">
+        <button type="submit" class="btn btn-primary mb-2 mr-2">Filter</button>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Convert to
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">json</a>
+                <a class="dropdown-item" href="#">csv</a>
+                <a class="dropdown-item" href="#">excel</a>
+            </div>
+        </div>
+    </div>
+
+
+    
+    
+    
+
+    
 </form>
+
+
+
+<ul class="nav nav-fill nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link {% if analysis_method == 'methods' %}active{% endif %}" href="{% url 'index' 'methods' %}?{{request.GET.urlencode}}">Methods</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if analysis_method == 'timeline' %}active{% endif %}" href="{% url 'index' 'timeline' %}?{{request.GET.urlencode}}">Timeline</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if analysis_method == 'dataset' %}active{% endif %}" href="{% url 'index' 'dataset' %}?{{request.GET.urlencode}}">Dataset Breakdown</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if analysis_method == 'users' %}active{% endif %}" href="{% url 'index' 'users' %}?{{request.GET.urlencode}}">User Breakdown</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if analysis_method == 'user' %}active{% endif %}" href="{% url 'index' 'user' %}?{{request.GET.urlencode}}">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if analysis_method == 'trace' %}active{% endif %}" href="{% url 'index' 'trace' %}?{{request.GET.urlencode}}">Trace</a>
+  </li>
+</ul>
+
 {% endblock %}
 
 {% block tail_js_extra %}
