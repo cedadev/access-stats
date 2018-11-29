@@ -10,12 +10,35 @@
 {% endblock %}
 {% block content %}
 <form action="{% url 'index' %}" method="get">
-    {% for field in form %}
-        <div class="form-group">
-        {{ field.label_tag }}
-        {{ field }}
+    <div class="form-row">
+        <div class="col">
+            {{ form.start.label_tag }}
+            {{ form.start }}
         </div>
-    {% endfor %}
+        <div class="col">
+            {{ form.end.label_tag }}
+            {{ form.end }}
+        </div>
+        <div class="col">
+            {{ form.user.label_tag }}
+            {{ form.user }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            {{ form.dataset.label_tag }}
+            {{ form.dataset }}
+        </div>
+        <div class="col">
+            {{ form.method.label_tag }}
+            {{ form.method }}
+        </div>
+        <div class="col">
+            {{ form.anon.label_tag }}
+            {{ form.anon }}
+        </div>
+    </div>
+    
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}
