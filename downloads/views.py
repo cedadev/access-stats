@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import loader
+from django.http import HttpResponse, HttpResponseRedirect
+
+from .forms import FilterForm
 
 def index(request):
-    var = True
-    template = loader.get_template("downloads/index.html")
-    context = {"var" : var}
-    return HttpResponse(template.render(context, request))
+    if request.method == "GET":
+        form = FilterForm(request.GET)
+    return render(request, "downloads/index.html", {'form': form})
