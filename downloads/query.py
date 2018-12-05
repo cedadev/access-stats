@@ -11,13 +11,25 @@ class QueryElasticSearch:
         
     def get_data(self, filters, analysis_method):
         return self._generate_data(filters, analysis_method)
+
+    def get_query_response(self, body):
+        return self.es.search(index=self.index,body=body)
     
     def _generate_data(self, filters, analysis_method):
+        if analysis_method == "user":
+            return {}
         generated_query = QueryMaker().generate_query(filters, analysis_method)
-        query_response = self.es.search(index=self.index,body=generated_query)
-        if (analysis_method == "methods"):
+        query_response = self.get_query_response(body=generated_query)
+        if analysis_method == "methods":
             return self._generate_methods_data(filters, query_response)
-
+        if analysis_method == "timeline":
+            return self._generate_timeline_data(filters, query_response)
+        if analysis_method == "dataset":
+            return self._generate_dataset_data(filters, query_response)
+        if analysis_method == "users":
+            return self._generate_users_data(filters, query_response)
+        if analysis_method == "trace":
+            return self._generate_trace_data(filters, query_response)
 
     def _generate_methods_data(self, filters, response):
         json_data = {}
@@ -25,6 +37,7 @@ class QueryElasticSearch:
         json_data["filters"] = filters
         json_data["totals"] = {}
         json_data["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
+        json_data["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
@@ -41,18 +54,113 @@ class QueryElasticSearch:
 
         return json_data
 
-class QueryMaker():
-    def __init__(self):
-        self._base_query = self._set__base_query()
+    def _generate_timeline_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "Timeline for downloads from CEDA archive"
+        json_data["filters"] = filters
+        json_data["totals"] = {}
+        json_data["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
+        json_data["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
+        json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
+        json_data["totals"]["accesses"] = response["hits"]["total"]
+        json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
+        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
-    def generate_query(self, filters, analysis_method):
-        self.generated_query = self._base_query
+        json_data["results"] = {}
+        for result in response["aggregations"]["group_by"]["buckets"]:
+            # TODO: Add better date formatting - key_as_string into datettime?
+            json_data["results"][result["key_as_string"]] = {}
+            json_data["results"][result["key_as_string"]]["users"] = result["number_of_users"]["value"]
+            json_data["results"][result["key_as_string"]]["methods"] = result["number_of_methods"]["value"]
+            json_data["results"][result["key_as_string"]]["datasets"] = result["number_of_datasets"]["value"]
+            json_data["results"][result["key_as_string"]]["accesses"] = result["doc_count"]
+            json_data["results"][result["key_as_string"]]["size"] = result["total_size"]["value"]
+            json_data["results"][result["key_as_string"]]["activitydays"] = result["group_by_activitydays"]["value"]
+
+        return json_data
+
+    def _generate_dataset_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "Summary of downloads from CEDA archive by dataset"
+        json_data["filters"] = filters
+        json_data["totals"] = {}
+        json_data["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
+        json_data["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
+        json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
+        json_data["totals"]["accesses"] = response["hits"]["total"]
+        json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
+        json_data["totals"]["activitydays"] = 0
+
+        json_data["results"] = {}
+        while response["aggregations"]["group_by"]["buckets"] != []:
+            for result in response["aggregations"]["group_by"]["buckets"]:
+                json_data["results"][result["key"]["dataset"]] = {}
+                json_data["results"][result["key"]["dataset"]]["users"] = result["number_of_users"]["value"]
+                json_data["results"][result["key"]["dataset"]]["methods"] = result["number_of_methods"]["value"]
+                json_data["results"][result["key"]["dataset"]]["accesses"] = result["doc_count"]
+                json_data["results"][result["key"]["dataset"]]["size"] = result["total_size"]["value"]
+                json_data["results"][result["key"]["dataset"]]["activitydays"] = result["group_by_activitydays"]["value"]
+                json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
+
+            after_key = response["aggregations"]["group_by"]["after_key"]
+            generated_query = QueryMaker().generate_query(filters, "dataset", after_key)
+            response = self.get_query_response(body=generated_query)
+            
+        return json_data
+
+    def _generate_users_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "Summary of downloads from CEDA archive by user"
+        json_data["filters"] = filters
+        json_data["totals"] = {}
+        json_data["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
+        json_data["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
+        json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
+        json_data["totals"]["accesses"] = response["hits"]["total"]
+        json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
+        json_data["totals"]["activitydays"] = 0
+
+        json_data["results"] = {}
+        while response["aggregations"]["group_by"]["buckets"] != []:
+            for result in response["aggregations"]["group_by"]["buckets"]:
+                json_data["results"][result["key"]["user"]] = {}
+                json_data["results"][result["key"]["user"]]["methods"] = result["number_of_methods"]["value"]
+                json_data["results"][result["key"]["user"]]["datasets"] = result["number_of_datasets"]["value"]
+                json_data["results"][result["key"]["user"]]["accesses"] = result["doc_count"]
+                json_data["results"][result["key"]["user"]]["size"] = result["total_size"]["value"]
+                json_data["results"][result["key"]["user"]]["activitydays"] = result["group_by_activitydays"]["value"]
+                json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
+            after_key = response["aggregations"]["group_by"]["after_key"]
+            generated_query = QueryMaker().generate_query(filters, "users", after_key)
+            response = self.get_query_response(body=generated_query)
+            
+        return json_data
+
+    def _generate_trace_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "List of logs within filter"
+        json_data["filters"] = filters
+        json_data["logs"] = []
+        for result in response["hits"]["hits"]:
+            json_data["logs"].append(f'{result["_source"]["datetime"]},{result["_source"]["method"]},{result["_source"]["filename"]},{result["_source"]["size"]},{result["_source"]["user"]},{result["_source"]["ip"]},{result["_source"]["dataset"]}')
+        
+        return json_data
+
+class QueryMaker():
+    def generate_query(self, filters, analysis_method, after_key=None):
+        if analysis_method == "trace":
+            self.generated_query = self._base_small_query()
+        else:
+            self.generated_query = self._base_big_query()
         self._update_filters(filters)
-        self._update_aggs(analysis_method)
+        if analysis_method != "trace":
+            self._update_aggs(analysis_method, after_key)
         return self.generated_query
 
-    def _update_aggs(self, analysis_method):
-        self.generated_query["aggs"].update(AggregationsMaker().get_aggs(analysis_method))
+    def _update_aggs(self, analysis_method, after_key):
+        if analysis_method != "users" and analysis_method != "dataset":
+            self.generated_query["aggs"].update(self.total_activitydays())
+        self.generated_query["aggs"].update(AggregationsMaker().get_aggs(analysis_method, after_key))
         
     def _update_filters(self, filters):
         if filters["start"]:
@@ -91,7 +199,37 @@ class QueryMaker():
                             }
                         })
 
-    def _set__base_query(self):
+    def total_activitydays(self):
+        return {"grand_total_activitydays": {
+            "sum_bucket": {
+                "buckets_path": "group_by>group_by_activitydays"
+            }
+        }
+        }
+
+    def _base_small_query(self):
+        return {
+            "query": {
+                "bool": {
+                    "must": [],
+                    "must_not": [],
+                    "should": [],
+                    "filter": {
+                        "range": {
+                            "datetime": {
+                                "gte": "2012-01-01",
+                                "lte": "now",
+                                "format": "yyyy-MM-dd"
+                            }
+                        }
+                    }
+                }
+            },
+            "_source": [],
+            "size": 1000
+        }
+
+    def _base_big_query(self):
         return {
             "query": {
                 "bool": {
@@ -118,7 +256,7 @@ class QueryMaker():
                         "field": "user.keyword"
                     }
                 },
-                "grand_total_method": {
+                "grand_total_methods": {
                     "cardinality": {
                         "field": "method.keyword"
                     }
@@ -131,11 +269,6 @@ class QueryMaker():
                 "grand_total_size": {
                     "sum": {
                         "field": "size"
-                    }
-                },
-                "grand_total_activitydays": {
-                    "sum_bucket": {
-                        "buckets_path": "group_by>group_by_activitydays"
                     }
                 }
             }

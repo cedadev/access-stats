@@ -24,4 +24,4 @@ class JsonView(TemplateView):
         form = FilterForm(request.GET)
         if analysis_method not in valid_analysis_methods or not form.is_valid():
             return default_404_response
-        return JsonResponse(self.get_data_from_es(form.cleaned_data, analysis_method))
+        return JsonResponse(self.get_data_from_es(form.cleaned_data, analysis_method), json_dumps_params={'indent': 2})
