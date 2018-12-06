@@ -131,6 +131,23 @@ Downloads
                 <a class="dropdown-item" href="#">excel</a>
             </div>
         </div>
+
+        <table class="table" id="datasetTable">
+            <thead>
+                <tr>
+                    <th scope="col">Dataset</th>
+                    <th scope="col">Users</th>
+                    <th scope="col">Methods</th>
+                    <th scope="col">Number of accesses</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Activity days</th>
+                </tr>
+            </thead>
+            <tbody id="datasetTableBody">
+            </tbody>
+            <tfoot id="datasetTableFooter">
+            </tfoot>
+        </table>
     </div>
 
     <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
@@ -157,6 +174,23 @@ Downloads
                 <a class="dropdown-item" href="#">excel</a>
             </div>
         </div>
+
+        <table class="table" id="usersTable">
+            <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Methods</th>
+                    <th scope="col">Datasets</th>
+                    <th scope="col">Number of accesses</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Activity days</th>
+                </tr>
+            </thead>
+            <tbody id="usersTableBody">
+            </tbody>
+            <tfoot id="usersTableFooter">
+            </tfoot>
+        </table>
     </div>
 
     <div class="tab-pane fade" id="trace" role="tabpanel" aria-labelledby="trace-tab">
@@ -170,6 +204,17 @@ Downloads
                 <a class="dropdown-item" href="#">excel</a>
             </div>
         </div>
+        <table class="table table-responsive" id="traceTable">
+            <thead>
+                <tr>
+                    <th scope="col">Log</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td class="p-0"><pre id="traceTableBody"></pre></td>
+                
+            </tbody>
+        </table>
     </div>
 
 </div>
