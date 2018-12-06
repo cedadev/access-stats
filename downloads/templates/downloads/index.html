@@ -1,7 +1,7 @@
 {% extends "fwtheme_django/layout.html" %}
 {% load staticfiles %}
-<link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
 {% block stylesheets_extra %}
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 {{form.media.css}}
 {% endblock %}
 
@@ -60,38 +60,72 @@ Downloads
 </nav>
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
-        <div class="dropdown" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown mb-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Convert to
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="methodsDropdown">
                 <a class="dropdown-item" href="{% url 'json' 'methods' %}?{{request.GET.urlencode}}">json</a>
                 <a class="dropdown-item" href="#">csv</a>
                 <a class="dropdown-item" href="#">excel</a>
             </div>
         </div>
+        <table class="table" id="methodsTable">
+            <thead>
+                <tr>
+                    <th scope="col">Method</th>
+                    <th scope="col">Users</th>
+                    <th scope="col">Datasets</th>
+                    <th scope="col">Number of accesses</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Activity days</th>
+                </tr>
+            </thead>
+            <tbody id="methodsTableBody">
+            </tbody>
+            <tfoot id="methodsTableFooter">
+            </tfoot>
+        </table>
     </div>
     
     
     <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
-        <div class="dropdown" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown mb-2" >
+            <button class="btn btn-primary dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Convert to
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="timelineDropdown">
                 <a class="dropdown-item" href="{% url 'json' 'timeline' %}?{{request.GET.urlencode}}">json</a>
                 <a class="dropdown-item" href="#">csv</a>
                 <a class="dropdown-item" href="#">excel</a>
             </div>
         </div>
+
+        <table class="table" id="timelineTable">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Users</th>
+                    <th scope="col">Methods</th>
+                    <th scope="col">Datasets</th>
+                    <th scope="col">Number of accesses</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Activity days</th>
+                </tr>
+            </thead>
+            <tbody id="timelineTableBody">
+            </tbody>
+            <tfoot id="timelineTableFooter">
+            </tfoot>
+        </table>
     </div>
 
     <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
-        <div class="dropdown" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown mb-2" >
+            <button class="btn btn-primary dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Convert to
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="datasetDropdown">
                 <a class="dropdown-item" href="{% url 'json' 'dataset' %}?{{request.GET.urlencode}}">json</a>
                 <a class="dropdown-item" href="#">csv</a>
                 <a class="dropdown-item" href="#">excel</a>
@@ -100,11 +134,11 @@ Downloads
     </div>
 
     <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-        <div class="dropdown" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown mb-2" >
+            <button class="btn btn-primary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Convert to
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="{% url 'json' 'user' %}?{{request.GET.urlencode}}">json</a>
                 <a class="dropdown-item" href="#">csv</a>
                 <a class="dropdown-item" href="#">excel</a>
@@ -113,11 +147,11 @@ Downloads
     </div>
 
     <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-        <div class="dropdown" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown mb-2" >
+            <button class="btn btn-primary dropdown-toggle" type="button" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Convert to
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="usersDropdown">
                 <a class="dropdown-item" href="{% url 'json' 'users' %}?{{request.GET.urlencode}}">json</a>
                 <a class="dropdown-item" href="#">csv</a>
                 <a class="dropdown-item" href="#">excel</a>
@@ -126,11 +160,11 @@ Downloads
     </div>
 
     <div class="tab-pane fade" id="trace" role="tabpanel" aria-labelledby="trace-tab">
-        <div class="dropdown" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown mb-2" >
+            <button class="btn btn-primary dropdown-toggle" type="button" id="traceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Convert to
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="traceDropdown">
                 <a class="dropdown-item" href="{% url 'json' 'trace' %}?{{request.GET.urlencode}}">json</a>
                 <a class="dropdown-item" href="#">csv</a>
                 <a class="dropdown-item" href="#">excel</a>
@@ -144,5 +178,8 @@ Downloads
 {% endblock %}
 
 {% block tail_js_extra %}
+<script type="text/javascript" src="{% static 'downloads/js/mustache.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/templates.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/downloads.js'%}"></script>
 {{form.media.js}}
 {% endblock %}
