@@ -51,16 +51,191 @@ function renderMethodsPage(data)
     $("#methodsTableFooter").html(html);
 }
 
+
+
 function renderTimelinePage(data)
 {
+    var months = [];
+    var users = [];
+    var methods = [];
+    var datasets = [];
+    var accesses = [];
+    var size = [];
+    var activitydays = [];
+
     var html;
     for (var month in data.results)
     {
+        months.push(formatDate(month));
+        users.push(data.results[month].users);
+        methods.push(data.results[month].methods);
+        datasets.push(data.results[month].datasets);
+        accesses.push(data.results[month].accesses);
+        size.push(data.results[month].size);
+        activitydays.push(data.results[month].activitydays);
         html += Mustache.render(templates.timelineTableBody, {month:formatDate(month),users:data.results[month].users,methods:data.results[month].methods,datasets:data.results[month].datasets,accesses:data.results[month].accesses,size:formatBytes(data.results[month].size),activitydays:data.results[month].activitydays});
     }
     $("#timelineTableBody").html(html);
     html = Mustache.render(templates.timelineTableFooter, {totals:"Totals",users:data.totals.users,methods:data.totals.methods,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
     $("#timelineTableFooter").html(html);
+
+    timelineUsers = makeTableUsers(months, users);
+
+    var timelineChartMethods = document.getElementById("timelineChartMethods").getContext('2d');
+    var timelineMethods = new Chart(timelineChartMethods, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: '# of methods',
+                data: methods,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+    var timelineChartDatasets = document.getElementById("timelineChartDatasets").getContext('2d');
+    var timelineDatasets = new Chart(timelineChartDatasets, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: '# of datasets',
+                data: datasets,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+    var timelineChartAccesses = document.getElementById("timelineChartAccesses").getContext('2d');
+    var timelineAccesses = new Chart(timelineChartAccesses, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: '# of accesses',
+                data: accesses,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+    var timelineChartSize = document.getElementById("timelineChartSize").getContext('2d');
+    var timelineSize = new Chart(timelineChartSize, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'size',
+                data: size,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+    var timelineChartActivitydays = document.getElementById("timelineChartActivitydays").getContext('2d');
+    var timelineActivityDays = new Chart(timelineChartActivitydays, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'activity days',
+                data: activitydays,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+
+    $('.nav-tabs a').on('shown.bs.tab', function(event){
+        var x = $(event.target).text();         
+        if(x == "Users")
+        {
+            timelineUsers.destroy();
+            makeTableUsers(months, users);
+        }
+        console.log($(event.target));
+    }); 
+
+
+}
+
+function makeTableUsers(months, users)
+{
+    var timelineChartUsers = document.getElementById("timelineChartUsers").getContext('2d');
+    var timelineUsers = new Chart(timelineChartUsers, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: '# of users',
+                data: users,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+    return timelineUsers
 }
 
 function renderDatasetPage(data)
