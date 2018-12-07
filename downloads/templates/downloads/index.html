@@ -3,227 +3,293 @@
 {% block stylesheets_extra %}
 <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 {{form.media.css}}
+<link rel="stylesheet" type="text/css" href="{% static 'downloads/css/downloads.css' %}">
 {% endblock %}
 
 {% block head_title %}
 Downloads
 {% endblock %}
 {% block page_title %}
-<h1>Downloads</h1>
+
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'index' %}" method="get">
-    <div class="form-row">
-        <div class="col">
-            {{ form.start.label_tag }}
-            {{ form.start }}
-        </div>
-        <div class="col">
-            {{ form.end.label_tag }}
-            {{ form.end }}
-        </div>
-        <div class="col">
-            {{ form.user.label_tag }}
-            {{ form.user }}
-        </div>
-    </div>
-    <div class="form-row mb-2">
-        <div class="col">
-            {{ form.dataset.label_tag }}
-            {{ form.dataset }}
-        </div>
-        <div class="col">
-            {{ form.method.label_tag }}
-            {{ form.method }}
-        </div>
-        <div class="col">
-            {{ form.anon.label_tag }}
-            {{ form.anon }}
-        </div>
-    </div>
-    <div class="input-group">
-        <button type="submit" class="btn btn-primary mb-2 mr-2">Filter</button>
-    </div>
-</form>
-
-
-<nav>
-    <div class="nav nav-fill nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" data-toggle="tab" href="#methods">Methods</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#timeline">Timeline</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#dataset">Dataset Breakdown</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#user">User Breakdown</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#users">Users</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#trace">Trace</a>
-    </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
-        <div class="dropdown mb-2">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Convert to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="methodsDropdown">
-                <a class="dropdown-item" href="{% url 'json' 'methods' %}?{{request.GET.urlencode}}">json</a>
-                <a class="dropdown-item" href="#">csv</a>
-                <a class="dropdown-item" href="#">excel</a>
+<div class="row offset-1">
+    <div class="col-3">
+        <form action="{% url 'index' %}" method="get">
+            <div class="col mt-2">
+                <div class="row">
+                    <div class="col">
+                        {{ form.start.label_tag }}
+                        {{ form.start }}
+                    </div>
+                    <div class="col">
+                        {{ form.end.label_tag }}
+                        {{ form.end }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.user.label_tag }}
+                        {{ form.user }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.dataset.label_tag }}
+                        {{ form.dataset }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.method.label_tag }}
+                        {{ form.method }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.anon.label_tag }}
+                        {{ form.anon }}
+                    </div>
+                </div>
             </div>
-        </div>
-        <table class="table" id="methodsTable">
-            <thead>
-                <tr>
-                    <th scope="col">Method</th>
-                    <th scope="col">Users</th>
-                    <th scope="col">Datasets</th>
-                    <th scope="col">Number of accesses</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Activity days</th>
-                </tr>
-            </thead>
-            <tbody id="methodsTableBody">
-            </tbody>
-            <tfoot id="methodsTableFooter">
-            </tfoot>
-        </table>
-    </div>
-    
-    
-    <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
-        <div class="dropdown mb-2" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Convert to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="timelineDropdown">
-                <a class="dropdown-item" href="{% url 'json' 'timeline' %}?{{request.GET.urlencode}}">json</a>
-                <a class="dropdown-item" href="#">csv</a>
-                <a class="dropdown-item" href="#">excel</a>
+            <div class="input-group">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary mb-2 mt-2">Filter</button>
+                </div>
             </div>
-        </div>
-
-        <table class="table" id="timelineTable">
-            <thead>
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Users</th>
-                    <th scope="col">Methods</th>
-                    <th scope="col">Datasets</th>
-                    <th scope="col">Number of accesses</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Activity days</th>
-                </tr>
-            </thead>
-            <tbody id="timelineTableBody">
-            </tbody>
-            <tfoot id="timelineTableFooter">
-            </tfoot>
-        </table>
+        </form>
     </div>
 
-    <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
-        <div class="dropdown mb-2" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Convert to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="datasetDropdown">
-                <a class="dropdown-item" href="{% url 'json' 'dataset' %}?{{request.GET.urlencode}}">json</a>
-                <a class="dropdown-item" href="#">csv</a>
-                <a class="dropdown-item" href="#">excel</a>
+    <div class="col-7 border border-right-0 border-top-0 border-bottom-0">
+        <nav>
+            <div class="nav nav-fill nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" data-toggle="tab" href="#methods">Methods</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#timeline">Timeline</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#dataset">Dataset Breakdown</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#user">User Breakdown</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#users">Users</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#trace">Trace</a>
             </div>
-        </div>
-
-        <table class="table" id="datasetTable">
-            <thead>
-                <tr>
-                    <th scope="col">Dataset</th>
-                    <th scope="col">Users</th>
-                    <th scope="col">Methods</th>
-                    <th scope="col">Number of accesses</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Activity days</th>
-                </tr>
-            </thead>
-            <tbody id="datasetTableBody">
-            </tbody>
-            <tfoot id="datasetTableFooter">
-            </tfoot>
-        </table>
-    </div>
-
-    <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-        <div class="dropdown mb-2" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Convert to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{% url 'json' 'user' %}?{{request.GET.urlencode}}">json</a>
-                <a class="dropdown-item" href="#">csv</a>
-                <a class="dropdown-item" href="#">excel</a>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
+                <div class="dropdown mb-2">
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Convert to
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="methodsDropdown">
+                        <a class="dropdown-item" href="{% url 'json' 'methods' %}?{{request.GET.urlencode}}">json</a>
+                        <a class="dropdown-item" href="#">csv</a>
+                        <a class="dropdown-item" href="#">excel</a>
+                    </div>
+                </div>
+                <table class="table" id="methodsTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Method</th>
+                            <th scope="col">Users</th>
+                            <th scope="col">Datasets</th>
+                            <th scope="col">Number of accesses</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Activity days</th>
+                        </tr>
+                    </thead>
+                    <tbody id="methodsTableBody">
+                    </tbody>
+                    <tfoot id="methodsTableFooter">
+                    </tfoot>
+                </table>
             </div>
-        </div>
-    </div>
-
-    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-        <div class="dropdown mb-2" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Convert to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                <a class="dropdown-item" href="{% url 'json' 'users' %}?{{request.GET.urlencode}}">json</a>
-                <a class="dropdown-item" href="#">csv</a>
-                <a class="dropdown-item" href="#">excel</a>
+            
+            
+            <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                <div class="col ml-1">
+                    <div class="row">
+                        <div class="col mr-0 pr-0">
+                            <div class="tab-content my-2" id="navTimeline-tabContent">
+                                <div class="tab-pane fade show active" id="timelinePaneUsers" role="tabpanel" aria-labelledby="methods-tab">
+                                    <canvas id="timelineChartUsers" width="650" height="350"></canvas>
+                                </div>
+                                <div class="tab-pane fade" id="timelinePaneMethods" role="tabpanel" aria-labelledby="methods-tab">
+                                    <canvas id="timelineChartMethods" width="650" height="350"></canvas>
+                                </div>
+                                <div class="tab-pane fade" id="timelinePaneDatasets" role="tabpanel" aria-labelledby="methods-tab">
+                                    <canvas id="timelineChartDatasets" width="650" height="350"></canvas>
+                                </div>
+                                <div class="tab-pane fade" id="timelinePaneAccesses" role="tabpanel" aria-labelledby="methods-tab">
+                                    <canvas id="timelineChartAccesses" width="650" height="350"></canvas>
+                                </div>
+                                <div class="tab-pane fade" id="timelinePaneSize" role="tabpanel" aria-labelledby="methods-tab">
+                                    <canvas id="timelineChartSize" width="650" height="350"></canvas>
+                                </div>
+                                <div class="tab-pane fade" id="timelinePaneActivitydays" role="tabpanel" aria-labelledby="methods-tab">
+                                    <canvas id="timelineChartActivitydays" width="650" height="350"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col ml-0 pl-0">
+                            <div class="dropdown mt-3 ml-3">
+                                <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Convert to
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="timelineDropdown">
+                                    <a class="dropdown-item" href="{% url 'json' 'timeline' %}?{{request.GET.urlencode}}">json</a>
+                                    <a class="dropdown-item" href="#">csv</a>
+                                    <a class="dropdown-item" href="#">excel</a>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row mt-2">
+                                <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="timeline-tab">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#timelinePaneUsers">Users</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneMethods">Methods</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneDatasets">Datasets</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneAccesses">Accesses</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneSize">Size</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneActivitydays">Activity days</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" id="timelineTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Users</th>
+                                    <th scope="col">Methods</th>
+                                    <th scope="col">Datasets</th>
+                                    <th scope="col">Number of accesses</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Activity days</th>
+                                </tr>
+                            </thead>
+                            <tbody id="timelineTableBody">
+                            </tbody>
+                            <tfoot id="timelineTableFooter">
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <table class="table" id="usersTable">
-            <thead>
-                <tr>
-                    <th scope="col">User</th>
-                    <th scope="col">Methods</th>
-                    <th scope="col">Datasets</th>
-                    <th scope="col">Number of accesses</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Activity days</th>
-                </tr>
-            </thead>
-            <tbody id="usersTableBody">
-            </tbody>
-            <tfoot id="usersTableFooter">
-            </tfoot>
-        </table>
-    </div>
+            <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
+                <div class="dropdown mb-2" >
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Convert to
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="datasetDropdown">
+                        <a class="dropdown-item" href="{% url 'json' 'dataset' %}?{{request.GET.urlencode}}">json</a>
+                        <a class="dropdown-item" href="#">csv</a>
+                        <a class="dropdown-item" href="#">excel</a>
+                    </div>
+                </div>
 
-    <div class="tab-pane fade" id="trace" role="tabpanel" aria-labelledby="trace-tab">
-        <div class="dropdown mb-2" >
-            <button class="btn btn-primary dropdown-toggle" type="button" id="traceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Convert to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="traceDropdown">
-                <a class="dropdown-item" href="{% url 'json' 'trace' %}?{{request.GET.urlencode}}">json</a>
-                <a class="dropdown-item" href="#">csv</a>
-                <a class="dropdown-item" href="#">excel</a>
+                <table class="table" id="datasetTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Dataset</th>
+                            <th scope="col">Users</th>
+                            <th scope="col">Methods</th>
+                            <th scope="col">Number of accesses</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Activity days</th>
+                        </tr>
+                    </thead>
+                    <tbody id="datasetTableBody">
+                    </tbody>
+                    <tfoot id="datasetTableFooter">
+                    </tfoot>
+                </table>
             </div>
-        </div>
-        <table class="table table-responsive" id="traceTable">
-            <thead>
-                <tr>
-                    <th scope="col">Log</th>
-                </tr>
-            </thead>
-            <tbody>
-                <td class="p-0"><pre id="traceTableBody"></pre></td>
-                
-            </tbody>
-        </table>
-    </div>
 
+            <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+                <div class="dropdown mb-2" >
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Convert to
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="{% url 'json' 'user' %}?{{request.GET.urlencode}}">json</a>
+                        <a class="dropdown-item" href="#">csv</a>
+                        <a class="dropdown-item" href="#">excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <div class="dropdown mb-2" >
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Convert to
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                        <a class="dropdown-item" href="{% url 'json' 'users' %}?{{request.GET.urlencode}}">json</a>
+                        <a class="dropdown-item" href="#">csv</a>
+                        <a class="dropdown-item" href="#">excel</a>
+                    </div>
+                </div>
+
+                <table class="table" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Methods</th>
+                            <th scope="col">Datasets</th>
+                            <th scope="col">Number of accesses</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Activity days</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                    </tbody>
+                    <tfoot id="usersTableFooter">
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="trace" role="tabpanel" aria-labelledby="trace-tab">
+                <div class="dropdown mb-2" >
+                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="traceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Convert to
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="traceDropdown">
+                        <a class="dropdown-item" href="{% url 'json' 'trace' %}?{{request.GET.urlencode}}">json</a>
+                        <a class="dropdown-item" href="#">csv</a>
+                        <a class="dropdown-item" href="#">excel</a>
+                    </div>
+                </div>
+                <table class="table table-responsive" id="traceTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Log</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td class="p-0"><pre id="traceTableBody"></pre></td>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
 </div>
-
-
 {% endblock %}
 
 {% block tail_js_extra %}
 <script type="text/javascript" src="{% static 'downloads/js/mustache.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/Chart.bundle.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/templates.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/downloads.js'%}"></script>
 {{form.media.js}}
