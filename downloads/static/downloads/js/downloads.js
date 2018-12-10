@@ -41,14 +41,123 @@ $.get(
 
 function renderMethodsPage(data)
 {
+    console.log(data);
+    console.log(data.results);
+    var dataDict = {
+        months: [],
+        users: [],
+        methods: [],
+        datasets: [],
+        accesses: [],
+        size: [],
+        activitydays: []
+    }
+
     var html;
     for (var method in data.results)
     {
+        dataDict.methods.push(method);
+        dataDict.users.push(data.results[method].users);
+        dataDict.datasets.push(data.results[method].datasets);
+        dataDict.accesses.push(data.results[method].accesses);
+        dataDict.size.push(data.results[method].size);
+        dataDict.activitydays.push(data.results[method].activitydays);
         html += Mustache.render(templates.methodsTableBody, {method:method,users:data.results[method].users,datasets:data.results[method].datasets,accesses:data.results[method].accesses,size:formatBytes(data.results[method].size),activitydays:data.results[method].activitydays});
     }
     $("#methodsTableBody").html(html);
     html = Mustache.render(templates.methodsTableFooter, {totals:"Totals",users:data.totals.users,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
     $("#methodsTableFooter").html(html);
+
+    methodsChart = makeMethodsChart(dataDict);
+    var activeTab = "methodsTabUsers";
+    methodsChart.data.datasets[0].hidden = false;
+    methodsChart.update();
+    methodsTabs = ["methodsTabUsers","methodsTabMethods","methodsTabDatasets","methodsTabAccesses","methodsTabSize","methodsTabActivitydays"]
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        if (methodsTabs.includes(e.target.id))
+        {
+            activeTab = e.target.id;
+        }
+        methodsChart = updateMethodsChart(methodsChart, activeTab, dataDict);
+    })
+}
+
+function updateMethodsChart(chart, activeTab, dataDict)
+{
+    chart.destroy();
+    chart = makeMethodsChart(dataDict);
+    if(activeTab == "methodsTabUsers")
+    {
+        chart.data.datasets[0].hidden = false;
+    }
+    if(activeTab == "methodsTabDatasets")
+    {
+        chart.data.datasets[1].hidden = false;
+    }
+    if(activeTab == "methodsTabAccesses")
+    {
+        chart.data.datasets[2].hidden = false;
+    }
+    if(activeTab == "methodsTabSize")
+    {
+        chart.data.datasets[3].hidden = false;
+    }
+    if(activeTab == "methodsTabActivitydays")
+    {
+        chart.data.datasets[4].hidden = false;
+    }
+    chart.update();
+    return chart;
+}
+
+function makeMethodsChart(dataDict)
+{
+    var methodsChartElement = document.getElementById("methodsChart").getContext('2d');
+    var methodsChart = new Chart(methodsChartElement, {
+        type: 'bar',
+        data: {
+            labels: dataDict.methods,
+            datasets: [{
+                label: '# of users',
+                data: dataDict.users,
+                hidden: true
+            },
+            {
+                label: '# of datasets',
+                data: dataDict.datasets,
+                hidden: true
+            },
+            {
+                label: '# of accesses',
+                data: dataDict.accesses,
+                hidden: true
+            },
+            {
+                label: 'size',
+                data: dataDict.size,
+                hidden: true
+            },
+            {
+                label: '# of activity days',
+                data: dataDict.activitydays,
+                hidden: true
+            }
+        ]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            },
+            plugins: {
+                colorschemes: {
+                    scheme: 'brewer.Paired12'
+                }
+            }
+        }
+    
+    });
+    return methodsChart
 }
 
 function renderTimelinePage(data)
@@ -62,7 +171,6 @@ function renderTimelinePage(data)
         size: [],
         activitydays: []
     }
-
 
     var html;
     for (var month in data.results)
@@ -127,8 +235,8 @@ function updateTimelineChart(chart, activeTab, dataDict)
 
 function makeTimelineChart(dataDict)
 {
-    var timelineChartUsers = document.getElementById("timelineChart").getContext('2d');
-    var timelineUsers = new Chart(timelineChartUsers, {
+    var timelineChartElement = document.getElementById("timelineChart").getContext('2d');
+    var timelineChart = new Chart(timelineChartElement, {
         type: 'line',
         data: {
             labels: dataDict.months,
@@ -202,7 +310,7 @@ function makeTimelineChart(dataDict)
         }
     
     });
-    return timelineUsers
+    return timelineChart
 }
 
 function renderDatasetPage(data)
@@ -271,8 +379,8 @@ function updateDatasetChart(chart, activeTab, dataDict)
 
 function makeDatasetChart(dataDict)
 {
-    var datasetChartUsers = document.getElementById("datasetChart").getContext('2d');
-    var datasetUsers = new Chart(datasetChartUsers, {
+    var datasetChartElement = document.getElementById("datasetChart").getContext('2d');
+    var datasetChart = new Chart(datasetChartElement, {
         type: 'doughnut',
         data: {
             labels: dataDict.datasets,
@@ -312,7 +420,7 @@ function makeDatasetChart(dataDict)
         }
     
     });
-    return datasetUsers
+    return datasetChart
 }
 
 function renderUsersPage(data)
