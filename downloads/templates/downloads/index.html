@@ -64,12 +64,12 @@ Downloads
     <div class="col-7 border border-right-0 border-top-0 border-bottom-0">
         <nav>
             <div class="nav nav-fill nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" data-toggle="tab" href="#methods">Methods</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#timeline">Timeline</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#dataset">Dataset Breakdown</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#user">User Breakdown</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#users">Users</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#trace">Trace</a>
+                <a class="nav-item nav-link active" data-toggle="tab" href="#methods" id="methodsTab">Methods</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#timeline" id="timelineTab">Timeline</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#dataset" id="datasetTab">Dataset Breakdown</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#user" id="userTab">User Breakdown</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#users" id="usersTab">Users</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#trace" id="traceTab">Trace</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -107,26 +107,7 @@ Downloads
                 <div class="col ml-1">
                     <div class="row">
                         <div class="col mr-0 pr-0">
-                            <div class="tab-content my-2" id="navTimeline-tabContent">
-                                <div class="tab-pane fade show active" id="timelinePaneUsers" role="tabpanel" aria-labelledby="methods-tab">
-                                    <canvas id="timelineChartUsers" width="650" height="350"></canvas>
-                                </div>
-                                <div class="tab-pane fade" id="timelinePaneMethods" role="tabpanel" aria-labelledby="methods-tab">
-                                    <canvas id="timelineChartMethods" width="650" height="350"></canvas>
-                                </div>
-                                <div class="tab-pane fade" id="timelinePaneDatasets" role="tabpanel" aria-labelledby="methods-tab">
-                                    <canvas id="timelineChartDatasets" width="650" height="350"></canvas>
-                                </div>
-                                <div class="tab-pane fade" id="timelinePaneAccesses" role="tabpanel" aria-labelledby="methods-tab">
-                                    <canvas id="timelineChartAccesses" width="650" height="350"></canvas>
-                                </div>
-                                <div class="tab-pane fade" id="timelinePaneSize" role="tabpanel" aria-labelledby="methods-tab">
-                                    <canvas id="timelineChartSize" width="650" height="350"></canvas>
-                                </div>
-                                <div class="tab-pane fade" id="timelinePaneActivitydays" role="tabpanel" aria-labelledby="methods-tab">
-                                    <canvas id="timelineChartActivitydays" width="650" height="350"></canvas>
-                                </div>
-                            </div>
+                            <canvas class="my-2" id="timelineChart" width="650" height="350"></canvas>
                         </div>
                         <div class="col ml-0 pl-0">
                             <div class="dropdown mt-3 ml-3">
@@ -142,22 +123,22 @@ Downloads
                             <div class="d-flex flex-row mt-2">
                                 <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="timeline-tab">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#timelinePaneUsers">Users</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#" id="timelineTabUsers">Users</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneMethods">Methods</a>
+                                        <a class="nav-link" data-toggle="tab" href="#" id="timelineTabMethods">Methods</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneDatasets">Datasets</a>
+                                        <a class="nav-link" data-toggle="tab" href="#" id="timelineTabDatasets">Datasets</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneAccesses">Accesses</a>
+                                        <a class="nav-link" data-toggle="tab" href="#" id="timelineTabAccesses">Accesses</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneSize">Size</a>
+                                        <a class="nav-link" data-toggle="tab" href="#" id="timelineTabSize">Size</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#timelinePaneActivitydays">Activity days</a>
+                                        <a class="nav-link" data-toggle="tab" href="#" id="timelineTabActivitydays">Activity days</a>
                                     </li>
                                 </ul>
                             </div>
