@@ -80,7 +80,7 @@ function renderTimelinePage(data)
     html = Mustache.render(templates.timelineTableFooter, {totals:"Totals",users:data.totals.users,methods:data.totals.methods,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
     $("#timelineTableFooter").html(html);
 
-    timelineChart = makeChart(dataDict);
+    timelineChart = makeTimelineChart(dataDict);
 
     var activeTab = "timelineTabUsers";
     timelineTabs = ["timelineTabUsers","timelineTabMethods","timelineTabDatasets","timelineTabAccesses","timelineTabSize","timelineTabActivitydays"]
@@ -89,14 +89,14 @@ function renderTimelinePage(data)
         {
             activeTab = e.target.id;
         }
-        timelineChart = updateChart(timelineChart, activeTab, dataDict);
+        timelineChart = updateTimelineChart(timelineChart, activeTab, dataDict);
     })
 }
 
-function updateChart(chart, activeTab, dataDict)
+function updateTimelineChart(chart, activeTab, dataDict)
 {
     chart.destroy();
-    chart = makeChart(dataDict);
+    chart = makeTimelineChart(dataDict);
     if(activeTab == "timelineTabUsers")
     {
         chart.data.datasets[0].hidden = false;
@@ -125,7 +125,7 @@ function updateChart(chart, activeTab, dataDict)
     return chart;
 }
 
-function makeChart(dataDict)
+function makeTimelineChart(dataDict)
 {
     var timelineChartUsers = document.getElementById("timelineChart").getContext('2d');
     var timelineUsers = new Chart(timelineChartUsers, {
@@ -208,13 +208,111 @@ function makeChart(dataDict)
 function renderDatasetPage(data)
 {
     var html;
+
+    var dataDict = {
+        datasets: [],
+        users: [],
+        methods: [],
+        accesses: [],
+        size: [],
+        activitydays: []
+    }
+
     for (var dataset in data.results)
     {
+        dataDict.datasets.push(dataset);
+        dataDict.users.push(data.results[dataset].users);
+        dataDict.methods.push(data.results[dataset].methods);
+        dataDict.accesses.push(data.results[dataset].accesses);
+        dataDict.size.push(data.results[dataset].size);
+        dataDict.activitydays.push(data.results[dataset].activitydays);
         html += Mustache.render(templates.datasetTableBody, {dataset:dataset,users:data.results[dataset].users,methods:data.results[dataset].methods,accesses:data.results[dataset].accesses,size:formatBytes(data.results[dataset].size),activitydays:data.results[dataset].activitydays});
     }
     $("#datasetTableBody").html(html);
     html = Mustache.render(templates.datasetTableFooter, {totals:"Totals",users:data.totals.users,methods:data.totals.methods,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
     $("#datasetTableFooter").html(html);
+
+    datasetChart = makeDatasetChart(dataDict);
+
+    var activeTab = "datasetTabUsers";
+    datasetTabs = ["datasetTabUsers","datasetTabAccesses","datasetTabSize","datasetTabActivitydays"]
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        if (datasetTabs.includes(e.target.id))
+        {
+            activeTab = e.target.id;
+        }
+        datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
+    })
+}
+
+function updateDatasetChart(chart, activeTab, dataDict)
+{
+    chart.destroy();
+    chart = makeDatasetChart(dataDict);
+    if(activeTab == "datasetTabUsers")
+    {
+        chart.data.datasets[0].hidden = false;
+    }
+    if(activeTab == "datasetTabAccesses")
+    {
+        chart.data.datasets[1].hidden = false;
+    }
+    if(activeTab == "datasetTabSize")
+    {
+        chart.data.datasets[2].hidden = false;
+    }
+    if(activeTab == "datasetTabActivitydays")
+    {
+        chart.data.datasets[3].hidden = false;
+    }
+    chart.update();
+    return chart;
+}
+
+function makeDatasetChart(dataDict)
+{
+    var datasetChartUsers = document.getElementById("datasetChart").getContext('2d');
+    var datasetUsers = new Chart(datasetChartUsers, {
+        type: 'doughnut',
+        data: {
+            labels: dataDict.datasets,
+            datasets: [{
+                label: '# of users',
+                data: dataDict.users,
+                hidden: true
+            },
+            {
+                label: '# of accesses',
+                data: dataDict.accesses,
+                fill: false,
+                borderWidth: 1,
+                hidden: true
+            },
+            {
+                label: 'size',
+                data: dataDict.size,
+                fill: false,
+                borderWidth: 1,
+                hidden: true
+            },
+            {
+                label: '# of activity days',
+                data: dataDict.activitydays,
+                fill: false,
+                borderWidth: 1,
+                hidden: true
+            }
+        ]
+        },
+        options: {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        }
+    
+    });
+    return datasetUsers
 }
 
 function renderUsersPage(data)

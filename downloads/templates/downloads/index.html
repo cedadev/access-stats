@@ -167,33 +167,59 @@ Downloads
             </div>
 
             <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
-                <div class="dropdown mb-2" >
-                    <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Convert to
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="datasetDropdown">
-                        <a class="dropdown-item" href="{% url 'json' 'dataset' %}?{{request.GET.urlencode}}">json</a>
-                        <a class="dropdown-item" href="#">csv</a>
-                        <a class="dropdown-item" href="#">excel</a>
+                <div class="col ml-1">
+                    <div class="row">
+                        <div class="col mr-0 pr-0">
+                            <canvas class="my-2" id="datasetChart" width="650" height="350"></canvas>
+                        </div>
+                        <div class="col ml-0 pl-0">
+                            <div class="dropdown mt-3 ml-3" >
+                                <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Convert to
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="datasetDropdown">
+                                    <a class="dropdown-item" href="{% url 'json' 'dataset' %}?{{request.GET.urlencode}}">json</a>
+                                    <a class="dropdown-item" href="#">csv</a>
+                                    <a class="dropdown-item" href="#">excel</a>
+                                 </div>
+                            </div>
+                            <div class="d-flex flex-row mt-2">
+                                <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="dataset-tab">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#" id="datasetTabUsers">Users</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#" id="datasetTabAccesses">Accesses</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#" id="datasetTabSize">Size</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#" id="datasetTabActivitydays">Activity days</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <table class="table" id="datasetTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Dataset</th>
-                            <th scope="col">Users</th>
-                            <th scope="col">Methods</th>
-                            <th scope="col">Number of accesses</th>
-                            <th scope="col">Size</th>
-                            <th scope="col">Activity days</th>
-                        </tr>
-                    </thead>
-                    <tbody id="datasetTableBody">
-                    </tbody>
-                    <tfoot id="datasetTableFooter">
-                    </tfoot>
-                </table>
+                    <div class="row">
+                        <table class="table" id="datasetTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Dataset</th>
+                                <th scope="col">Users</th>
+                                <th scope="col">Methods</th>
+                                <th scope="col">Number of accesses</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Activity days</th>
+                            </tr>
+                        </thead>
+                        <tbody id="datasetTableBody">
+                        </tbody>
+                        <tfoot id="datasetTableFooter">
+                        </tfoot>
+                    </table>
+                    </div>
+                </div> 
             </div>
 
             <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
@@ -271,6 +297,7 @@ Downloads
 {% block tail_js_extra %}
 <script type="text/javascript" src="{% static 'downloads/js/mustache.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/Chart.bundle.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/chartjs-plugin-colorschemes.min.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/templates.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/downloads.js'%}"></script>
 {{form.media.js}}
