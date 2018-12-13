@@ -7,5 +7,5 @@ var templates = {
     datasetTableFooter: '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{methods}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
     usersTableBody: '<tr><th scope="row">{{user}}</th><td>{{methods}}</td><td>{{datasets}}</td><td>{{accesses}}</td><td>{{size}}</td><td>{{activitydays}}</td></tr>',
     usersTableFooter: '<tr><th scope="row">{{totals}}</th><th>{{methods}}</th><th>{{datasets}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
-    traceTableBody: '<tr><td><pre>{{log}}</pre></td></tr>'
+    traceTableBody: '{{log}}\n'
 }
