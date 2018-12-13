@@ -41,8 +41,6 @@ $.get(
 
 function renderMethodsPage(data)
 {
-    console.log(data);
-    console.log(data.results);
     var dataDict = {
         months: [],
         users: [],
@@ -437,7 +435,7 @@ function renderUsersPage(data)
 
 function renderTracePage(data)
 {
-    var html;
+    var html = "";
     for (var i = 0; i < data.logs.length; i++)
     {
         html += Mustache.render(templates.traceTableBody, {log:data.logs[i]});

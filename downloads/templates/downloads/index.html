@@ -74,13 +74,7 @@ Downloads
         </nav>
 
         <div class="tab-content" id="nav-tabContent">
-
             <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
-
-
-
-
-
                 <div class="col ml-1">
                     <div class="row">
                         <div class="col mr-0 pr-0">
@@ -308,22 +302,11 @@ Downloads
                     Convert to
                     </button>
                     <div class="dropdown-menu" aria-labelledby="traceDropdown">
-                        <a class="dropdown-item" href="{% url 'json' 'trace' %}?{{request.GET.urlencode}}">json</a>
-                        <a class="dropdown-item" href="#">csv</a>
-                        <a class="dropdown-item" href="#">excel</a>
+                        <a class="dropdown-item" href="{% url 'txt' 'trace' %}?{{request.GET.urlencode}}">txt</a>
                     </div>
                 </div>
-                <table class="table table-responsive" id="traceTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Log</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <td class="p-0"><pre id="traceTableBody"></pre></td>
-                        
-                    </tbody>
-                </table>
+                
+                <pre id="traceTableBody"></pre>
             </div>
 
         </div>
