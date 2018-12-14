@@ -110,7 +110,7 @@ function updateMethodsChart(chart, activeTab, dataDict)
 
 function makeMethodsChart(dataDict)
 {
-    var methodsChartElement = document.getElementById("methodsChart").getContext('2d');
+    var methodsChartElement = $("#methodsChart");
     var methodsChart = new Chart(methodsChartElement, {
         type: 'bar',
         data: {
@@ -143,23 +143,30 @@ function makeMethodsChart(dataDict)
         ]
         },
         options: {
-            responsive: false,
+            responsive: true,
             legend: {
                 display: false
             },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Paired12'
+                    scheme: 'brewer.Pastel1-9'
                 }
             }
         }
-    
     });
     return methodsChart
 }
 
 function renderTimelinePage(data)
 {
+    
     var dataDict = {
         months: [],
         users: [],
@@ -233,7 +240,7 @@ function updateTimelineChart(chart, activeTab, dataDict)
 
 function makeTimelineChart(dataDict)
 {
-    var timelineChartElement = document.getElementById("timelineChart").getContext('2d');
+    var timelineChartElement = $("#timelineChart");
     var timelineChart = new Chart(timelineChartElement, {
         type: 'line',
         data: {
@@ -301,12 +308,18 @@ function makeTimelineChart(dataDict)
         ]
         },
         options: {
-            responsive: false,
+            responsive: true,
             legend: {
                 display: false
-            }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
         }
-    
     });
     return timelineChart
 }
@@ -377,7 +390,7 @@ function updateDatasetChart(chart, activeTab, dataDict)
 
 function makeDatasetChart(dataDict)
 {
-    var datasetChartElement = document.getElementById("datasetChart").getContext('2d');
+    var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
         type: 'doughnut',
         data: {
@@ -411,12 +424,16 @@ function makeDatasetChart(dataDict)
         ]
         },
         options: {
-            responsive: false,
+            responsive: true,
             legend: {
                 display: false
+            },
+            plugins: {
+                colorschemes: {
+                    scheme: 'brewer.Paired12'
+                }
             }
         }
-    
     });
     return datasetChart
 }
