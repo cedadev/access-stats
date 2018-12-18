@@ -166,7 +166,6 @@ function makeMethodsChart(dataDict)
 
 function renderTimelinePage(data)
 {
-    
     var dataDict = {
         months: [],
         users: [],
@@ -318,7 +317,7 @@ function makeTimelineChart(dataDict)
                         beginAtZero: true
                     }
                 }]
-            },
+            }
         }
     });
     return timelineChart
@@ -398,27 +397,25 @@ function makeDatasetChart(dataDict)
             datasets: [{
                 label: '# of users',
                 data: dataDict.users,
+                borderWidth: 0,
                 hidden: true
             },
             {
                 label: '# of accesses',
                 data: dataDict.accesses,
-                fill: false,
-                borderWidth: 1,
+                borderWidth: 0,
                 hidden: true
             },
             {
                 label: 'size',
                 data: dataDict.size,
-                fill: false,
-                borderWidth: 1,
+                borderWidth: 0,
                 hidden: true
             },
             {
                 label: '# of activity days',
                 data: dataDict.activitydays,
-                fill: false,
-                borderWidth: 1,
+                borderWidth: 0,
                 hidden: true
             }
         ]

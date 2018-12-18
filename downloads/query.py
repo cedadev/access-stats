@@ -1,3 +1,4 @@
+import datetime
 from elasticsearch import Elasticsearch
 
 from .aggregations import AggregationsMaker
@@ -68,14 +69,14 @@ class QueryElasticSearch:
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
-            # TODO: Add better date formatting - key_as_string into datettime?
-            json_data["results"][result["key_as_string"]] = {}
-            json_data["results"][result["key_as_string"]]["users"] = result["number_of_users"]["value"]
-            json_data["results"][result["key_as_string"]]["methods"] = result["number_of_methods"]["value"]
-            json_data["results"][result["key_as_string"]]["datasets"] = result["number_of_datasets"]["value"]
-            json_data["results"][result["key_as_string"]]["accesses"] = result["doc_count"]
-            json_data["results"][result["key_as_string"]]["size"] = result["total_size"]["value"]
-            json_data["results"][result["key_as_string"]]["activitydays"] = result["group_by_activitydays"]["value"]
+            month = datetime.datetime.strptime(result["key_as_string"],"%Y/%m/%d-%H:%M:%S").strftime("%Y/%m/%d")
+            json_data["results"][month] = {}
+            json_data["results"][month]["users"] = result["number_of_users"]["value"]
+            json_data["results"][month]["methods"] = result["number_of_methods"]["value"]
+            json_data["results"][month]["datasets"] = result["number_of_datasets"]["value"]
+            json_data["results"][month]["accesses"] = result["doc_count"]
+            json_data["results"][month]["size"] = result["total_size"]["value"]
+            json_data["results"][month]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
