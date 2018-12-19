@@ -67,11 +67,27 @@ function renderMethodsPage(data)
     $("#methodsTableFooter").html(html);
 
     methodsChart = makeMethodsChart(dataDict);
-    var activeTab = "methodsTabUsers";
-    methodsChart.data.datasets[0].hidden = false;
-    methodsChart.update();
+
+    var activeTab = null;
+    if (location.hash)
+    {
+        if (location.hash.split(".")[0] != "#methods")
+        {
+            activeTab = "methodsTabUsers";
+        }
+        else
+        {
+            activeTab = location.hash.split(".")[1];
+        }
+    }
+    else
+    {
+        activeTab = "methodsTabUsers";
+    }
+    methodsChart = updateMethodsChart(methodsChart, activeTab, dataDict);
+
     methodsTabs = ["methodsTabUsers","methodsTabMethods","methodsTabDatasets","methodsTabAccesses","methodsTabSize","methodsTabActivitydays"]
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (methodsTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -194,9 +210,27 @@ function renderTimelinePage(data)
 
     timelineChart = makeTimelineChart(dataDict);
 
-    var activeTab = "timelineTabUsers";
+    var activeTab = null;
+    if (location.hash) 
+    {
+        if (location.hash.split(".")[0] != "#timeline")
+        {
+            activeTab = "timelineTabUsers";
+        }
+        else
+        {
+            activeTab = location.hash.split(".")[1];
+        }
+    }
+    else
+    {
+        activeTab = "timelineTabUsers";
+    }
+    timelineChart = updateTimelineChart(timelineChart, activeTab, dataDict);
+
+
     timelineTabs = ["timelineTabUsers","timelineTabMethods","timelineTabDatasets","timelineTabAccesses","timelineTabSize","timelineTabActivitydays"]
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (timelineTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -352,9 +386,26 @@ function renderDatasetPage(data)
 
     datasetChart = makeDatasetChart(dataDict);
 
-    var activeTab = "datasetTabUsers";
+    var activeTab = null;
+    if (location.hash) 
+    {
+        if (location.hash.split(".")[0] != "#dataset")
+        {
+            activeTab = "datasetTabUsers";
+        }
+        else
+        {
+            activeTab = location.hash.split(".")[1];
+        }
+    }
+    else
+    {
+        activeTab = "datasetTabUsers";
+    }
+    datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
+
     datasetTabs = ["datasetTabUsers","datasetTabAccesses","datasetTabSize","datasetTabActivitydays"]
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (datasetTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -460,3 +511,80 @@ function renderTracePage(data)
 function formatBytes(a,b){if(0==a)return"0 Bytes";var c=1024,d=b||2,e=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],f=Math.floor(Math.log(a)/Math.log(c));return parseFloat((a/Math.pow(c,f)).toFixed(d))+" "+e[f]}
 
 function formatDate(a){return a.split("-")[0]}
+
+
+
+if (location.hash) {
+    $("a[href='" + location.hash.split(".")[0] + "']").tab('show');
+    $("a[href='#" + location.hash.split(".")[1] + "']").tab('show');
+}
+var currentMethodsTab = null;
+var currentTimelineTab = null;
+var currentDatasetTab = null;
+
+$('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
+    e.preventDefault();
+    var tabName = this.getAttribute('href')
+    if (tabName == "#methods") 
+    {
+        if (currentMethodsTab != null)
+        {
+            tabName = tabName + "." + currentMethodsTab;
+        }
+        else
+        {
+            tabName = tabName + ".methodsTabUsers";
+        }
+    }
+    if (tabName == "#timeline") 
+    {
+        if (currentTimelineTab != null)
+        {
+            tabName = tabName + "." + currentTimelineTab;
+        }
+        else
+        {
+            tabName = tabName + ".timelineTabUsers";
+        }
+    }
+    if (tabName == "#dataset") 
+    {
+        if (currentDatasetTab != null)
+        {
+            tabName = tabName + "." + currentDatasetTab;
+        }
+        else
+        {
+            tabName = tabName + ".datasetTabUsers";
+        }
+    }
+
+    location.hash = tabName;
+    $(this).tab('show');
+    return false;
+});
+$('body').on('click', 'a[data-toggle=\'tab-sub\']', function (e) {
+    e.preventDefault()
+    var tabName = this.getAttribute('id')
+    location.hash = location.hash.split(".")[0] + "." + tabName;
+    if (location.hash.split(".")[0] == "#methods") 
+    {
+        currentMethodsTab = tabName;
+    }
+    if (location.hash.split(".")[0] == "#timeline") 
+    {
+        currentTimelineTab = tabName;
+    }
+    if (location.hash.split(".")[0] == "#dataset") 
+    {
+        currentDatasetTab = tabName;
+    }
+
+    $(this).tab('show');
+    return false;
+});
+$(window).on('popstate', function () {
+    var anchor = location.hash ||
+        $('a[data-toggle=\'tab-main\']').first().attr('href');
+    $('a[href=\'' + anchor + '\']').tab('show');
+});
