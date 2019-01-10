@@ -6,7 +6,7 @@ from .aggregations import AggregationsMaker
 class QueryElasticSearch:
     def __init__(self):
         self.host = "jasmin-es-test.ceda.ac.uk"
-        self.index = "tommy-test"
+        self.index = "tommy-test-time"
         self.port = 9200
         self.es = Elasticsearch(hosts=[{"host": self.host, "port": self.port}])
         
@@ -69,7 +69,7 @@ class QueryElasticSearch:
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
-            month = datetime.datetime.strptime(result["key_as_string"],"%Y/%m/%d-%H:%M:%S").strftime("%Y/%m/%d")
+            month = result["key_as_string"]
             json_data["results"][month] = {}
             json_data["results"][month]["users"] = result["number_of_users"]["value"]
             json_data["results"][month]["methods"] = result["number_of_methods"]["value"]

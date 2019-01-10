@@ -42,7 +42,6 @@ $.get(
 function renderMethodsPage(data)
 {
     var dataDict = {
-        months: [],
         users: [],
         methods: [],
         datasets: [],
@@ -510,9 +509,12 @@ function renderTracePage(data)
 
 function formatBytes(a,b){if(0==a)return"0 Bytes";var c=1024,d=b||2,e=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],f=Math.floor(Math.log(a)/Math.log(c));return parseFloat((a/Math.pow(c,f)).toFixed(d))+" "+e[f]}
 
-function formatDate(a){return a.split("-")[0]}
-
-
+// Needs to change if datetime format does:
+function formatDate(a)
+{
+    var dated = new Date(a);
+    return dated.toString("yyyy/MM");
+}
 
 if (location.hash) {
     $("a[href='" + location.hash.split(".")[0] + "']").tab('show');
