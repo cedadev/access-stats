@@ -5,10 +5,19 @@ from .aggregations import AggregationsMaker
 
 class QueryElasticSearch:
     def __init__(self):
-        self.host = "jasmin-es-test.ceda.ac.uk"
-        self.index = "tommy-test-time"
-        self.port = 9200
-        self.es = Elasticsearch(hosts=[{"host": self.host, "port": self.port}])
+        self.secret = self.get_credentials("downloads/secrets.key")
+        self.user = self.get_credentials("downloads/user.key")
+        self.host = "https://jasmin-es-test.ceda.ac.uk"
+        self.index = "logstash-test"
+        self.es = Elasticsearch(
+            [self.host],
+            http_auth=(self.user,self.secret)
+        )
+
+    def get_credentials(self, file_name):
+        with open(file_name) as secrets:
+            return secrets.read()
+            
         
     def get_data(self, filters, analysis_method):
         return self._generate_data(filters, analysis_method)
