@@ -1,43 +1,97 @@
+var loadingHTML = Mustache.render(templates.loadingMessage)
+$("#methods-message").html(loadingHTML);
 $.get(
 {
     url: window.location.origin + window.location.pathname + "json/" + "methods" + window.location.search,
     success: function(data) 
     {
-        renderMethodsPage(data)
+        renderMethodsPage(data);
+        $("#methods-message").hide();
     }
 })
 
+$("#timeline-message").html(loadingHTML);
 $.get(
 {
     url: window.location.origin + window.location.pathname + "json/" + "timeline" + window.location.search,
     success: function (data) {
-        renderTimelinePage(data)
+        renderTimelinePage(data);
+        $("#timeline-message").hide();
     }
 })
 
+
+$("#dataset-message").html(loadingHTML);
 $.get(
 {
-    url: window.location.origin + window.location.pathname + "json/" + "dataset" + window.location.search,
+    url: window.location.origin + window.location.pathname + "json/" + "dataset-limited" + window.location.search,
     success: function (data) {
-        renderDatasetPage(data)
+        renderDatasetPage(data);
+        if(data.totals.datasets > 500)
+        {
+            var html = Mustache.render(templates.warningMessage, {analysis_method:"Datasets", total:data.totals.datasets, allFunction:"datasetsGetAll()"});
+            $("#dataset-message").html(html);
+        }
+        else 
+        {
+            $("#dataset-message").hide();
+        }
     }
 })
 
+$("#users-message").html(loadingHTML);
 $.get(
 {
-    url: window.location.origin + window.location.pathname + "json/" + "users" + window.location.search,
+    url: window.location.origin + window.location.pathname + "json/" + "users-limited" + window.location.search,
     success: function (data) {
-        renderUsersPage(data)
+        renderUsersPage(data);
+        if(data.totals.users > 500)
+        {
+            var html = Mustache.render(templates.warningMessage, {analysis_method:"Users", total:data.totals.users, allFunction:"usersGetAll()"});
+            $("#users-message").html(html);
+        }
+        else 
+        {
+            $("#users-message").hide();
+        }
     }
 })
 
+$("#trace-message").html(loadingHTML);
 $.get(
 {
     url: window.location.origin + window.location.pathname + "json/" + "trace" + window.location.search,
     success: function (data) {
-        renderTracePage(data)
+        renderTracePage(data);
+        $("#trace-message").hide();
     }
 })
+
+function datasetsGetAll()
+{
+    $("#dataset-message").html(loadingHTML);
+    $.get(
+    {
+        url: window.location.origin + window.location.pathname + "json/" + "dataset" + window.location.search,
+        success: function (data) {
+            renderDatasetPage(data);
+            $("#dataset-message").hide();
+        }
+    })
+}
+
+function usersGetAll()
+{
+    $("#users-message").html(loadingHTML);
+    $.get(
+    {
+        url: window.location.origin + window.location.pathname + "json/" + "users" + window.location.search,
+        success: function (data) {
+            renderUsersPage(data);
+            $("#users-message").hide();
+        }
+    })
+}
 
 function renderMethodsPage(data)
 {
@@ -58,7 +112,7 @@ function renderMethodsPage(data)
         dataDict.datasets.push(data.results[method].datasets);
         dataDict.accesses.push(data.results[method].accesses);
         dataDict.size.push(data.results[method].size);
-        dataDict.activitydays.push(data.results[method].activitydays);
+        //dataDict.activitydays.push(data.results[method].activitydays);
         html += Mustache.render(templates.methodsTableBody, {method:method,users:data.results[method].users,datasets:data.results[method].datasets,accesses:data.results[method].accesses,size:formatBytes(data.results[method].size),activitydays:data.results[method].activitydays});
     }
     $("#methodsTableBody").html(html);
@@ -167,7 +221,12 @@ function makeMethodsChart(dataDict)
                     ticks: {
                         beginAtZero: true
                     }
-                }]
+                }],
+                xAxes: [{
+                    ticks: {
+                      autoSkip: false
+                    }
+                  }]
             },
             plugins: {
                 colorschemes: {
@@ -200,7 +259,7 @@ function renderTimelinePage(data)
         dataDict.datasets.push(data.results[month].datasets);
         dataDict.accesses.push(data.results[month].accesses);
         dataDict.size.push(data.results[month].size);
-        dataDict.activitydays.push(data.results[month].activitydays);
+        //dataDict.activitydays.push(data.results[month].activitydays);
         html += Mustache.render(templates.timelineTableBody, {month:formatDate(month),users:data.results[month].users,methods:data.results[month].methods,datasets:data.results[month].datasets,accesses:data.results[month].accesses,size:formatBytes(data.results[month].size),activitydays:data.results[month].activitydays});
     }
     $("#timelineTableBody").html(html);
@@ -376,7 +435,7 @@ function renderDatasetPage(data)
         dataDict.methods.push(data.results[dataset].methods);
         dataDict.accesses.push(data.results[dataset].accesses);
         dataDict.size.push(data.results[dataset].size);
-        dataDict.activitydays.push(data.results[dataset].activitydays);
+        //dataDict.activitydays.push(data.results[dataset].activitydays);
         html += Mustache.render(templates.datasetTableBody, {dataset:dataset,users:data.results[dataset].users,methods:data.results[dataset].methods,accesses:data.results[dataset].accesses,size:formatBytes(data.results[dataset].size),activitydays:data.results[dataset].activitydays});
     }
     $("#datasetTableBody").html(html);
@@ -439,6 +498,8 @@ function updateDatasetChart(chart, activeTab, dataDict)
 
 function makeDatasetChart(dataDict)
 {
+    var html = Mustache.render(templates.canvas,{id:"datasetChart"})
+    $("#datasetChartBox").html(html);
     var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
         type: 'doughnut',
@@ -490,7 +551,8 @@ function renderUsersPage(data)
     var html;
     for (var user in data.results)
     {
-        html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size),activitydays:data.results[user].activitydays});
+        html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size)});
+        //html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size),activitydays:data.results[user].activitydays});
     }
     $("#usersTableBody").html(html);
     html = Mustache.render(templates.usersTableFooter, {totals:"Totals",methods:data.totals.methods,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});

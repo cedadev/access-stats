@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from .forms import FilterForm
 from .query import QueryElasticSearch
 
-valid_analysis_methods = ["methods","timeline","dataset","user","users","trace"]
+valid_analysis_methods = ["methods","timeline","dataset","dataset-limited","user","users","users-limited","trace"]
 
 default_404_response = HttpResponseNotFound('<h1>404 - Not found</h1>')
 
