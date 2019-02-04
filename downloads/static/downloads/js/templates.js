@@ -7,5 +7,8 @@ var templates = {
     datasetTableFooter: '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{methods}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
     usersTableBody: '<tr><th scope="row">{{user}}</th><td>{{methods}}</td><td>{{datasets}}</td><td>{{accesses}}</td><td>{{size}}</td><td>{{activitydays}}</td></tr>',
     usersTableFooter: '<tr><th scope="row">{{totals}}</th><th>{{methods}}</th><th>{{datasets}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
-    traceTableBody: '{{log}}\n'
+    traceTableBody: '{{log}}\n',
+    loadingMessage: '<div class="alert alert-light text-center text-dark">Loading...</div>',
+    warningMessage: '<div class="alert alert-danger text-center">Too many {{analysis_method}}. Showing 500 of {{total}}<a class="btn btn-primary btn-sm ml-2" role="button" onclick={{allFunction}}>Show All</a></div>',
+    canvas: '<canvas class="my-2" id={{id}} width="600" height="350"></canvas>'
 }

@@ -5,20 +5,20 @@ from .aggregations import AggregationsMaker
 
 class QueryElasticSearch:
     def __init__(self):
-        self.secret = self.get_credentials("downloads/secrets.key")
+        self.secret = self.get_credentials("downloads/secret.key")
         self.user = self.get_credentials("downloads/user.key")
         self.host = "https://jasmin-es-test.ceda.ac.uk"
         self.index = "logstash-test"
         self.es = Elasticsearch(
             [self.host],
-            http_auth=(self.user,self.secret)
+            http_auth=(self.user,self.secret),
+            timeout=30
         )
 
     def get_credentials(self, file_name):
         with open(file_name) as secrets:
             return secrets.read()
             
-        
     def get_data(self, filters, analysis_method):
         return self._generate_data(filters, analysis_method)
 
@@ -36,8 +36,12 @@ class QueryElasticSearch:
             return self._generate_timeline_data(filters, query_response)
         if analysis_method == "dataset":
             return self._generate_dataset_data(filters, query_response)
+        if analysis_method == "dataset-limited":
+            return self._generate_dataset_limited_data(filters, query_response)
         if analysis_method == "users":
             return self._generate_users_data(filters, query_response)
+        if analysis_method == "users-limited":
+            return self._generate_users_limited_data(filters, query_response)
         if analysis_method == "trace":
             return self._generate_trace_data(filters, query_response)
 
@@ -51,7 +55,7 @@ class QueryElasticSearch:
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -60,7 +64,7 @@ class QueryElasticSearch:
             json_data["results"][result["key"]]["datasets"] = result["number_of_datasets"]["value"]
             json_data["results"][result["key"]]["accesses"] = result["doc_count"]
             json_data["results"][result["key"]]["size"] = result["total_size"]["value"]
-            json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
+            #json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
@@ -74,7 +78,7 @@ class QueryElasticSearch:
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -85,7 +89,7 @@ class QueryElasticSearch:
             json_data["results"][month]["datasets"] = result["number_of_datasets"]["value"]
             json_data["results"][month]["accesses"] = result["doc_count"]
             json_data["results"][month]["size"] = result["total_size"]["value"]
-            json_data["results"][month]["activitydays"] = result["group_by_activitydays"]["value"]
+            #json_data["results"][month]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
@@ -109,13 +113,36 @@ class QueryElasticSearch:
                 json_data["results"][result["key"]["dataset"]]["methods"] = result["number_of_methods"]["value"]
                 json_data["results"][result["key"]["dataset"]]["accesses"] = result["doc_count"]
                 json_data["results"][result["key"]["dataset"]]["size"] = result["total_size"]["value"]
-                json_data["results"][result["key"]["dataset"]]["activitydays"] = result["group_by_activitydays"]["value"]
-                json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
+                #json_data["results"][result["key"]["dataset"]]["activitydays"] = result["group_by_activitydays"]["value"]
+                #json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
 
             after_key = response["aggregations"]["group_by"]["after_key"]
             generated_query = QueryMaker().generate_query(filters, "dataset", after_key)
             response = self.get_query_response(body=generated_query)
             
+        return json_data
+    
+    def _generate_dataset_limited_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "Summary of downloads from CEDA archive by dataset"
+        json_data["filters"] = filters
+        json_data["totals"] = {}
+        json_data["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
+        json_data["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
+        json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
+        json_data["totals"]["accesses"] = response["hits"]["total"]
+        json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
+        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+
+        json_data["results"] = {}
+        for result in response["aggregations"]["group_by"]["buckets"]:
+            json_data["results"][result["key"]] = {}
+            json_data["results"][result["key"]]["users"] = result["number_of_users"]["value"]
+            json_data["results"][result["key"]]["methods"] = result["number_of_methods"]["value"]
+            json_data["results"][result["key"]]["accesses"] = result["doc_count"]
+            json_data["results"][result["key"]]["size"] = result["total_size"]["value"]
+            #json_data["results"][result["key"]["activitydays"] = result["group_by_activitydays"]["value"]
+
         return json_data
 
     def _generate_users_data(self, filters, response):
@@ -138,12 +165,36 @@ class QueryElasticSearch:
                 json_data["results"][result["key"]["user"]]["datasets"] = result["number_of_datasets"]["value"]
                 json_data["results"][result["key"]["user"]]["accesses"] = result["doc_count"]
                 json_data["results"][result["key"]["user"]]["size"] = result["total_size"]["value"]
-                json_data["results"][result["key"]["user"]]["activitydays"] = result["group_by_activitydays"]["value"]
-                json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
+                #json_data["results"][result["key"]["user"]]["activitydays"] = result["group_by_activitydays"]["value"]
+                #json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
             after_key = response["aggregations"]["group_by"]["after_key"]
             generated_query = QueryMaker().generate_query(filters, "users", after_key)
             response = self.get_query_response(body=generated_query)
             
+        return json_data
+    
+
+    def _generate_users_limited_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "Summary of downloads from CEDA archive by user"
+        json_data["filters"] = filters
+        json_data["totals"] = {}
+        json_data["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
+        json_data["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
+        json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
+        json_data["totals"]["accesses"] = response["hits"]["total"]
+        json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
+        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+
+        json_data["results"] = {}
+        for result in response["aggregations"]["group_by"]["buckets"]:
+            json_data["results"][result["key"]] = {}
+            json_data["results"][result["key"]]["methods"] = result["number_of_methods"]["value"]
+            json_data["results"][result["key"]]["datasets"] = result["number_of_datasets"]["value"]
+            json_data["results"][result["key"]]["accesses"] = result["doc_count"]
+            json_data["results"][result["key"]]["size"] = result["total_size"]["value"]
+            #json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
+
         return json_data
 
     def _generate_trace_data(self, filters, response):
@@ -152,7 +203,10 @@ class QueryElasticSearch:
         json_data["filters"] = filters
         json_data["logs"] = []
         for result in response["hits"]["hits"]:
-            json_data["logs"].append(f'{result["_source"]["datetime"]},{result["_source"]["method"]},{result["_source"]["filename"]},{result["_source"]["size"]},{result["_source"]["user"]},{result["_source"]["ip"]},{result["_source"]["dataset"]}')
+            try:
+               json_data["logs"].append(f'{result["_source"]["datetime"]},{result["_source"]["method"]},{result["_source"]["filename"]},{result["_source"]["size"]},{result["_source"]["user"]},{result["_source"]["ip"]},{result["_source"]["dataset"]}')
+            except KeyError:
+                continue
         
         return json_data
 
@@ -168,8 +222,8 @@ class QueryMaker():
         return self.generated_query
 
     def _update_aggs(self, analysis_method, after_key):
-        if analysis_method != "users" and analysis_method != "dataset":
-            self.generated_query["aggs"].update(self.total_activitydays())
+        #if analysis_method != "users" and analysis_method != "dataset":
+            #self.generated_query["aggs"].update(self.total_activitydays())
         self.generated_query["aggs"].update(AggregationsMaker().get_aggs(analysis_method, after_key))
         
     def _update_filters(self, filters):
