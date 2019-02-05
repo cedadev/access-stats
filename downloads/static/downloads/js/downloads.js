@@ -1,6 +1,6 @@
 
 
-if (window.location.pathname == "/downloads/")
+if (!window.location.search)
 {
     var start = $("#id_start").val()
     var end = $("#id_end").val()
