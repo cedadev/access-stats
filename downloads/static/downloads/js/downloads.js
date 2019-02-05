@@ -1,3 +1,13 @@
+
+
+if (window.location.pathname == "/downloads/")
+{
+    var start = $("#id_start").val()
+    var end = $("#id_end").val()
+    window.history.replaceState('default', 'Title', window.location.pathname + "?start=" + start + "&end=" + end + "&user=&dataset=&method=&anon=all");
+}
+
+
 var loadingHTML = Mustache.render(templates.loadingMessage)
 $("#methods-message").html(loadingHTML);
 $.get(
@@ -32,7 +42,7 @@ $.get(
             var html = Mustache.render(templates.warningMessage, {analysis_method:"Datasets", total:data.totals.datasets, allFunction:"datasetsGetAll()"});
             $("#dataset-message").html(html);
         }
-        else 
+        else
         {
             $("#dataset-message").hide();
         }
@@ -50,7 +60,7 @@ $.get(
             var html = Mustache.render(templates.warningMessage, {analysis_method:"Users", total:data.totals.users, allFunction:"usersGetAll()"});
             $("#users-message").html(html);
         }
-        else 
+        else
         {
             $("#users-message").hide();
         }
@@ -76,6 +86,10 @@ function datasetsGetAll()
         success: function (data) {
             renderDatasetPage(data);
             $("#dataset-message").hide();
+        },
+        error: function () {
+            var html = Mustache.render(templates.errorMessage);
+            $("#dataset-message").html(html);
         }
     })
 }
@@ -89,6 +103,10 @@ function usersGetAll()
         success: function (data) {
             renderUsersPage(data);
             $("#users-message").hide();
+        },
+        error: function () {
+            var html = Mustache.render(templates.errorMessage);
+            $("#users-message").html(html);
         }
     })
 }
