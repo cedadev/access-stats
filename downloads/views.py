@@ -13,7 +13,11 @@ class IndexView(TemplateView):
     template_name = "downloads/index.html"
     
     def get(self, request):
-        form = FilterForm(request.GET)
+        if request.GET:
+            form = FilterForm(request.GET)
+        else:
+            form = FilterForm()
+        
         return render(request, self.template_name, {'form': form})
 
 class JsonView(TemplateView):
