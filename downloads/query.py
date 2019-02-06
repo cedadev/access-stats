@@ -7,11 +7,10 @@ class QueryElasticSearch:
     def __init__(self):
         self.secret = self.get_credentials("downloads/secret.key")
         self.user = self.get_credentials("downloads/user.key")
-        self.host = "https://jasmin-es-test.ceda.ac.uk"
+        self.host = "https://jasmin-es1.ceda.ac.uk"
         self.index = "logstash-test"
         self.es = Elasticsearch(
             [self.host],
-            http_auth=(self.user,self.secret),
             timeout=30
         )
 
@@ -55,7 +54,7 @@ class QueryElasticSearch:
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -64,7 +63,7 @@ class QueryElasticSearch:
             json_data["results"][result["key"]]["datasets"] = result["number_of_datasets"]["value"]
             json_data["results"][result["key"]]["accesses"] = result["doc_count"]
             json_data["results"][result["key"]]["size"] = result["total_size"]["value"]
-            #json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
+            json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
@@ -78,7 +77,7 @@ class QueryElasticSearch:
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -89,7 +88,7 @@ class QueryElasticSearch:
             json_data["results"][month]["datasets"] = result["number_of_datasets"]["value"]
             json_data["results"][month]["accesses"] = result["doc_count"]
             json_data["results"][month]["size"] = result["total_size"]["value"]
-            #json_data["results"][month]["activitydays"] = result["group_by_activitydays"]["value"]
+            json_data["results"][month]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
@@ -113,8 +112,8 @@ class QueryElasticSearch:
                 json_data["results"][result["key"]["dataset"]]["methods"] = result["number_of_methods"]["value"]
                 json_data["results"][result["key"]["dataset"]]["accesses"] = result["doc_count"]
                 json_data["results"][result["key"]["dataset"]]["size"] = result["total_size"]["value"]
-                #json_data["results"][result["key"]["dataset"]]["activitydays"] = result["group_by_activitydays"]["value"]
-                #json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
+                json_data["results"][result["key"]["dataset"]]["activitydays"] = result["group_by_activitydays"]["value"]
+                json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
 
             after_key = response["aggregations"]["group_by"]["after_key"]
             generated_query = QueryMaker().generate_query(filters, "dataset", after_key)
@@ -132,7 +131,7 @@ class QueryElasticSearch:
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -141,7 +140,7 @@ class QueryElasticSearch:
             json_data["results"][result["key"]]["methods"] = result["number_of_methods"]["value"]
             json_data["results"][result["key"]]["accesses"] = result["doc_count"]
             json_data["results"][result["key"]]["size"] = result["total_size"]["value"]
-            #json_data["results"][result["key"]["activitydays"] = result["group_by_activitydays"]["value"]
+            json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
@@ -165,8 +164,8 @@ class QueryElasticSearch:
                 json_data["results"][result["key"]["user"]]["datasets"] = result["number_of_datasets"]["value"]
                 json_data["results"][result["key"]["user"]]["accesses"] = result["doc_count"]
                 json_data["results"][result["key"]["user"]]["size"] = result["total_size"]["value"]
-                #json_data["results"][result["key"]["user"]]["activitydays"] = result["group_by_activitydays"]["value"]
-                #json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
+                json_data["results"][result["key"]["user"]]["activitydays"] = result["group_by_activitydays"]["value"]
+                json_data["totals"]["activitydays"] += result["group_by_activitydays"]["value"]
             after_key = response["aggregations"]["group_by"]["after_key"]
             generated_query = QueryMaker().generate_query(filters, "users", after_key)
             response = self.get_query_response(body=generated_query)
@@ -184,7 +183,7 @@ class QueryElasticSearch:
         json_data["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         json_data["totals"]["accesses"] = response["hits"]["total"]
         json_data["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        #json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
+        json_data["totals"]["activitydays"] = response["aggregations"]["grand_total_activitydays"]["value"]
 
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -193,7 +192,7 @@ class QueryElasticSearch:
             json_data["results"][result["key"]]["datasets"] = result["number_of_datasets"]["value"]
             json_data["results"][result["key"]]["accesses"] = result["doc_count"]
             json_data["results"][result["key"]]["size"] = result["total_size"]["value"]
-            #json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
+            json_data["results"][result["key"]]["activitydays"] = result["group_by_activitydays"]["value"]
 
         return json_data
 
@@ -222,8 +221,8 @@ class QueryMaker():
         return self.generated_query
 
     def _update_aggs(self, analysis_method, after_key):
-        #if analysis_method != "users" and analysis_method != "dataset":
-            #self.generated_query["aggs"].update(self.total_activitydays())
+        if analysis_method != "users" and analysis_method != "dataset":
+            self.generated_query["aggs"].update(self.total_activitydays())
         self.generated_query["aggs"].update(AggregationsMaker().get_aggs(analysis_method, after_key))
         
     def _update_filters(self, filters):
