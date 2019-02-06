@@ -130,7 +130,7 @@ function renderMethodsPage(data)
         dataDict.datasets.push(data.results[method].datasets);
         dataDict.accesses.push(data.results[method].accesses);
         dataDict.size.push(data.results[method].size);
-        //dataDict.activitydays.push(data.results[method].activitydays);
+        dataDict.activitydays.push(data.results[method].activitydays);
         html += Mustache.render(templates.methodsTableBody, {method:method,users:data.results[method].users,datasets:data.results[method].datasets,accesses:data.results[method].accesses,size:formatBytes(data.results[method].size),activitydays:data.results[method].activitydays});
     }
     $("#methodsTableBody").html(html);
@@ -277,7 +277,7 @@ function renderTimelinePage(data)
         dataDict.datasets.push(data.results[month].datasets);
         dataDict.accesses.push(data.results[month].accesses);
         dataDict.size.push(data.results[month].size);
-        //dataDict.activitydays.push(data.results[month].activitydays);
+        dataDict.activitydays.push(data.results[month].activitydays);
         html += Mustache.render(templates.timelineTableBody, {month:formatDate(month),users:data.results[month].users,methods:data.results[month].methods,datasets:data.results[month].datasets,accesses:data.results[month].accesses,size:formatBytes(data.results[month].size),activitydays:data.results[month].activitydays});
     }
     $("#timelineTableBody").html(html);
@@ -453,7 +453,7 @@ function renderDatasetPage(data)
         dataDict.methods.push(data.results[dataset].methods);
         dataDict.accesses.push(data.results[dataset].accesses);
         dataDict.size.push(data.results[dataset].size);
-        //dataDict.activitydays.push(data.results[dataset].activitydays);
+        dataDict.activitydays.push(data.results[dataset].activitydays);
         html += Mustache.render(templates.datasetTableBody, {dataset:dataset,users:data.results[dataset].users,methods:data.results[dataset].methods,accesses:data.results[dataset].accesses,size:formatBytes(data.results[dataset].size),activitydays:data.results[dataset].activitydays});
     }
     $("#datasetTableBody").html(html);
@@ -569,8 +569,8 @@ function renderUsersPage(data)
     var html;
     for (var user in data.results)
     {
-        html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size)});
-        //html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size),activitydays:data.results[user].activitydays});
+        //html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size)});
+        html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size),activitydays:data.results[user].activitydays});
     }
     $("#usersTableBody").html(html);
     html = Mustache.render(templates.usersTableFooter, {totals:"Totals",methods:data.totals.methods,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});

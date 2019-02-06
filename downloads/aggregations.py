@@ -1,83 +1,58 @@
 class AggregationsMaker:
     def __init__(self):
-        # self.constant_aggs = {
-        #     "group_by": {
-        #         "aggs": {
-        #             "number_of_users": {
-        #                 "cardinality": {
-        #                     "field": "user.keyword"
-        #                 }
-        #             },
-        #             "number_of_methods": {
-        #                 "cardinality": {
-        #                     "field": "method.keyword"
-        #                 }
-        #             },
-        #             "number_of_datasets": {
-        #                 "cardinality": {
-        #                     "field": "dataset.keyword"
-        #                 }
-        #             },
-        #             "total_size": {
-        #                 "sum": {
-        #                     "field": "size"
-        #                 }
-        #             },
-        #             "group_by_first_nested": {
-        #                 "aggs": {
-        #                     "group_by_second_nested": {
-        #                         "aggs": {
-        #                             "activity_days": {
-        #                                 "cardinality": {}
-        #                             }
-        #                         }
-        #                     },
-        #                     "group_by_first_nested_activitydays": {
-        #                         "sum_bucket": {
-        #                             "buckets_path": "group_by_second_nested>activity_days.value"
-        #                         }
-        #                     }
-        #                 }
-        #             },
-        #             "group_by_activitydays": {
-        #                 "sum_bucket": {
-        #                     "buckets_path": "group_by_first_nested>group_by_first_nested_activitydays"
-        #                 }
-        #             }
-        #         }
-        #     }
-        # }
-                self.constant_aggs = {
-                    "group_by": {
+        self.constant_aggs = {
+            "group_by": {
+                "aggs": {
+                    "number_of_users": {
+                        "cardinality": {
+                            "field": "user.keyword"
+                        }
+                    },
+                    "number_of_methods": {
+                        "cardinality": {
+                            "field": "method.keyword"
+                        }
+                    },
+                    "number_of_datasets": {
+                        "cardinality": {
+                            "field": "dataset.keyword"
+                        }
+                    },
+                    "total_size": {
+                        "sum": {
+                            "field": "size"
+                        }
+                    },
+                    "group_by_first_nested": {
                         "aggs": {
-                            "number_of_users": {
-                                "cardinality": {
-                                    "field": "user.keyword"
+                            "group_by_second_nested": {
+                                "aggs": {
+                                    "activity_days": {
+                                        "cardinality": {}
+                                    }
                                 }
                             },
-                            "number_of_methods": {
-                                "cardinality": {
-                                    "field": "method.keyword"
-                                }
-                            },
-                            "number_of_datasets": {
-                                "cardinality": {
-                                    "field": "dataset.keyword"
-                                }
-                            },
-                            "total_size": {
-                                "sum": {
-                                    "field": "size"
+                            "group_by_first_nested_activitydays": {
+                                "sum_bucket": {
+                                    "buckets_path": "group_by_second_nested>activity_days.value"
                                 }
                             }
                         }
+                    },
+                    "group_by_activitydays": {
+                        "sum_bucket": {
+                            "buckets_path": "group_by_first_nested>group_by_first_nested_activitydays"
+                        }
                     }
                 }
+            }
+        }
+
 
     def get_aggs(self, analysis_method, after_key=None):
         self.generated_aggs = self.constant_aggs
         self._add_group_by(analysis_method, after_key)
-        #self._add_nested_aggs(analysis_method)
+        self._add_nested_aggs(analysis_method)
         return self.generated_aggs
 
     def _add_nested_aggs(self, analysis_method):
@@ -86,9 +61,9 @@ class AggregationsMaker:
             self._add_nested_aggs_methods()
         if analysis_method == "timeline":
             self._add_nested_aggs_timeline()
-        if analysis_method == "dataset":
+        if analysis_method == "dataset" or analysis_method == "dataset-limited":
             self._add_nested_aggs_dataset()
-        if analysis_method == "users":
+        if analysis_method == "users" or analysis_method == "users-limited":
             self._add_nested_aggs_users()
 
     def _add_nested_aggs_methods(self):
