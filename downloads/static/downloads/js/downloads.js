@@ -622,9 +622,11 @@ function renderUserPage(data)
         dataDict.area.push(data.results.group_by_area[area]);
     }
 
-    userChart = makeUserChart(dataDict, labelsDict);
-
     var activeTab = null;
+
+    userChart = makeUserChart(activeTab, dataDict, labelsDict);
+
+    
     if (location.hash) 
     {
         if (location.hash.split(".")[0] != "#user")
@@ -655,84 +657,55 @@ function renderUserPage(data)
 function updateUserChart(chart, activeTab, dataDict, labelsDict)
 {
     chart.destroy();
-    chart = makeUserChart(dataDict, labelsDict);
-    if(activeTab == "userTabField")
-    {
-        chart.data.datasets[0].hidden = false;
-    }
-    if(activeTab == "userTabCountry")
-    {
-        chart.data.datasets[1].hidden = false;
-    }
-    if(activeTab == "userTabInstituteType")
-    {
-        chart.data.datasets[2].hidden = false;
-    }
-    if(activeTab == "userTabOdaCountry")
-    {
-        chart.data.datasets[3].hidden = false;
-    }
-    if(activeTab == "userTabArea")
-    {
-        chart.data.datasets[4].hidden = false;
-    }
+    chart = makeUserChart(activeTab, dataDict, labelsDict);
     chart.update();
     return chart;
 }
 
-function makeUserChart(dataDict, labelsDict)
+function makeUserChart(activeTab, dataDict, labelsDict)
 {
+    if (activeTab == "userTabField" || !activeTab)
+    {
+        var activeLabels = labelsDict.field;
+        var activeData = dataDict.field;
+    }
+    else if (activeTab == "userTabCountry")
+    {
+        var activeLabels = labelsDict.country;
+        var activeData = dataDict.country;
+    }
+    else if (activeTab == "userTabInstituteType")
+    {
+        var activeLabels = labelsDict.instituteType;
+        var activeData = dataDict.instituteType;
+    }
+    else if (activeTab == "userTabOdaCountry")
+    {
+        var activeLabels = labelsDict.odaCountry;
+        var activeData = dataDict.odaCountry;
+    }
+    else if (activeTab == "userTabArea")
+    {
+        var activeLabels = labelsDict.area;
+        var activeData = dataDict.area;
+    }
     var html = Mustache.render(templates.canvas, {id:"userChart"})
     $("#userChartBox").html(html);
     var userChartElement = $("#userChart");
     var userChart = new Chart(userChartElement, {
         type: 'doughnut',
         data: {
+            labels: activeLabels,
             datasets: [{
-                label: labelsDict.field,
-                data: dataDict.field,
-                borderWidth: 0,
-                hidden: true
-            },
-            {
-                label: labelsDict.country,
-                data: dataDict.country,
-                borderWidth: 0,
-                hidden: true
-            },
-            {
-                label: labelsDict.instituteType,
-                data: dataDict.instituteType,
-                borderWidth: 0,
-                hidden: true
-            },
-            {
-                label: labelsDict.odaCountry,
-                data: dataDict.odaCountry,
-                borderWidth: 0,
-                hidden: true
-            },
-            {
-                label: labelsDict.area,
-                data: dataDict.area,
-                borderWidth: 0,
-                hidden: true
-            }
-        ]
+                data: activeData,
+                borderWidth: 0
+            }]
         },
         options: {
             responsive: true,
             plugins: {
                 colorschemes: {
                     scheme: 'brewer.Paired12'
-                }
-            },
-            tooltips: {
-                callbacks: {
-                    label: function(item, data) {
-                        return data.datasets[item.datasetIndex].label[item.index]
-                                    + ": " + data.datasets[item.datasetIndex].data[item.index];
-                    }
                 }
             }
         }
