@@ -267,16 +267,47 @@ Downloads
                     </div>
 
                     <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-                        <div class="dropdown mb-2" >
-                            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Convert to
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{% url 'json' 'user' %}?{{request.GET.urlencode}}">json</a>
-                                <a class="dropdown-item" href="#">csv</a>
-                                <a class="dropdown-item" href="#">excel</a>
+                        <div class="col ml-1">
+                            <div class="row">
+                                <div class="col-8 mr-0 pr-0" id="userChartBox">
+                                </div>
+                                <div class="col-4 ml-0 pl-0">
+                                    <div class="dropdown mt-3 ml-3" >
+                                        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Convert to
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                            <a class="dropdown-item" href="{% url 'json' 'user' %}?{{request.GET.urlencode}}">json</a>
+                                            <a class="dropdown-item" href="#">csv</a>
+                                            <a class="dropdown-item" href="#">excel</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row mt-2">
+                                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="user-tab">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab-sub" href="#userTabField" id="userTabField">Field</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabCountry" id="userTabCountry">Country</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabInstituteType" id="userTabInstituteType">Institute Type</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabOdaCountry" id="userTabOdaCountry">ODA Status</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabArea" id="userTabArea">Area</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col messages" id="user-message">
+                                </div>
+                            </div>
+                        </div> 
                     </div>
 
                     <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
@@ -298,6 +329,9 @@ Downloads
                             <thead>
                                 <tr>
                                     <th scope="col">User</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Institiute type</th>
+                                    <th scope="col">Field</th>
                                     <th scope="col">Methods</th>
                                     <th scope="col">Datasets</th>
                                     <th scope="col">Number of accesses</th>
