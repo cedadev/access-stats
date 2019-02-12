@@ -49,6 +49,16 @@ $.get(
     }
 })
 
+$("#user-message").html(loadingHTML);
+$.get(
+{
+    url: window.location.origin + window.location.pathname + "json/" + "user" + window.location.search,
+    success: function (data) {
+        renderUserPage(data);
+        $("#user-message").hide();
+    }
+})
+
 $("#users-message").html(loadingHTML);
 $.get(
 {
@@ -131,10 +141,10 @@ function renderMethodsPage(data)
         dataDict.accesses.push(data.results[method].accesses);
         dataDict.size.push(data.results[method].size);
         dataDict.activitydays.push(data.results[method].activitydays);
-        html += Mustache.render(templates.methodsTableBody, {method:method,users:data.results[method].users,datasets:data.results[method].datasets,accesses:data.results[method].accesses,size:formatBytes(data.results[method].size),activitydays:data.results[method].activitydays});
+        html += Mustache.render(templates.methodsTableBody, {method:method, users:data.results[method].users, datasets:data.results[method].datasets, accesses:data.results[method].accesses, size:formatBytes(data.results[method].size), activitydays:data.results[method].activitydays});
     }
     $("#methodsTableBody").html(html);
-    html = Mustache.render(templates.methodsTableFooter, {totals:"Totals",users:data.totals.users,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
+    html = Mustache.render(templates.methodsTableFooter, {totals:"Totals", users:data.totals.users, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
     $("#methodsTableFooter").html(html);
 
     methodsChart = makeMethodsChart(dataDict);
@@ -157,7 +167,7 @@ function renderMethodsPage(data)
     }
     methodsChart = updateMethodsChart(methodsChart, activeTab, dataDict);
 
-    methodsTabs = ["methodsTabUsers","methodsTabMethods","methodsTabDatasets","methodsTabAccesses","methodsTabSize","methodsTabActivitydays"]
+    methodsTabs = ["methodsTabUsers", "methodsTabMethods", "methodsTabDatasets", "methodsTabAccesses", "methodsTabSize", "methodsTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (methodsTabs.includes(e.target.id))
         {
@@ -278,10 +288,10 @@ function renderTimelinePage(data)
         dataDict.accesses.push(data.results[month].accesses);
         dataDict.size.push(data.results[month].size);
         dataDict.activitydays.push(data.results[month].activitydays);
-        html += Mustache.render(templates.timelineTableBody, {month:formatDate(month),users:data.results[month].users,methods:data.results[month].methods,datasets:data.results[month].datasets,accesses:data.results[month].accesses,size:formatBytes(data.results[month].size),activitydays:data.results[month].activitydays});
+        html += Mustache.render(templates.timelineTableBody, {month:formatDate(month), users:data.results[month].users, methods:data.results[month].methods, datasets:data.results[month].datasets, accesses:data.results[month].accesses, size:formatBytes(data.results[month].size), activitydays:data.results[month].activitydays});
     }
     $("#timelineTableBody").html(html);
-    html = Mustache.render(templates.timelineTableFooter, {totals:"Totals",users:data.totals.users,methods:data.totals.methods,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
+    html = Mustache.render(templates.timelineTableFooter, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
     $("#timelineTableFooter").html(html);
 
     timelineChart = makeTimelineChart(dataDict);
@@ -305,7 +315,7 @@ function renderTimelinePage(data)
     timelineChart = updateTimelineChart(timelineChart, activeTab, dataDict);
 
 
-    timelineTabs = ["timelineTabUsers","timelineTabMethods","timelineTabDatasets","timelineTabAccesses","timelineTabSize","timelineTabActivitydays"]
+    timelineTabs = ["timelineTabUsers", "timelineTabMethods", "timelineTabDatasets", "timelineTabAccesses", "timelineTabSize", "timelineTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (timelineTabs.includes(e.target.id))
         {
@@ -454,10 +464,10 @@ function renderDatasetPage(data)
         dataDict.accesses.push(data.results[dataset].accesses);
         dataDict.size.push(data.results[dataset].size);
         dataDict.activitydays.push(data.results[dataset].activitydays);
-        html += Mustache.render(templates.datasetTableBody, {dataset:dataset,users:data.results[dataset].users,methods:data.results[dataset].methods,accesses:data.results[dataset].accesses,size:formatBytes(data.results[dataset].size),activitydays:data.results[dataset].activitydays});
+        html += Mustache.render(templates.datasetTableBody, {dataset:dataset, users:data.results[dataset].users, methods:data.results[dataset].methods, accesses:data.results[dataset].accesses, size:formatBytes(data.results[dataset].size), activitydays:data.results[dataset].activitydays});
     }
     $("#datasetTableBody").html(html);
-    html = Mustache.render(templates.datasetTableFooter, {totals:"Totals",users:data.totals.users,methods:data.totals.methods,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
+    html = Mustache.render(templates.datasetTableFooter, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
     $("#datasetTableFooter").html(html);
 
     datasetChart = makeDatasetChart(dataDict);
@@ -480,7 +490,7 @@ function renderDatasetPage(data)
     }
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
-    datasetTabs = ["datasetTabUsers","datasetTabAccesses","datasetTabSize","datasetTabActivitydays"]
+    datasetTabs = ["datasetTabUsers", "datasetTabAccesses", "datasetTabSize", "datasetTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (datasetTabs.includes(e.target.id))
         {
@@ -516,7 +526,7 @@ function updateDatasetChart(chart, activeTab, dataDict)
 
 function makeDatasetChart(dataDict)
 {
-    var html = Mustache.render(templates.canvas,{id:"datasetChart"})
+    var html = Mustache.render(templates.canvas, {id:"datasetChart"})
     $("#datasetChartBox").html(html);
     var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
@@ -564,16 +574,181 @@ function makeDatasetChart(dataDict)
     return datasetChart
 }
 
+function renderUserPage(data)
+{
+    var labelsDict = {
+        field: [],
+        country: [],
+        instituteType: [],
+        odaCountry: [],
+        area: []
+    }
+
+    var dataDict = {
+        field: [],
+        country: [],
+        instituteType: [],
+        odaCountry: [],
+        area: []
+    }
+
+    for (var field in data.results.group_by_field)
+    {
+        labelsDict.field.push(field);
+        dataDict.field.push(data.results.group_by_field[field]);
+    }
+
+    for (var country in data.results.group_by_country)
+    {
+        labelsDict.country.push(country);
+        dataDict.country.push(data.results.group_by_country[country]);
+    }
+
+    for (var instituteType in data.results.group_by_institute_type)
+    {
+        labelsDict.instituteType.push(instituteType);
+        dataDict.instituteType.push(data.results.group_by_institute_type[instituteType]);
+    }
+
+    for (var odaCountry in data.results.group_by_oda_type)
+    {
+        labelsDict.odaCountry.push(odaCountry);
+        dataDict.odaCountry.push(data.results.group_by_oda_type[odaCountry]);
+    }
+
+    for (var area in data.results.group_by_area)
+    {
+        labelsDict.area.push(area);
+        dataDict.area.push(data.results.group_by_area[area]);
+    }
+
+    userChart = makeUserChart(dataDict, labelsDict);
+
+    var activeTab = null;
+    if (location.hash) 
+    {
+        if (location.hash.split(".")[0] != "#user")
+        {
+            activeTab = "userTabField";
+        }
+        else
+        {
+            activeTab = location.hash.split(".")[1];
+        }
+    }
+    else
+    {
+        activeTab = "userTabField";
+    }
+    userChart = updateUserChart(userChart, activeTab, dataDict, labelsDict);
+
+    userTabs = ["userTabField", "userTabCountry", "userTabInstituteType", "userTabOdaCountry", "userTabArea"]
+    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+        if (userTabs.includes(e.target.id))
+        {
+            activeTab = e.target.id;
+        }
+        userChart = updateUserChart(userChart, activeTab, dataDict, labelsDict);
+    })
+}
+
+function updateUserChart(chart, activeTab, dataDict, labelsDict)
+{
+    chart.destroy();
+    chart = makeUserChart(dataDict, labelsDict);
+    if(activeTab == "userTabField")
+    {
+        chart.data.datasets[0].hidden = false;
+    }
+    if(activeTab == "userTabCountry")
+    {
+        chart.data.datasets[1].hidden = false;
+    }
+    if(activeTab == "userTabInstituteType")
+    {
+        chart.data.datasets[2].hidden = false;
+    }
+    if(activeTab == "userTabOdaCountry")
+    {
+        chart.data.datasets[3].hidden = false;
+    }
+    if(activeTab == "userTabArea")
+    {
+        chart.data.datasets[4].hidden = false;
+    }
+    chart.update();
+    return chart;
+}
+
+function makeUserChart(dataDict, labelsDict)
+{
+    var html = Mustache.render(templates.canvas, {id:"userChart"})
+    $("#userChartBox").html(html);
+    var userChartElement = $("#userChart");
+    var userChart = new Chart(userChartElement, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                label: labelsDict.field,
+                data: dataDict.field,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: labelsDict.country,
+                data: dataDict.country,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: labelsDict.instituteType,
+                data: dataDict.instituteType,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: labelsDict.odaCountry,
+                data: dataDict.odaCountry,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: labelsDict.area,
+                data: dataDict.area,
+                borderWidth: 0,
+                hidden: true
+            }
+        ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                colorschemes: {
+                    scheme: 'brewer.Paired12'
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(item, data) {
+                        return data.datasets[item.datasetIndex].label[item.index]
+                                    + ": " + data.datasets[item.datasetIndex].data[item.index];
+                    }
+                }
+            }
+        }
+    });
+    return userChart
+}
+
 function renderUsersPage(data)
 {
     var html;
     for (var user in data.results)
     {
-        //html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size)});
-        html += Mustache.render(templates.usersTableBody, {user:user,methods:data.results[user].methods,datasets:data.results[user].datasets,accesses:data.results[user].accesses,size:formatBytes(data.results[user].size),activitydays:data.results[user].activitydays});
+        html += Mustache.render(templates.usersTableBody, {user:user, country:data.results[user].country, institute:data.results[user].institute_type, field:data.results[user].field, methods:data.results[user].methods, datasets:data.results[user].datasets, accesses:data.results[user].accesses, size:formatBytes(data.results[user].size), activitydays:data.results[user].activitydays});
     }
     $("#usersTableBody").html(html);
-    html = Mustache.render(templates.usersTableFooter, {totals:"Totals",methods:data.totals.methods,datasets:data.totals.datasets,accesses:data.totals.accesses,size:formatBytes(data.totals.size),activitydays:data.totals.activitydays});
+    html = Mustache.render(templates.usersTableFooter, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
     $("#usersTableFooter").html(html);
 }
 
@@ -587,7 +762,7 @@ function renderTracePage(data)
     $("#traceTableBody").html(html);
 }
 
-function formatBytes(a,b){if(0==a)return"0 Bytes";var c=1024,d=b||2,e=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],f=Math.floor(Math.log(a)/Math.log(c));return parseFloat((a/Math.pow(c,f)).toFixed(d))+" "+e[f]}
+function formatBytes(a, b){if(0==a)return"0 Bytes";var c=1024, d=b||2, e=["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], f=Math.floor(Math.log(a)/Math.log(c));return parseFloat((a/Math.pow(c, f)).toFixed(d))+" "+e[f]}
 
 // Needs to change if datetime format does:
 function formatDate(a)

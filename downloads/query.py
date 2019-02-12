@@ -7,10 +7,11 @@ class QueryElasticSearch:
     def __init__(self):
         self.secret = self.get_credentials("downloads/secret.key")
         self.user = self.get_credentials("downloads/user.key")
-        self.host = "https://jasmin-es1.ceda.ac.uk"
+        self.host = "https://jasmin-es-test.ceda.ac.uk"
         self.index = "logstash-test"
         self.es = Elasticsearch(
             [self.host],
+            http_auth=(self.user,self.secret),
             timeout=30
         )
 
@@ -25,8 +26,6 @@ class QueryElasticSearch:
         return self.es.search(index=self.index,body=body)
     
     def _generate_data(self, filters, analysis_method):
-        if analysis_method == "user":
-            return {}
         generated_query = QueryMaker().generate_query(filters, analysis_method)
         query_response = self.get_query_response(body=generated_query)
         if analysis_method == "methods":
@@ -37,6 +36,8 @@ class QueryElasticSearch:
             return self._generate_dataset_data(filters, query_response)
         if analysis_method == "dataset-limited":
             return self._generate_dataset_limited_data(filters, query_response)
+        if analysis_method == "user":
+            return self._generate_user_data(filters, query_response)
         if analysis_method == "users":
             return self._generate_users_data(filters, query_response)
         if analysis_method == "users-limited":
@@ -144,6 +145,19 @@ class QueryElasticSearch:
 
         return json_data
 
+    def _generate_user_data(self, filters, response):
+        json_data = {}
+        json_data["title"] = "User breakdown of downloads from CEDA archive"
+        json_data["filters"] = filters
+
+        json_data["results"] = {}
+        for grouping in response["aggregations"]:
+            json_data["results"][grouping] = {}
+            for result in response["aggregations"][grouping]["buckets"]:
+                json_data["results"][grouping][result["key"]] = result["users"]["value"]
+
+        return json_data
+
     def _generate_users_data(self, filters, response):
         json_data = {}
         json_data["title"] = "Summary of downloads from CEDA archive by user"
@@ -160,6 +174,14 @@ class QueryElasticSearch:
         while response["aggregations"]["group_by"]["buckets"] != []:
             for result in response["aggregations"]["group_by"]["buckets"]:
                 json_data["results"][result["key"]["user"]] = {}
+                if result["key"].startswith("anonymous@"):
+                    json_data["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
+                    json_data["results"][result["key"]["user"]]["institute_type"] = "-"
+                    json_data["results"][result["key"]["user"]]["field"] = "-"
+                else:
+                    json_data["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
+                    json_data["results"][result["key"]["user"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
+                    json_data["results"][result["key"]["user"]]["field"] = result["field"]["buckets"][0]["key"]
                 json_data["results"][result["key"]["user"]]["methods"] = result["number_of_methods"]["value"]
                 json_data["results"][result["key"]["user"]]["datasets"] = result["number_of_datasets"]["value"]
                 json_data["results"][result["key"]["user"]]["accesses"] = result["doc_count"]
@@ -188,6 +210,14 @@ class QueryElasticSearch:
         json_data["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
             json_data["results"][result["key"]] = {}
+            if result["key"].startswith("anonymous@"):
+                json_data["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
+                json_data["results"][result["key"]]["institute_type"] = "-"
+                json_data["results"][result["key"]]["field"] = "-"
+            else:
+                json_data["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
+                json_data["results"][result["key"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
+                json_data["results"][result["key"]]["field"] = result["field"]["buckets"][0]["key"]
             json_data["results"][result["key"]]["methods"] = result["number_of_methods"]["value"]
             json_data["results"][result["key"]]["datasets"] = result["number_of_datasets"]["value"]
             json_data["results"][result["key"]]["accesses"] = result["doc_count"]
@@ -213,6 +243,8 @@ class QueryMaker():
     def generate_query(self, filters, analysis_method, after_key=None):
         if analysis_method == "trace":
             self.generated_query = self._base_small_query()
+        elif analysis_method == "user":
+            self.generated_query = self._base_medium_query()
         else:
             self.generated_query = self._base_big_query()
         self._update_filters(filters)
@@ -221,7 +253,7 @@ class QueryMaker():
         return self.generated_query
 
     def _update_aggs(self, analysis_method, after_key):
-        if analysis_method != "users" and analysis_method != "dataset":
+        if analysis_method != "users" and analysis_method != "dataset" and analysis_method != "user":
             self.generated_query["aggs"].update(self.total_activitydays())
         self.generated_query["aggs"].update(AggregationsMaker().get_aggs(analysis_method, after_key))
         
@@ -290,6 +322,29 @@ class QueryMaker():
             },
             "_source": [],
             "size": 1000
+        }
+
+    def _base_medium_query(self):
+        return {
+            "query": {
+                "bool": {
+                    "must": [],
+                    "must_not": [],
+                    "should": [],
+                    "filter": {
+                        "range": {
+                            "datetime": {
+                                "gte": "2012-01-01",
+                                "lte": "now",
+                                "format": "yyyy-MM-dd"
+                            }
+                        }
+                    }
+                }
+            },
+            "_source": [],
+            "size": 0,
+            "aggs": {}
         }
 
     def _base_big_query(self):
