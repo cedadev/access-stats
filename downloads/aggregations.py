@@ -48,7 +48,9 @@ class AggregationsMaker:
             }
         }
 
+    # Add default aggregations to all methods
     def get_aggs(self, analysis_method, after_key=None):
+        # User breakdown has no sub aggregations and more than one group by
         if analysis_method != "user":
             self.generated_aggs = self.constant_aggs
         else:
@@ -56,9 +58,10 @@ class AggregationsMaker:
         self._add_group_by(analysis_method, after_key)
         self._add_nested_aggs(analysis_method)
         return self.generated_aggs
-
+    
+    
+    # Correctly add sub aggregations so the analysis_method is not in them
     def _add_nested_aggs(self, analysis_method):
-        # Correctly add sub aggs so analysis_method not in them
         if analysis_method == "methods":
             self._add_nested_aggs_methods()
         if analysis_method == "timeline":
@@ -68,6 +71,7 @@ class AggregationsMaker:
         if analysis_method == "users" or analysis_method == "users-limited":
             self._add_nested_aggs_users()
 
+    # Sub aggregations handle the activity days, different for each grouping by
     def _add_nested_aggs_methods(self):
         self.generated_aggs["group_by"]["aggs"]["group_by_first_nested"]["terms"] = {}
         self.generated_aggs["group_by"]["aggs"]["group_by_first_nested"]["terms"]["field"] = "user.keyword"
@@ -107,8 +111,8 @@ class AggregationsMaker:
 
         self.generated_aggs["group_by"]["aggs"]["group_by_first_nested"]["aggs"]["group_by_second_nested"]["aggs"]["activity_days"]["cardinality"]["field"] = "dataset.keyword"
 
+    # Add correct group_by dict dependent on analysis_method (time produces a histogram)
     def _add_group_by(self, analysis_method, after_key=None):
-        # Add correct group_by dict dependent on analysis_method (time produces a histogram)
         if analysis_method == "methods":
             self.generated_aggs["group_by"]["terms"] = {}
             self.generated_aggs["group_by"]["terms"]["field"] = "method.keyword"
@@ -138,6 +142,7 @@ class AggregationsMaker:
             self.generated_aggs["group_by"]["terms"]["field"] = "dataset.keyword"
             self.generated_aggs["group_by"]["terms"]["size"] = 500
 
+        # Groups by many fields for each graph and has no sub aggregations/activity days
         if analysis_method == "user":
             self.generated_aggs["group_by_field"] = {}
             self.generated_aggs["group_by_field"]["terms"] = {}

@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.views.generic import TemplateView
 
 from .forms import FilterForm
-from .query import QueryElasticSearch
+from .json import QueryElasticSearch
 
 valid_analysis_methods = ["methods","timeline","dataset","dataset-limited","user","users","users-limited","trace"]
 

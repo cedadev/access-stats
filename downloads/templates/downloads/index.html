@@ -3,6 +3,7 @@
 {% block stylesheets_extra %}
 <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 {{form.media.css}}
+
 <link rel="stylesheet" type="text/css" href="{% static 'downloads/css/downloads.css' %}">
 {% endblock %}
 
@@ -376,5 +377,12 @@ Downloads
 <script type="text/javascript" src="{% static 'downloads/js/templates.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/date.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/downloads.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/methods.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/timeline.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/dataset.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/user.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/users.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/trace.js'%}"></script>
+
 {{form.media.js}}
 {% endblock %}
