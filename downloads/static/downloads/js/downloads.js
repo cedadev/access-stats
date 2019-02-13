@@ -25,6 +25,7 @@ if (location.hash) {
 var currentMethodsTab = null;
 var currentTimelineTab = null;
 var currentDatasetTab = null;
+var currentUserTab = null;
 
 $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
     e.preventDefault();
@@ -62,6 +63,17 @@ $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
             tabName = tabName + ".datasetTabUsers";
         }
     }
+    if (tabName == "#user") 
+    {
+        if (currentUserTab != null)
+        {
+            tabName = tabName + "." + currentUserTab;
+        }
+        else
+        {
+            tabName = tabName + ".userTabField";
+        }
+    }
 
     location.hash = tabName;
     $(this).tab('show');
@@ -82,6 +94,10 @@ $('body').on('click', 'a[data-toggle=\'tab-sub\']', function (e) {
     if (location.hash.split(".")[0] == "#dataset") 
     {
         currentDatasetTab = tabName;
+    }
+    if (location.hash.split(".")[0] == "#user") 
+    {
+        currentUserTab = tabName;
     }
 
     $(this).tab('show');
