@@ -177,7 +177,7 @@ class QueryElasticSearch:
         while response["aggregations"]["group_by"]["buckets"] != []:
             for result in response["aggregations"]["group_by"]["buckets"]:
                 json_data["results"][result["key"]["user"]] = {}
-                if result["key"].startswith("anonymous@"):
+                if result["key"]["user"].startswith("anonymous@"):
                     json_data["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
                     json_data["results"][result["key"]["user"]]["institute_type"] = "-"
                     json_data["results"][result["key"]["user"]]["field"] = "-"
