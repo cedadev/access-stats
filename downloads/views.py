@@ -4,6 +4,7 @@ import dateutil.parser
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.views.generic import TemplateView
+
 from xlsxwriter.workbook import Workbook
 
 from .forms import FilterForm

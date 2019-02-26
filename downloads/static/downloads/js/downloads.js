@@ -1,4 +1,5 @@
 // On default page load, get values in filters and add them to query in url
+console.log(window.location.search)
 if (!window.location.search)
 {
     var start = $("#id_start").val()
