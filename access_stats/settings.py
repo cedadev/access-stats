@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'downloads',
+    'deposits',
     'cookielaw',
     'bootstrap_datepicker_plus',
 ]
