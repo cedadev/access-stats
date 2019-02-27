@@ -7,8 +7,8 @@ from django.views.generic import TemplateView
 
 from xlsxwriter.workbook import Workbook
 
-from .forms import FilterForm
-from .json import QueryElasticSearch
+from downloads.forms import FilterForm
+from downloads.json import QueryElasticSearch
 
 valid_analysis_methods = ["methods","timeline","dataset","dataset-limited","user","users","users-limited","trace"]
 
