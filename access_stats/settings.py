@@ -28,12 +28,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'download_stats.urls'
+ROOT_URLCONF = 'access_stats.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'download_stats/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'access_stats/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -46,7 +46,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'download_stats.wsgi.application'
+WSGI_APPLICATION = 'access_stats.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -86,4 +86,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Sensitive settings imported from local settings
-from download_stats.settings_local import *
+from access_stats.settings_local import *
