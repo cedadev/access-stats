@@ -1,2 +1,2 @@
-# download-stats
-Download stats service to interact with ElasticSearch backend and show download statistics
+# access-stats
+Web app to interact with Elasticsearch backend and serve access statistics  
