@@ -1,4 +1,4 @@
-from .aggregations import AggregationsMaker
+from downloads.aggregations import AggregationsMaker
 
 class QueryMaker():
     def generate_query(self, filters, analysis_method, after_key=None):

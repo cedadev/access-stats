@@ -1,7 +1,7 @@
 import datetime
 from elasticsearch import Elasticsearch
 
-from .query import QueryMaker
+from downloads.query import QueryMaker
 
 class QueryElasticSearch:
     def __init__(self):
