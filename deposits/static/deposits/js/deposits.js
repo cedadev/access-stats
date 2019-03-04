@@ -4,7 +4,7 @@ if (!window.location.search)
 {
     var start = $("#id_start").val()
     var end = $("#id_end").val()
-    window.history.replaceState('default', 'Title', window.location.pathname + "?start=" + start + "&end=" + end + "&user=&dataset=&method=&anon=all");
+    window.history.replaceState('default', 'Title', window.location.pathname + "?start=" + start + "&end=" + end + "&dataset=");
 }
 
 // Sets up template for loading bar
@@ -23,25 +23,12 @@ if (location.hash) {
     $("a[href='" + location.hash.split(".")[0] + "']").tab('show');
     $("a[href='#" + location.hash.split(".")[1] + "']").tab('show');
 }
-var currentMethodsTab = null;
 var currentTimelineTab = null;
 var currentDatasetTab = null;
-var currentUserTab = null;
 
 $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
     e.preventDefault();
     var tabName = this.getAttribute('href')
-    if (tabName == "#methods") 
-    {
-        if (currentMethodsTab != null)
-        {
-            tabName = tabName + "." + currentMethodsTab;
-        }
-        else
-        {
-            tabName = tabName + ".methodsTabUsers";
-        }
-    }
     if (tabName == "#timeline") 
     {
         if (currentTimelineTab != null)
@@ -64,17 +51,6 @@ $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
             tabName = tabName + ".datasetTabUsers";
         }
     }
-    if (tabName == "#user") 
-    {
-        if (currentUserTab != null)
-        {
-            tabName = tabName + "." + currentUserTab;
-        }
-        else
-        {
-            tabName = tabName + ".userTabField";
-        }
-    }
 
     location.hash = tabName;
     $(this).tab('show');
@@ -84,10 +60,6 @@ $('body').on('click', 'a[data-toggle=\'tab-sub\']', function (e) {
     e.preventDefault()
     var tabName = this.getAttribute('id')
     location.hash = location.hash.split(".")[0] + "." + tabName;
-    if (location.hash.split(".")[0] == "#methods") 
-    {
-        currentMethodsTab = tabName;
-    }
     if (location.hash.split(".")[0] == "#timeline") 
     {
         currentTimelineTab = tabName;
@@ -95,10 +67,6 @@ $('body').on('click', 'a[data-toggle=\'tab-sub\']', function (e) {
     if (location.hash.split(".")[0] == "#dataset") 
     {
         currentDatasetTab = tabName;
-    }
-    if (location.hash.split(".")[0] == "#user") 
-    {
-        currentUserTab = tabName;
     }
 
     $(this).tab('show');

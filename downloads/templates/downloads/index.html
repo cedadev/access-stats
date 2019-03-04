@@ -1,15 +1,17 @@
 {% extends "fwtheme_django/layout.html" %}
+
 {% load staticfiles %}
+
 {% block stylesheets_extra %}
 <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 {{form.media.css}}
-
 <link rel="stylesheet" type="text/css" href="{% static 'downloads/css/downloads.css' %}">
 {% endblock %}
 
 {% block head_title %}
 Downloads
 {% endblock %}
+
 {% block page_title %}
 
 {% endblock %}

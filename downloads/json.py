@@ -7,7 +7,7 @@ class QueryElasticSearch:
     def __init__(self):
         self.secret = self.get_credentials("downloads/secret.key")
         self.user = self.get_credentials("downloads/user.key")
-        self.host = "https://jasmin-es-test.ceda.ac.uk"
+        self.host = "https://jasmin-es1.ceda.ac.uk"
         self.index = "logstash-test"
         self.es = Elasticsearch(
             [self.host],
