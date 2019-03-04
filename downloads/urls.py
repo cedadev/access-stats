@@ -9,3 +9,4 @@ urlpatterns = [
     path('csv/<analysis_method>', CsvView.as_view(), name='csv'),
     path('xlsx/<analysis_method>', XlsxView.as_view(), name='xlsx'),
 ]
+#TODO: EXRACT VIEWS INTO TOP LEVEL PACKAGE AS WELL AS REWORKED ES CODE
