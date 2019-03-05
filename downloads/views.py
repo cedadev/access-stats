@@ -10,7 +10,10 @@ from xlsxwriter.workbook import Workbook
 from downloads.forms import FilterForm
 from downloads.json import QueryElasticSearch
 
-valid_analysis_methods = ["methods","timeline","dataset","dataset-limited","user","users","users-limited","trace"]
+from common.file_response_factory import FileResponseFactory
+
+valid_analysis_methods = ["methods", "timeline", "dataset",
+                          "dataset-limited", "user", "users", "users-limited", "trace"]
 
 default_404_response = HttpResponseNotFound('<h1>404 - Not found</h1>')
 
@@ -49,59 +52,15 @@ class TxtView(TemplateView):
             return default_404_response
         return HttpResponse(self.generate_text_file(form.cleaned_data, analysis_method), content_type="text/plain")
 
-class FileMaker(TemplateView):
-    methods_headings = ["Method", "Users", "Dataset", "Accesses", "Size", "Activity Days"]
-    timeline_headings = ["Timeline", "Users", "Methods", "Dataset", "Accesses", "Size", "Activity Days"]
-    dataset_headings = ["Dataset", "Users", "Methods", "Accesses", "Size", "Activity Days"]
-    users_headings = ["User", "Country", "Institute type", "Field", "Methods", "Datasets", "Accesses", "Size", "Activity Days"]
-
-    def make_filename(self, request, analysis_method, file_ending):
-        filename = f'{analysis_method}-'
-        if request.GET["start"]:
-            filename += f'{request.GET["start"]}-'
-        if request.GET["end"]:
-            filename += f'{request.GET["end"]}-'
-        if request.GET["user"]:
-            filename += f'{request.GET["user"]}-'
-        if request.GET["dataset"]:
-            filename += f'{request.GET["dataset"]}-'
-        if request.GET["method"]:
-            filename += f'{request.GET["method"]}-'
-        filename += f'{request.GET["anon"]}.{file_ending}'
-        return filename
-    
-class CsvView(FileMaker):
+class CsvView(TemplateView):
     def get(self, request, analysis_method):
         form = FilterForm(request.GET)
         if (analysis_method != "methods" and analysis_method != "timeline" and analysis_method != "dataset" and analysis_method != "users") or not form.is_valid():
             return default_404_response
-        response = HttpResponse(content_type="text/csv")
-        
-        response['Content-Disposition'] = f'attachment; filename={self.make_filename(request, analysis_method, file_ending="csv")}'
-        writer = csv.writer(response)
-        self.write_csv_file(form.cleaned_data, analysis_method, writer)
+        filters = form.cleaned_data
+        return FileResponseFactory().get(filters, analysis_method).make_csv()
 
-        return response
-
-    def write_csv_file(self, filters, analysis_method, writer):
-        json_data = QueryElasticSearch().get_data(filters, analysis_method)
-        if analysis_method == "methods":
-            writer.writerow(self.methods_headings)
-        if analysis_method == "timeline":
-            writer.writerow(self.timeline_headings)
-        if analysis_method == "dataset":
-            writer.writerow(self.dataset_headings)
-        if analysis_method == "users":
-            writer.writerow(self.users_headings)
-
-        for result in json_data["results"]:
-            line = [result]
-            for value in json_data["results"][result].values():
-                line.append(value)
-            writer.writerow(line)
-        return
-
-class XlsxView(FileMaker):
+class XlsxView(TemplateView):
     def get(self, request, analysis_method):
         form = FilterForm(request.GET)
         if (analysis_method != "dataset" and analysis_method != "timeline" and analysis_method != "methods" and analysis_method != "users") or not form.is_valid():
