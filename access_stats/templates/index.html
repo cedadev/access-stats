@@ -14,8 +14,35 @@ Access stats
 {% endblock %}
 
 {% block content %}
-<a href="downloads">Downloads</a>
-<a href="deposits">Deposits</a>
+
+<div class="row">
+    <div class="col">
+        
+        <div class="card border-primary">
+        <img src="{% static 'access_stats/img/downloads.jpg'%}" class="card-img-top">
+        <div class="card-footer">
+            <h5 class="card-title">Downloads</h5>
+            <p class="card-text">A summary of statistics for downloads from the CEDA archive. Downloads can be filtered and aggregated by their download method, monthly timeline, dataset, user type or by CEDA username. A trace view displays all of the downloads for the applied filter.</p>
+            <a href="downloads" class="btn btn-primary stretched-link">Downloads</a>
+        </div>
+        </div>
+
+    </div>
+
+    <div class="col">
+
+        <div class="card border-primary">
+        <img src="{% static 'access_stats/img/deposits.png'%}" class="card-img-top">
+        <div class="card-footer">
+            <h5 class="card-title">Deposits</h5>
+            <p class="card-text">A summary of deposits made to the CEDA archive. These deposits can be filtered by date and dataset and aggregated with a daily timeline or by dataset. Alternatively a trace view displays all of the deposits for the applied filter.</p>
+            <a href="deposits" class="btn btn-primary stretched-link">Deposits</a>
+        </div>
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}
 
 {% block tail_js_extra %}
