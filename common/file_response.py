@@ -1,4 +1,7 @@
-import csv
+import csv, io
+
+from xlsxwriter.workbook import Workbook
+
 from django.http import HttpResponse
 
 #TODO: Rewrite
@@ -14,19 +17,11 @@ class FileResponse():
         raise NotImplementedError()
 
     def get_filename(self, file_ending):
-        print(self.filters)  # loop through?
-        filename = f'{self.analysis_method}-'
-        if self.filters["start"]:
-            filename += f'{self.filters["start"]}-'
-        if self.filters["end"]:
-            filename += f'{self.filters["end"]}-'
-        if self.filters["user"]:
-            filename += f'{self.filters["user"]}-'
-        if self.filters["dataset"]:
-            filename += f'{self.filters["dataset"]}-'
-        if self.filters["method"]:
-            filename += f'{self.filters["method"]}-'
-        filename += f'{self.filters["anon"]}.{file_ending}'
+        filename = f'{self.analysis_method}'
+        for value in self.filters.values():
+            if value:
+                filename += f'-{value}'
+        filename += f'.{file_ending}'
         return filename
 
     def make_csv(self):
@@ -47,4 +42,24 @@ class FileResponse():
         return response
 
     def make_xlsx(self):
+        ##TODO: Rewrite
+        json_data = QueryElasticSearch().get_data(self.filters, self.analysis_method)
+
+        output = io.BytesIO()
+        workbook = Workbook(output, {"in_memory": True, 'remove_timezone': True})
+        worksheet = workbook.add_worksheet()
+        date_format = workbook.add_format({'num_format': 'yyyymm'})
+        
+        self._write_xlsx(json_data, worksheet, date_format)
+
+        workbook.close()
+        output.seek(0)
+
+        response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = f'attachment; filename={self.get_filename("xlsx")}'
+
+        return response
+
+
+    def _write_xlsx(self, json_data, worksheet, date_format):
         raise NotImplementedError()
