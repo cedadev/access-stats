@@ -11,11 +11,11 @@ class JsonMakerFactory:
             return MethodsJson(filters, analysis_method)
         if analysis_method == "timeline":
             return TimelineJson(filters, analysis_method)
-        if analysis_method == "dataset":
+        if analysis_method == "dataset" or analysis_method == "dataset-limited":
             return DatasetJson(filters, analysis_method)
         if analysis_method == "user":
             return UserJson(filters, analysis_method)
-        if analysis_method == "users":
+        if analysis_method == "users" or analysis_method == "users-limited":
             return UsersJson(filters, analysis_method)
         if analysis_method == "trace":
             return TraceJson(filters, analysis_method)

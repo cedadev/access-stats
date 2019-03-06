@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch
 
-from common.query_builder import QueryBuilder
+from common.query_builder_factory import QueryBuilderFactory
 
 class JsonMaker:
     def __init__(self, filters, analysis_method):
@@ -22,20 +22,22 @@ class JsonMaker:
         with open(file_name) as secrets:
             return secrets.read()
 
-    def get_elasticsearch_response(self):
-        query = QueryBuilder(self.filters, self.analysis_method).query()
+    def get_elasticsearch_response(self, after_key = None):
+        query = QueryBuilderFactory().get(self.filters, self.analysis_method, after_key).query()
         return self.es.search(index = self.index, body = query)
 
     def get_title(self):
         return NotImplementedError
 
-    def _populate_json(self, json):
+    def _populate_json(self):
         return NotImplementedError
 
-    def json(self):
-        json = {}
-        json["title"] = self.get_title()
-        json["filters"] = self.filters
-        self._populate_json(json)
+    def generate_json(self):
+        self.generated_json = {}
+        self.generated_json["title"] = self.get_title()
+        self.generated_json["filters"] = self.filters
+        self._populate_json()
 
-        return json
+    def json(self):
+        self.generate_json()
+        return self.generated_json
