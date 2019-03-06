@@ -21,15 +21,12 @@ class IndexView(TemplateView):
         return render(request, self.template_name, {'form': form})
 
 class JsonView(TemplateView):
-    def get_data_from_es(self, filters, analysis_method):
-        return QueryElasticSearch().get_data(filters, analysis_method)
-
     def get(self, request, analysis_method):
         form = FilterForm(request.GET)
         if analysis_method not in ["methods", "timeline", "dataset",
                           "dataset-limited", "user", "users", "users-limited", "trace"] or not form.is_valid():
             return default_404_response
-        return JsonResponse(self.get_data_from_es(form.cleaned_data, analysis_method), json_dumps_params={'indent': 2})
+        return JsonResponse(QueryElasticSearch().get_data(form.cleaned_data, analysis_method), json_dumps_params={'indent': 2})
 
 class TxtView(TemplateView):
     def generate_text_file(self, filters, analysis_method):

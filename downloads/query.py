@@ -1,6 +1,6 @@
 from downloads.aggregations import AggregationsMaker
 
-class QueryMaker():
+class QueryMaker:
     def generate_query(self, filters, analysis_method, after_key=None):
         if analysis_method == "trace":
             self.generated_query = self._base_small_query()

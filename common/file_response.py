@@ -8,13 +8,13 @@ from django.http import HttpResponse
 from downloads.json import QueryElasticSearch
 
 
-class FileResponse():
+class FileResponse:
     def __init__(self, filters, analysis_method):
         self.filters = filters
         self.analysis_method = analysis_method
 
     def get_headings(self):
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_filename(self, file_ending):
         filename = f'{self.analysis_method}'
@@ -62,4 +62,4 @@ class FileResponse():
 
 
     def _write_xlsx(self, json_data, worksheet, date_format):
-        raise NotImplementedError()
+        raise NotImplementedError

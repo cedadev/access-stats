@@ -4,7 +4,7 @@ from common.dataset_response import DatasetResponse
 from common.users_response import UsersResponse
 
 
-class FileResponseFactory():
+class FileResponseFactory:
     def get(self, filters, analysis_method):
         if analysis_method == "methods":
             return MethodsResponse(filters, analysis_method)
