@@ -3,7 +3,8 @@ from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.views.generic import TemplateView
 
 from downloads.forms import FilterForm
-from downloads.json import QueryElasticSearch
+
+from common.json_maker_factory import JsonMakerFactory
 
 from common.file_response_factory import FileResponseFactory
 
@@ -26,11 +27,11 @@ class JsonView(TemplateView):
         if analysis_method not in ["methods", "timeline", "dataset",
                           "dataset-limited", "user", "users", "users-limited", "trace"] or not form.is_valid():
             return default_404_response
-        return JsonResponse(QueryElasticSearch().get_data(form.cleaned_data, analysis_method), json_dumps_params={'indent': 2})
+        return JsonResponse(JsonMakerFactory().get(form.cleaned_data, analysis_method).json(), json_dumps_params={'indent': 2})
 
 class TxtView(TemplateView):
     def generate_text_file(self, filters, analysis_method):
-        json_data = QueryElasticSearch().get_data(filters, analysis_method)
+        json_data = JsonMakerFactory().get(filters, analysis_method).json()
         logs = ""
         for log in json_data["logs"]:
             logs += f"{log}\n"

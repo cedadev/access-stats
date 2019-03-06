@@ -4,8 +4,7 @@ from xlsxwriter.workbook import Workbook
 
 from django.http import HttpResponse
 
-#TODO: Rewrite
-from downloads.json import QueryElasticSearch
+from common.json_maker_factory import JsonMakerFactory
 
 
 class FileResponse:
@@ -29,8 +28,7 @@ class FileResponse:
         response['Content-Disposition'] = f'attachment; filename={self.get_filename("csv")}'
         writer = csv.writer(response)
 
-        ##TODO: Rewrite
-        json_data = QueryElasticSearch().get_data(self.filters, self.analysis_method)
+        json_data = JsonMakerFactory().get(self.filters, self.analysis_method).json()
 
         writer.writerow(self.get_headings())
         for result in json_data["results"]:
@@ -42,8 +40,7 @@ class FileResponse:
         return response
 
     def make_xlsx(self):
-        ##TODO: Rewrite
-        json_data = QueryElasticSearch().get_data(self.filters, self.analysis_method)
+        json_data = JsonMakerFactory().get(self.filters, self.analysis_method).json()
 
         output = io.BytesIO()
         workbook = Workbook(output, {"in_memory": True, 'remove_timezone': True})
