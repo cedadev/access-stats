@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block stylesheets_extra %}
-<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+<link rel="shortcut icon" href="{% static 'access_stats/favicon.ico' %}">
 {% endblock %}
 
 {% block head_title %}
@@ -19,7 +19,12 @@ Access stats
     <div class="col">
         
         <div class="card border-primary">
-        <img src="{% static 'access_stats/img/downloads.jpg'%}" class="card-img-top">
+        <body>
+            <span class="fa-stack fa-2x" style="font-size:10em">
+            <i class="fas fa-square fa-stack-2x text-primary"></i>
+            <i class="fas fa-download fa-stack-1x fa-inverse"></i>
+            </span>
+        </body>
         <div class="card-footer">
             <h5 class="card-title">Downloads</h5>
             <p class="card-text">A summary of statistics for downloads from the CEDA archive. Downloads can be filtered and aggregated by their download method, monthly timeline, dataset, user type or by CEDA username. A trace view displays all of the downloads for the applied filter.</p>
@@ -32,7 +37,12 @@ Access stats
     <div class="col">
 
         <div class="card border-primary">
-        <img src="{% static 'access_stats/img/deposits.png'%}" class="card-img-top">
+        <body>
+            <span class="fa-stack fa-2x" style="font-size:10em">
+            <i class="fas fa-square fa-stack-2x text-primary"></i>
+            <i class="fas fa-upload fa-stack-1x fa-inverse"></i>
+            </span>
+        </body>
         <div class="card-footer">
             <h5 class="card-title">Deposits</h5>
             <p class="card-text">A summary of deposits made to the CEDA archive. These deposits can be filtered by date and dataset and aggregated with a daily timeline or by dataset. Alternatively a trace view displays all of the deposits for the applied filter.</p>
