@@ -49,9 +49,14 @@ class UsersJson(JsonMaker):
             for result in response["aggregations"]["group_by"]["buckets"]:
                 self.generated_json["results"][result["key"]] = {}
                 if result["key"].startswith("anonymous@"):
-                    self.generated_json["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
-                    self.generated_json["results"][result["key"]]["institute_type"] = "-"
-                    self.generated_json["results"][result["key"]]["field"] = "-"
+                    if result["country"]["buckets"]:
+                        self.generated_json["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
+                        self.generated_json["results"][result["key"]]["institute_type"] = "-"
+                        self.generated_json["results"][result["key"]]["field"] = "-"
+                    else:
+                        self.generated_json["results"][result["key"]]["country"] = "-"
+                        self.generated_json["results"][result["key"]]["institute_type"] = "-"
+                        self.generated_json["results"][result["key"]]["field"] = "-"
                 else:
                     self.generated_json["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
                     self.generated_json["results"][result["key"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
