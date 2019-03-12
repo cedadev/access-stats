@@ -74,28 +74,6 @@ Deposits
                                             <a class="dropdown-item" href="{% url 'deposits/xlsx' 'timeline' %}?{{request.GET.urlencode}}">excel</a>
                                         </div>
                                     </div>
-                                    <div class="d-flex flex-row mt-2">
-                                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="timeline-tab">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab-sub" href="#timelineTabUsers" id="timelineTabUsers">Users</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabMethods" id="timelineTabMethods">Methods</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabDatasets" id="timelineTabDatasets">Datasets</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabAccesses" id="timelineTabAccesses">Accesses</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabSize" id="timelineTabSize">Size</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabActivitydays" id="timelineTabActivitydays">Activity days</a>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -107,12 +85,13 @@ Deposits
                                     <thead>
                                         <tr>
                                             <th scope="col">Date</th>
-                                            <th scope="col">Users</th>
-                                            <th scope="col">Methods</th>
-                                            <th scope="col">Datasets</th>
-                                            <th scope="col">Number of accesses</th>
                                             <th scope="col">Size</th>
-                                            <th scope="col">Activity days</th>
+                                            <th scope="col">Datasets</th>
+                                            <th scope="col">Deposits</th>
+                                            <th scope="col">Directories</th>
+                                            <th scope="col">Symlinks</th>
+                                            <th scope="col">Removed directories</th>
+                                            <th scope="col">Removed files</th>
                                         </tr>
                                     </thead>
                                     <tbody id="timelineTableBody">
@@ -143,16 +122,22 @@ Deposits
                                     <div class="d-flex flex-row mt-2">
                                         <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="dataset-tab">
                                             <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab-sub" href="#datasetTabUsers" id="datasetTabUsers">Users</a>
+                                                <a class="nav-link active" data-toggle="tab-sub" href="#datasetTabSize" id="datasetTabSize">Size</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabAccesses" id="datasetTabAccesses">Accesses</a>
+                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabDeposits" id="datasetTabDeposits">Deposits</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabSize" id="datasetTabSize">Size</a>
+                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabDirectories" id="datasetTabDirectories">Directories</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabActivitydays" id="datasetTabActivitydays">Activity days</a>
+                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabSymlinks" id="datasetTabSymlinks">Symlinks</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabRemovedDirectories" id="datasetTabRemovedDirectories">Removed directories</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabRemovedFiles" id="datasetTabRemovedFiles">Removed files</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -167,11 +152,12 @@ Deposits
                                 <thead>
                                     <tr>
                                         <th scope="col">Dataset</th>
-                                        <th scope="col">Users</th>
-                                        <th scope="col">Methods</th>
-                                        <th scope="col">Number of accesses</th>
                                         <th scope="col">Size</th>
-                                        <th scope="col">Activity days</th>
+                                        <th scope="col">Deposits</th>
+                                        <th scope="col">Directories</th>
+                                        <th scope="col">Symlinks</th>
+                                        <th scope="col">Removed directories</th>
+                                        <th scope="col">Removed files</th>
                                     </tr>
                                 </thead>
                                 <tbody id="datasetTableBody">
