@@ -15,43 +15,46 @@ Access stats
 
 {% block content %}
 
-<div class="row">
-    <div class="col">
-        
-        <div class="card border-primary">
-        <body>
-            <span class="fa-stack fa-2x" style="font-size:10em">
-            <i class="fas fa-square fa-stack-2x text-primary"></i>
-            <i class="fas fa-download fa-stack-1x fa-inverse"></i>
-            </span>
-        </body>
-        <div class="card-footer">
-            <h5 class="card-title">Downloads</h5>
-            <p class="card-text">A summary of statistics for downloads from the CEDA archive. Downloads can be filtered and aggregated by their download method, monthly timeline, dataset, user type or by CEDA username. A trace view displays all of the downloads for the applied filter.</p>
-            <a href="downloads" class="btn btn-primary stretched-link">Downloads</a>
-        </div>
-        </div>
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div class="row">
 
+            <div class="col-6">
+                <div class="card border-primary">
+                <div class="card-body text-center bg-primary">
+                <body>
+                    <span class="fa-stack fa-2x" style="font-size:11vw">
+                    <i class="fas fa-square fa-stack-2x text-primary"></i>
+                    <i class="fas fa-download fa-stack-1x fa-inverse"></i>
+                    </span>
+                </body>
+                </div>
+                <div class="card-footer">
+                    <h3 class="card-title"><b>Downloads</b></h5>
+                    <a href="downloads" class="stretched-link d-none"></a>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card border-primary">
+                <div class="card-body text-center bg-primary">
+                <body>
+                    <span class="fa-stack fa-2x" style="font-size:11vw">
+                    <i class="fas fa-square fa-stack-2x text-primary"></i>
+                    <i class="fas fa-upload fa-stack-1x fa-inverse"></i>
+                    </span>
+                </body>
+                </div>
+                <div class="card-footer">
+                    <h3 class="card-title"><b>Deposits</b></h5>
+                    <a href="deposits" class="stretched-link d-none"></a>
+                </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
-
-    <div class="col">
-
-        <div class="card border-primary">
-        <body>
-            <span class="fa-stack fa-2x" style="font-size:10em">
-            <i class="fas fa-square fa-stack-2x text-primary"></i>
-            <i class="fas fa-upload fa-stack-1x fa-inverse"></i>
-            </span>
-        </body>
-        <div class="card-footer">
-            <h5 class="card-title">Deposits</h5>
-            <p class="card-text">A summary of deposits made to the CEDA archive. These deposits can be filtered by date and dataset and aggregated with a daily timeline or by dataset. Alternatively a trace view displays all of the deposits for the applied filter.</p>
-            <a href="deposits" class="btn btn-primary stretched-link">Deposits</a>
-        </div>
-        </div>
-
-    </div>
-
 </div>
 {% endblock %}
 

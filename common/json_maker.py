@@ -22,8 +22,8 @@ class JsonMaker:
         with open(file_name) as secrets:
             return secrets.read()
 
-    def get_elasticsearch_response(self, after_key = None):
-        query = QueryBuilderFactory().get(self.filters, self.analysis_method, after_key).query()
+    def get_elasticsearch_response(self, after_key = None, deposits = False):
+        query = QueryBuilderFactory(deposits=deposits).get(self.filters, self.analysis_method, after_key).query()
         return self.es.search(index = self.index, body = query)
 
     def get_title(self):

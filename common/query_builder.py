@@ -23,7 +23,13 @@ class QueryBuilder:
             "query": {
                 "bool": {
                     "must": [],
-                    "must_not": [],
+                    "must_not": [
+                        {
+                            "match": {
+                                "method": "deposits"
+                            }
+                        }
+                    ],
                     "should": [],
                     "filter": {
                         "range": {

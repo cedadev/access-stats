@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 from downloads.forms import FilterForm
 
 from common.json_maker_factory import JsonMakerFactory
-
 from common.file_response_factory import FileResponseFactory
 
 default_404_response = HttpResponseNotFound('<h1>404 - Not found</h1>')

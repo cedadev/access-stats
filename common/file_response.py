@@ -16,19 +16,25 @@ class FileResponse:
         raise NotImplementedError
 
     def get_filename(self, file_ending):
-        filename = f'{self.analysis_method}'
+        filename = f'{self.get_view()}-{self.analysis_method}'
         for value in self.filters.values():
             if value:
                 filename += f'-{value}'
         filename += f'.{file_ending}'
         return filename
 
+    def get_json(self):
+        return JsonMakerFactory().get(self.filters, self.analysis_method).json()
+
+    def get_view(self):
+        return "downloads"
+
     def make_csv(self):
         response = HttpResponse(content_type="text/csv")
         response['Content-Disposition'] = f'attachment; filename={self.get_filename("csv")}'
         writer = csv.writer(response)
 
-        json_data = JsonMakerFactory().get(self.filters, self.analysis_method).json()
+        json_data = self.get_json()
 
         writer.writerow(self.get_headings())
         for result in json_data["results"]:
@@ -40,7 +46,7 @@ class FileResponse:
         return response
 
     def make_xlsx(self):
-        json_data = JsonMakerFactory().get(self.filters, self.analysis_method).json()
+        json_data = self.get_json()
 
         output = io.BytesIO()
         workbook = Workbook(output, {"in_memory": True, 'remove_timezone': True})
