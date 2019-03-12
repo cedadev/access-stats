@@ -17,6 +17,8 @@ class DepositsTimelineJson(JsonMaker):
 
         self.generated_json["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
+            if not result["doc_count"]:
+                continue
             day = result["key_as_string"]
             self.generated_json["results"][day] = {}
             self.generated_json["results"][day]["size"] = result["total_size"]["value"]
