@@ -23,23 +23,11 @@ if (location.hash) {
     $("a[href='" + location.hash.split(".")[0] + "']").tab('show');
     $("a[href='#" + location.hash.split(".")[1] + "']").tab('show');
 }
-var currentTimelineTab = null;
 var currentDatasetTab = null;
 
 $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
     e.preventDefault();
     var tabName = this.getAttribute('href')
-    if (tabName == "#timeline") 
-    {
-        if (currentTimelineTab != null)
-        {
-            tabName = tabName + "." + currentTimelineTab;
-        }
-        else
-        {
-            tabName = tabName + ".timelineTabUsers";
-        }
-    }
     if (tabName == "#dataset") 
     {
         if (currentDatasetTab != null)
@@ -48,7 +36,7 @@ $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
         }
         else
         {
-            tabName = tabName + ".datasetTabUsers";
+            tabName = tabName + ".datasetTabSize";
         }
     }
 
@@ -60,10 +48,6 @@ $('body').on('click', 'a[data-toggle=\'tab-sub\']', function (e) {
     e.preventDefault()
     var tabName = this.getAttribute('id')
     location.hash = location.hash.split(".")[0] + "." + tabName;
-    if (location.hash.split(".")[0] == "#timeline") 
-    {
-        currentTimelineTab = tabName;
-    }
     if (location.hash.split(".")[0] == "#dataset") 
     {
         currentDatasetTab = tabName;
