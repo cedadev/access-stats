@@ -46,22 +46,50 @@ function renderDatasetPage(data)
         removedFiles: []
     }
 
-    var body;
+    var dataList = [];
+
     for (var dataset in data.results)
     {
+        var row = [];
         dataDict.name.push(dataset);
+        row.push(dataset);
         dataDict.size.push(data.results[dataset].size);
+        row.push(formatBytes(data.results[dataset].size));
         dataDict.datasets.push(data.results[dataset].datasets);
+        row.push(data.results[dataset].datasets);
         dataDict.deposits.push(data.results[dataset].deposits);
+        row.push(data.results[dataset].deposits);
         dataDict.directories.push(data.results[dataset].mkdir);
+        row.push(data.results[dataset].mkdir);
         dataDict.symlinks.push(data.results[dataset].symlink);
+        row.push(data.results[dataset].symlink);
         dataDict.removedDirs.push(data.results[dataset].rmdir);
+        row.push(data.results[dataset].rmdir);
         dataDict.removedFiles.push(data.results[dataset].remove);
-        body += Mustache.render(templates.datasetTableBody, {name:dataset, size:formatBytes(data.results[dataset].size), datasets:data.results[dataset].datasets, deposits:data.results[dataset].deposits, directories:data.results[dataset].mkdir, symlinks:data.results[dataset].symlink, removedDirs:data.results[dataset].rmdir, removedFiles:data.results[dataset].remove});
+        row.push(data.results[dataset].remove);
+        
+        dataList.push(row);
     }
-    header = Mustache.render(templates.datasetTableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
-    $("#datasetTableBody").html(header + body);
-    $("#datasetTableTotals").html(header);
+    footer = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+
+    $("#datasetTable").DataTable({
+        data: dataList,
+        columns: [
+            { title: "Dataset" },
+            { title: "Size" },
+            { title: "Datasets" },
+            { title: "Deposits" },
+            { title: "Directories" },
+            { title: "Symlinks" },
+            { title: "Removed directories" },
+            { title: "Removed files" }
+        ],
+        columnDefs: [
+            { type: 'file-size', targets: 1 }
+          ]
+    })
+
+    $("#datasetTableTotals").html(footer);
 
     datasetChart = makeDatasetChart(dataDict);
 

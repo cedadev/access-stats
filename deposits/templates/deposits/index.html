@@ -6,6 +6,7 @@
 <link rel="shortcut icon" href="{% static 'access_stats/favicon.ico' %}">
 {{form.media.css}}
 <link rel="stylesheet" type="text/css" href="{% static 'deposits/css/deposits.css' %}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
 {% endblock %}
 
 {% block head_title %}
@@ -81,24 +82,12 @@ Deposits
                                 </div>
                             </div>
                             <div class="row">
-                                <table class="table" id="timelineTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" id="timelineTableDate"><a href="#">Dataset</a></th>
-                                            <th scope="col" id="timelineTableSize"><a href="#">Size</a></th>
-                                            <th scope="col" id="timelineTableDatasets"><a href="#">Datasets</a></th>
-                                            <th scope="col" id="timelineTableDeposits"><a href="#">Deposits</a></th>
-                                            <th scope="col" id="timelineTableDirectories"><a href="#">Directories</a></th>
-                                            <th scope="col" id="timelineTableSymlinks"><a href="#">Symlinks</a></th>
-                                            <th scope="col" id="timelineTableRmdir"><a href="#">Removed directories</a></th>
-                                            <th scope="col" id="timelineTableRemoved"><a href="#">Removed files</a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="timelineTableBody">
-                                    </tbody>
+                                <div class="col-12">
+                                <table class="table" id="timelineTable" style="width:100%">
                                     <tfoot id="timelineTableTotals">
-                                    </tfoot>
+                                    </tfoot> 
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -148,24 +137,12 @@ Deposits
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-12">
                                 <table class="table" id="datasetTable">
-                                <thead>
-                                    <tr>
-                                            <th scope="col" id="datasetTableDate"><a href="#">Date</a></th>
-                                            <th scope="col" id="datasetTableSize"><a href="#">Size</a></th>
-                                            <th scope="col" id="datasetTableDatasets"><a href="#">Datasets</a></th>
-                                            <th scope="col" id="datasetTableDeposits"><a href="#">Deposits</a></th>
-                                            <th scope="col" id="datasetTableDirectories"><a href="#">Directories</a></th>
-                                            <th scope="col" id="datasetTableSymlinks"><a href="#">Symlinks</a></th>
-                                            <th scope="col" id="datasetTableRmdir"><a href="#">Removed directories</a></th>
-                                            <th scope="col" id="datasetTableRemoved"><a href="#">Removed files</a></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="datasetTableBody">
-                                </tbody>
-                                <tfoot id="datasetTableTotals">
-                                </tfoot>
-                            </table>
+                                    <tfoot id="datasetTableTotals">
+                                    </tfoot>
+                                </table>
+                                </div>
                             </div>
                         </div> 
                     </div>
@@ -202,6 +179,10 @@ Deposits
 <script type="text/javascript" src="{% static 'deposits/js/timeline.js'%}"></script>
 <script type="text/javascript" src="{% static 'deposits/js/dataset.js'%}"></script>
 <script type="text/javascript" src="{% static 'deposits/js/trace.js'%}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/file-size.js"></script>
+
 
 {{form.media.js}}
 {% endblock %}
