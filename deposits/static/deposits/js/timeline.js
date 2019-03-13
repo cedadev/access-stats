@@ -119,7 +119,10 @@ function makeTimelineChart(dataDict)
                     position: "left",
                     labelString: "Size",
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            return formatBytes(value);
+                        }
                     }
                 },
                 {
