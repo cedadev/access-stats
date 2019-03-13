@@ -70,7 +70,7 @@ function renderDatasetPage(data)
         
         dataList.push(row);
     }
-    footer = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+    totals = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
 
     $("#datasetTable").DataTable({
         data: dataList,
@@ -89,7 +89,7 @@ function renderDatasetPage(data)
           ]
     })
 
-    $("#datasetTableTotals").html(footer);
+    $("#datasetTableTotals").html(totals);
 
     datasetChart = makeDatasetChart(dataDict);
 

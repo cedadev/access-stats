@@ -20,21 +20,49 @@ function renderTimelinePage(data)
         activitydays: []
     }
 
-    var html;
+    var dataList = [];
+
     for (var month in data.results)
     {
+        var row = [];
+
         dataDict.months.push(formatDate(month));
+        row.push(formatDate(month));
         dataDict.users.push(data.results[month].users);
+        row.push(data.results[month].users);
         dataDict.methods.push(data.results[month].methods);
+        row.push(data.results[month].methods);
         dataDict.datasets.push(data.results[month].datasets);
+        row.push(data.results[month].datasets);
         dataDict.accesses.push(data.results[month].accesses);
+        row.push(data.results[month].accesses);
         dataDict.size.push(data.results[month].size);
+        row.push(formatBytes(data.results[month].size));
         dataDict.activitydays.push(data.results[month].activitydays);
-        html += Mustache.render(templates.timelineTableBody, {month:formatDate(month), users:data.results[month].users, methods:data.results[month].methods, datasets:data.results[month].datasets, accesses:data.results[month].accesses, size:formatBytes(data.results[month].size), activitydays:data.results[month].activitydays});
+        row.push(data.results[month].activitydays);
+
+        dataList.push(row);
     }
-    $("#timelineTableBody").html(html);
-    html = Mustache.render(templates.timelineTableFooter, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
-    $("#timelineTableFooter").html(html);
+    
+    totals = Mustache.render(templates.timelineTableTotals, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    
+    $("#timelineTable").DataTable({
+        data: dataList,
+        columns: [
+            { title: "Date" },
+            { title: "Users" },
+            { title: "Methods" },
+            { title: "Datasets" },
+            { title: "Number of accesses" },
+            { title: "Size" },
+            { title: "Activity days"}
+        ],
+        columnDefs: [
+            { type: 'file-size', targets: 5 }
+          ]
+    })
+    
+    $("#timelineTableTotals").html(totals);
 
     timelineChart = makeTimelineChart(dataDict);
 

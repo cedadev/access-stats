@@ -35,12 +35,45 @@ function usersGetAll()
 
 function renderUsersPage(data)
 {
-    var html;
+    var dataList = [];
+
     for (var user in data.results)
     {
-        html += Mustache.render(templates.usersTableBody, {user:user, country:data.results[user].country, institute:data.results[user].institute_type, field:data.results[user].field, methods:data.results[user].methods, datasets:data.results[user].datasets, accesses:data.results[user].accesses, size:formatBytes(data.results[user].size), activitydays:data.results[user].activitydays});
+        var row = [];
+
+        row.push(user);
+        row.push(data.results[user].country);
+        row.push(data.results[user].institute_type);
+        row.push(data.results[user].field);
+        row.push(data.results[user].methods);
+        row.push(data.results[user].datasets);
+        row.push(data.results[user].accesses);
+        row.push(formatBytes(data.results[user].size));
+        row.push(data.results[user].activitydays);
+
+        dataList.push(row);
+         //institute:, field:, methods:, datasets:, accesses:, size:, activitydays:});
     }
-    $("#usersTableBody").html(html);
-    html = Mustache.render(templates.usersTableFooter, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
-    $("#usersTableFooter").html(html);
+
+    totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    
+    $("#usersTable").DataTable({
+        data: dataList,
+        columns: [
+            { title: "User" },
+            { title: "Country" },
+            { title: "Institute type" },
+            { title: "Field" },
+            { title: "Methods" },
+            { title: "Datasets" },
+            { title: "Accesses"},
+            { title: "Size"},
+            { title: "Activity days"}
+        ],
+        columnDefs: [
+            { type: 'file-size', targets: 7 }
+          ]
+    })
+    
+    $("#usersTableTotals").html(totals);
 }

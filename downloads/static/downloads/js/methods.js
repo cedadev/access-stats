@@ -20,20 +20,46 @@ function renderMethodsPage(data)
         activitydays: []
     }
 
-    var html;
+    var dataList = [];
+
     for (var method in data.results)
     {
+        var row = [];
+
         dataDict.methods.push(method);
+        row.push(method);
         dataDict.users.push(data.results[method].users);
+        row.push(data.results[method].users);
         dataDict.datasets.push(data.results[method].datasets);
+        row.push(data.results[method].datasets);
         dataDict.accesses.push(data.results[method].accesses);
+        row.push(data.results[method].accesses);
         dataDict.size.push(data.results[method].size);
+        row.push(formatBytes(data.results[method].size));
         dataDict.activitydays.push(data.results[method].activitydays);
-        html += Mustache.render(templates.methodsTableBody, {method:method, users:data.results[method].users, datasets:data.results[method].datasets, accesses:data.results[method].accesses, size:formatBytes(data.results[method].size), activitydays:data.results[method].activitydays});
+        row.push(data.results[method].activitydays);
+
+        dataList.push(row);
     }
-    $("#methodsTableBody").html(html);
-    html = Mustache.render(templates.methodsTableFooter, {totals:"Totals", users:data.totals.users, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
-    $("#methodsTableFooter").html(html);
+    
+    totals = Mustache.render(templates.methodsTableTotals, {totals:"Totals", users:data.totals.users, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    
+    $("#methodsTable").DataTable({
+        data: dataList,
+        columns: [
+            { title: "Method" },
+            { title: "Users" },
+            { title: "Datasets" },
+            { title: "Number of accesses" },
+            { title: "Size" },
+            { title: "Activity days"}
+        ],
+        columnDefs: [
+            { type: 'file-size', targets: 4 }
+          ]
+    })
+    
+    $("#methodsTableTotals").html(totals);
 
     methodsChart = makeMethodsChart(dataDict);
 

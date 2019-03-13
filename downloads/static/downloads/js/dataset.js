@@ -35,8 +35,6 @@ function datasetsGetAll()
 
 function renderDatasetPage(data)
 {
-    var html;
-
     var dataDict = {
         datasets: [],
         users: [],
@@ -46,19 +44,46 @@ function renderDatasetPage(data)
         activitydays: []
     }
 
+    var dataList = [];
+
     for (var dataset in data.results)
     {
+        var row = [];
+
         dataDict.datasets.push(dataset);
+        row.push(dataset);
         dataDict.users.push(data.results[dataset].users);
+        row.push(data.results[dataset].users);
         dataDict.methods.push(data.results[dataset].methods);
+        row.push(data.results[dataset].methods);
         dataDict.accesses.push(data.results[dataset].accesses);
+        row.push(data.results[dataset].accesses);
         dataDict.size.push(data.results[dataset].size);
+        row.push(formatBytes(data.results[dataset].size));
         dataDict.activitydays.push(data.results[dataset].activitydays);
-        html += Mustache.render(templates.datasetTableBody, {dataset:dataset, users:data.results[dataset].users, methods:data.results[dataset].methods, accesses:data.results[dataset].accesses, size:formatBytes(data.results[dataset].size), activitydays:data.results[dataset].activitydays});
+        row.push(data.results[dataset].activitydays);
+
+        dataList.push(row);
     }
-    $("#datasetTableBody").html(html);
-    html = Mustache.render(templates.datasetTableFooter, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
-    $("#datasetTableFooter").html(html);
+
+    totals = Mustache.render(templates.datasetTableTotals, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    
+    $("#datasetTable").DataTable({
+        data: dataList,
+        columns: [
+            { title: "Dataset" },
+            { title: "Users" },
+            { title: "Methods" },
+            { title: "Number of accesses" },
+            { title: "Size" },
+            { title: "Activity days"}
+        ],
+        columnDefs: [
+            { type: 'file-size', targets: 4 }
+          ]
+    })
+
+    $("#datasetTableTotals").html(totals);
 
     datasetChart = makeDatasetChart(dataDict);
 
