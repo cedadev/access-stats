@@ -6,6 +6,7 @@
 <link rel="shortcut icon" href="{% static 'access_stats/favicon.ico' %}">
 {{form.media.css}}
 <link rel="stylesheet" type="text/css" href="{% static 'downloads/css/downloads.css' %}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
 {% endblock %}
 
 {% block head_title %}
@@ -82,10 +83,10 @@ Downloads
                     <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
                         <div class="col ml-1">
                             <div class="row">
-                                <div class="col-8 mr-0 pr-0">
+                                <div class="col-10 mr-0 pr-0">
                                     <canvas id="methodsChart" width="600" height="350"></canvas>
                                 </div>
-                                <div class="col-4 ml-0 pl-0">
+                                <div class="col-2 ml-0 pl-0">
                                     <div class="dropdown mt-3 ml-3">
                                         <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Convert to
@@ -122,22 +123,12 @@ Downloads
                                 </div>
                             </div>
                             <div class="row">
-                                <table class="table" id="methodsTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Method</th>
-                                            <th scope="col">Users</th>
-                                            <th scope="col">Datasets</th>
-                                            <th scope="col">Number of accesses</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Activity days</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="methodsTableBody">
-                                    </tbody>
-                                    <tfoot id="methodsTableFooter">
+                                <div class="col-12">
+                                <table class="table" id="methodsTable" style="width:100%">
+                                    <tfoot id="methodsTableTotals">
                                     </tfoot>
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -146,10 +137,10 @@ Downloads
                     <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
                         <div class="col ml-1">
                             <div class="row">
-                                <div class="col-8 mr-0 pr-0">
+                                <div class="col-10 mr-0 pr-0">
                                     <canvas class="my-2" id="timelineChart" width="600" height="350"></canvas>
                                 </div>
-                                <div class="col-4 ml-0 pl-0">
+                                <div class="col-2 ml-0 pl-0">
                                     <div class="dropdown mt-3 ml-3">
                                         <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Convert to
@@ -189,23 +180,12 @@ Downloads
                                 </div>
                             </div>
                             <div class="row">
-                                <table class="table" id="timelineTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Users</th>
-                                            <th scope="col">Methods</th>
-                                            <th scope="col">Datasets</th>
-                                            <th scope="col">Number of accesses</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Activity days</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="timelineTableBody">
-                                    </tbody>
-                                    <tfoot id="timelineTableFooter">
+                                <div class="col-12">
+                                <table class="table" id="timelineTable" style="width:100%">
+                                    <tfoot id="timelineTableTotals">
                                     </tfoot>
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -213,9 +193,9 @@ Downloads
                     <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
                         <div class="col ml-1">
                             <div class="row">
-                                <div class="col-8 mr-0 pr-0" id="datasetChartBox">
+                                <div class="col-10 mr-0 pr-0" id="datasetChartBox">
                                 </div>
-                                <div class="col-4 ml-0 pl-0">
+                                <div class="col-2 ml-0 pl-0">
                                     <div class="dropdown mt-3 ml-3" >
                                         <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Convert to
@@ -249,22 +229,12 @@ Downloads
                                 </div>
                             </div>
                             <div class="row">
-                                <table class="table" id="datasetTable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Dataset</th>
-                                        <th scope="col">Users</th>
-                                        <th scope="col">Methods</th>
-                                        <th scope="col">Number of accesses</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Activity days</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="datasetTableBody">
-                                </tbody>
-                                <tfoot id="datasetTableFooter">
+                            <div class="col-12">
+                                <table class="table" id="datasetTable" style="width:100%">
+                                <tfoot id="datasetTableTotals">
                                 </tfoot>
                             </table>
+                            </div>
                             </div>
                         </div> 
                     </div>
@@ -272,9 +242,9 @@ Downloads
                     <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
                         <div class="col ml-1">
                             <div class="row">
-                                <div class="col-8 mr-0 pr-0" id="userChartBox">
+                                <div class="col-10 mr-0 pr-0" id="userChartBox">
                                 </div>
-                                <div class="col-4 ml-0 pl-0">
+                                <div class="col-2 ml-0 pl-0">
                                     <div class="dropdown mt-3 ml-3" >
                                         <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Convert to
@@ -326,23 +296,8 @@ Downloads
                             <div class="col messages" id="users-message">
                             </div>
                         </div>
-                        <table class="table" id="usersTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">Institute type</th>
-                                    <th scope="col">Field</th>
-                                    <th scope="col">Methods</th>
-                                    <th scope="col">Datasets</th>
-                                    <th scope="col">Number of accesses</th>
-                                    <th scope="col">Size</th>
-                                    <th scope="col">Activity days</th>
-                                </tr>
-                            </thead>
-                            <tbody id="usersTableBody">
-                            </tbody>
-                            <tfoot id="usersTableFooter">
+                        <table class="table" id="usersTable" style="width:100%">
+                            <tfoot id="usersTableTotals">
                             </tfoot>
                         </table>
                     </div>
@@ -383,6 +338,9 @@ Downloads
 <script type="text/javascript" src="{% static 'downloads/js/user.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/users.js'%}"></script>
 <script type="text/javascript" src="{% static 'downloads/js/trace.js'%}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/file-size.js"></script>
 
 {{form.media.js}}
 {% endblock %}

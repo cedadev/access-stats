@@ -48,7 +48,7 @@ function renderTimelinePage(data)
         dataList.push(row);
     }
 
-    footer = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+    totals = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
     
     $("#timelineTable").DataTable({
         data: dataList,
@@ -67,7 +67,7 @@ function renderTimelinePage(data)
           ]
     })
     
-    $("#timelineTableTotals").html(footer);
+    $("#timelineTableTotals").html(totals);
 
     timelineChart = makeTimelineChart(dataDict);
 }
