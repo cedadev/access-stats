@@ -60,10 +60,10 @@ Deposits
                     <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
                         <div class="col ml-1">
                             <div class="row">
-                                <div class="col-8 mr-0 pr-0">
+                                <div class="col-10 mr-0 pr-0">
                                     <canvas class="my-2" id="timelineChart" width="600" height="350"></canvas>
                                 </div>
-                                <div class="col-4 ml-0 pl-0">
+                                <div class="col-2 ml-0 pl-0">
                                     <div class="dropdown mt-3 ml-3">
                                         <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Convert to
@@ -84,19 +84,19 @@ Deposits
                                 <table class="table" id="timelineTable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Datasets</th>
-                                            <th scope="col">Deposits</th>
-                                            <th scope="col">Directories</th>
-                                            <th scope="col">Symlinks</th>
-                                            <th scope="col">Removed directories</th>
-                                            <th scope="col">Removed files</th>
+                                            <th scope="col" id="timelineTableDate"><a href="#">Dataset</a></th>
+                                            <th scope="col" id="timelineTableSize"><a href="#">Size</a></th>
+                                            <th scope="col" id="timelineTableDatasets"><a href="#">Datasets</a></th>
+                                            <th scope="col" id="timelineTableDeposits"><a href="#">Deposits</a></th>
+                                            <th scope="col" id="timelineTableDirectories"><a href="#">Directories</a></th>
+                                            <th scope="col" id="timelineTableSymlinks"><a href="#">Symlinks</a></th>
+                                            <th scope="col" id="timelineTableRmdir"><a href="#">Removed directories</a></th>
+                                            <th scope="col" id="timelineTableRemoved"><a href="#">Removed files</a></th>
                                         </tr>
                                     </thead>
                                     <tbody id="timelineTableBody">
                                     </tbody>
-                                    <tfoot id="timelineTableFooter">
+                                    <tfoot id="timelineTableTotals">
                                     </tfoot>
                                 </table>
                             </div>
@@ -106,9 +106,9 @@ Deposits
                     <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
                         <div class="col ml-1">
                             <div class="row">
-                                <div class="col-8 mr-0 pr-0" id="datasetChartBox">
+                                <div class="col-10 mr-0 pr-0" id="datasetChartBox">
                                 </div>
-                                <div class="col-4 ml-0 pl-0">
+                                <div class="col-2 ml-0 pl-0">
                                     <div class="dropdown mt-3 ml-3" >
                                         <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Convert to
@@ -151,18 +151,19 @@ Deposits
                                 <table class="table" id="datasetTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Dataset</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Deposits</th>
-                                        <th scope="col">Directories</th>
-                                        <th scope="col">Symlinks</th>
-                                        <th scope="col">Removed directories</th>
-                                        <th scope="col">Removed files</th>
+                                            <th scope="col" id="datasetTableDate"><a href="#">Date</a></th>
+                                            <th scope="col" id="datasetTableSize"><a href="#">Size</a></th>
+                                            <th scope="col" id="datasetTableDatasets"><a href="#">Datasets</a></th>
+                                            <th scope="col" id="datasetTableDeposits"><a href="#">Deposits</a></th>
+                                            <th scope="col" id="datasetTableDirectories"><a href="#">Directories</a></th>
+                                            <th scope="col" id="datasetTableSymlinks"><a href="#">Symlinks</a></th>
+                                            <th scope="col" id="datasetTableRmdir"><a href="#">Removed directories</a></th>
+                                            <th scope="col" id="datasetTableRemoved"><a href="#">Removed files</a></th>
                                     </tr>
                                 </thead>
                                 <tbody id="datasetTableBody">
                                 </tbody>
-                                <tfoot id="datasetTableFooter">
+                                <tfoot id="datasetTableTotals">
                                 </tfoot>
                             </table>
                             </div>

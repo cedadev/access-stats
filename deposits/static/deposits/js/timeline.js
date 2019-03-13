@@ -12,170 +12,91 @@ $.get(
 function renderTimelinePage(data)
 {
     var dataDict = {
-        months: [],
-        users: [],
-        methods: [],
-        datasets: [],
-        accesses: [],
+        days: [],
         size: [],
-        activitydays: []
+        datasets: [],
+        deposits: [],
+        directories: [],
+        symlinks: [],
+        removedDirs: [],
+        removedFiles: []
     }
 
-    var html;
-    for (var month in data.results)
+    var body;
+    for (var day in data.results)
     {
-        dataDict.months.push(formatDate(month));
-        dataDict.users.push(data.results[month].users);
-        dataDict.methods.push(data.results[month].methods);
-        dataDict.datasets.push(data.results[month].datasets);
-        dataDict.accesses.push(data.results[month].accesses);
-        dataDict.size.push(data.results[month].size);
-        dataDict.activitydays.push(data.results[month].activitydays);
-        html += Mustache.render(templates.timelineTableBody, {month:formatDate(month), users:data.results[month].users, methods:data.results[month].methods, datasets:data.results[month].datasets, accesses:data.results[month].accesses, size:formatBytes(data.results[month].size), activitydays:data.results[month].activitydays});
+        dataDict.days.push(formatDate(day));
+        dataDict.size.push(data.results[day].size);
+        dataDict.datasets.push(data.results[day].datasets);
+        dataDict.deposits.push(data.results[day].deposits);
+        dataDict.directories.push(data.results[day].mkdir);
+        dataDict.symlinks.push(data.results[day].symlink);
+        dataDict.removedDirs.push(data.results[day].rmdir);
+        dataDict.removedFiles.push(data.results[day].remove);
+        body += Mustache.render(templates.timelineTableBody, {day:formatDate(day), size:formatBytes(data.results[day].size), datasets:data.results[day].datasets, deposits:data.results[day].deposits, directories:data.results[day].mkdir, symlinks:data.results[day].symlink, removedDirs:data.results[day].rmdir, removedFiles:data.results[day].remove});
     }
-    $("#timelineTableBody").html(html);
-    html = Mustache.render(templates.timelineTableFooter, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
-    $("#timelineTableFooter").html(html);
+    header = Mustache.render(templates.timelineTableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+    $("#timelineTableBody").html(header + body);
+    $("#timelineTableTotals").html(header);
 
     timelineChart = makeTimelineChart(dataDict);
-
-    var activeTab = null;
-    if (location.hash) 
-    {
-        if (location.hash.split(".")[0] != "#timeline")
-        {
-            activeTab = "timelineTabUsers";
-        }
-        else
-        {
-            activeTab = location.hash.split(".")[1];
-        }
-    }
-    else
-    {
-        activeTab = "timelineTabUsers";
-    }
-    timelineChart = updateTimelineChart(timelineChart, activeTab, dataDict);
-
-
-    timelineTabs = ["timelineTabUsers", "timelineTabMethods", "timelineTabDatasets", "timelineTabAccesses", "timelineTabSize", "timelineTabActivitydays"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
-        if (timelineTabs.includes(e.target.id))
-        {
-            activeTab = e.target.id;
-        }
-        timelineChart = updateTimelineChart(timelineChart, activeTab, dataDict);
-    })
-}
-
-function updateTimelineChart(chart, activeTab, dataDict)
-{
-    chart.destroy();
-    chart = makeTimelineChart(dataDict);
-    if(activeTab == "timelineTabUsers")
-    {
-        chart.data.datasets[0].hidden = false;
-    }
-    if(activeTab == "timelineTabMethods")
-    {
-        chart.data.datasets[1].hidden = false;
-    }
-    if(activeTab == "timelineTabDatasets")
-    {
-        chart.data.datasets[2].hidden = false;
-    }
-    if(activeTab == "timelineTabAccesses")
-    {
-        chart.data.datasets[3].hidden = false;
-    }
-    if(activeTab == "timelineTabSize")
-    {
-        chart.data.datasets[4].hidden = false;
-    }
-    if(activeTab == "timelineTabActivitydays")
-    {
-        chart.data.datasets[5].hidden = false;
-    }
-    chart.update();
-    return chart;
 }
 
 function makeTimelineChart(dataDict)
 {
     var timelineChartElement = $("#timelineChart");
     var timelineChart = new Chart(timelineChartElement, {
-        type: 'line',
+        type: "line",
         data: {
-            labels: dataDict.months,
+            labels: dataDict.days,
             datasets: [{
-                label: '# of users',
-                data: dataDict.users,
-                fill: false,
-                borderColor: "#00628d",
-                backgroundColor: "#00628d",
-                pointBackgroundColor: "#00628d",
-                borderWidth: 1,
-                hidden: true
-            },
-            {
-                label: '# of methods',
-                data: dataDict.methods,
-                fill: false,
-                borderColor: "#00628d",
-                backgroundColor: "#00628d",
-                pointBackgroundColor: "#00628d",
-                borderWidth: 1,
-                hidden: true
-            },
-            {
-                label: '# of datasets',
-                data: dataDict.datasets,
-                fill: false,
-                borderColor: "#00628d",
-                backgroundColor: "#00628d",
-                pointBackgroundColor: "#00628d",
-                borderWidth: 1,
-                hidden: true
-            },
-            {
-                label: '# of accesses',
-                data: dataDict.accesses,
-                fill: false,
-                borderColor: "#00628d",
-                backgroundColor: "#00628d",
-                pointBackgroundColor: "#00628d",
-                borderWidth: 1,
-                hidden: true
-            },
-            {
-                label: 'size',
+                label: "size",
+                yAxisID: "size",
                 data: dataDict.size,
                 fill: false,
+                showLine: false,
                 borderColor: "#00628d",
                 backgroundColor: "#00628d",
                 pointBackgroundColor: "#00628d",
+                pointBorderColor: "#00628d",
                 borderWidth: 1,
-                hidden: true
+                hidden: false
             },
             {
-                label: '# of activity days',
-                data: dataDict.activitydays,
+                label: "# of deposits",
+                yAxisID: "deposits",
+                data: dataDict.deposits,
                 fill: false,
-                borderColor: "#00628d",
-                backgroundColor: "#00628d",
-                pointBackgroundColor: "#00628d",
+                showLine: false,
+                borderColor: "#E33C4F",
+                backgroundColor: "#E33C4F",
+                pointBackgroundColor: "#E33C4F",
+                pointBorderColor: "#E33C4F",
                 borderWidth: 1,
-                hidden: true
+                hidden: false
             }
         ]
         },
         options: {
             responsive: true,
             legend: {
-                display: false
+                display: true
             },
             scales: {
                 yAxes: [{
+                    id: "size",
+                    type: "linear",
+                    position: "left",
+                    labelString: "Size",
+                    ticks: {
+                        beginAtZero: true
+                    }
+                },
+                {
+                    id: "deposits",
+                    type: "linear",
+                    position: "right",
+                    labelString: "Deposits",
                     ticks: {
                         beginAtZero: true
                     }

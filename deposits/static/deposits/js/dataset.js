@@ -35,30 +35,33 @@ function datasetsGetAll()
 
 function renderDatasetPage(data)
 {
-    var html;
-
     var dataDict = {
-        datasets: [],
-        users: [],
-        methods: [],
-        accesses: [],
+        name: [],
         size: [],
-        activitydays: []
+        datasets: [],
+        deposits: [],
+        directories: [],
+        symlinks: [],
+        removedDirs: [],
+        removedFiles: []
     }
 
+    var body;
     for (var dataset in data.results)
     {
-        dataDict.datasets.push(dataset);
-        dataDict.users.push(data.results[dataset].users);
-        dataDict.methods.push(data.results[dataset].methods);
-        dataDict.accesses.push(data.results[dataset].accesses);
+        dataDict.name.push(dataset);
         dataDict.size.push(data.results[dataset].size);
-        dataDict.activitydays.push(data.results[dataset].activitydays);
-        html += Mustache.render(templates.datasetTableBody, {dataset:dataset, users:data.results[dataset].users, methods:data.results[dataset].methods, accesses:data.results[dataset].accesses, size:formatBytes(data.results[dataset].size), activitydays:data.results[dataset].activitydays});
+        dataDict.datasets.push(data.results[dataset].datasets);
+        dataDict.deposits.push(data.results[dataset].deposits);
+        dataDict.directories.push(data.results[dataset].mkdir);
+        dataDict.symlinks.push(data.results[dataset].symlink);
+        dataDict.removedDirs.push(data.results[dataset].rmdir);
+        dataDict.removedFiles.push(data.results[dataset].remove);
+        body += Mustache.render(templates.datasetTableBody, {name:dataset, size:formatBytes(data.results[dataset].size), datasets:data.results[dataset].datasets, deposits:data.results[dataset].deposits, directories:data.results[dataset].mkdir, symlinks:data.results[dataset].symlink, removedDirs:data.results[dataset].rmdir, removedFiles:data.results[dataset].remove});
     }
-    $("#datasetTableBody").html(html);
-    html = Mustache.render(templates.datasetTableFooter, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
-    $("#datasetTableFooter").html(html);
+    header = Mustache.render(templates.datasetTableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+    $("#datasetTableBody").html(header + body);
+    $("#datasetTableTotals").html(header);
 
     datasetChart = makeDatasetChart(dataDict);
 
@@ -67,7 +70,7 @@ function renderDatasetPage(data)
     {
         if (location.hash.split(".")[0] != "#dataset")
         {
-            activeTab = "datasetTabUsers";
+            activeTab = "datasetTabSize";
         }
         else
         {
@@ -76,11 +79,11 @@ function renderDatasetPage(data)
     }
     else
     {
-        activeTab = "datasetTabUsers";
+        activeTab = "datasetTabSize";
     }
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
-    datasetTabs = ["datasetTabUsers", "datasetTabAccesses", "datasetTabSize", "datasetTabActivitydays"]
+    datasetTabs = ["datasetTabSize", "datasetTabDatasets", "datasetTabDeposits", "datasetTabDirectories", "datasetTabSymlinks", "datasetTabRmdir", "datasetTabRemoved"]
     $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
         if (datasetTabs.includes(e.target.id))
         {
@@ -94,21 +97,33 @@ function updateDatasetChart(chart, activeTab, dataDict)
 {
     chart.destroy();
     chart = makeDatasetChart(dataDict);
-    if(activeTab == "datasetTabUsers")
+    if(activeTab == "datasetTabSize")
     {
         chart.data.datasets[0].hidden = false;
     }
-    if(activeTab == "datasetTabAccesses")
+    if(activeTab == "datasetTabDatasets")
     {
         chart.data.datasets[1].hidden = false;
     }
-    if(activeTab == "datasetTabSize")
+    if(activeTab == "datasetTabDeposits")
     {
         chart.data.datasets[2].hidden = false;
     }
-    if(activeTab == "datasetTabActivitydays")
+    if(activeTab == "datasetTabDirectories")
     {
         chart.data.datasets[3].hidden = false;
+    }
+    if(activeTab == "datasetTabSymlinks")
+    {
+        chart.data.datasets[4].hidden = false;
+    }
+    if(activeTab == "datasetTabRmdir")
+    {
+        chart.data.datasets[5].hidden = false;
+    }
+    if(activeTab == "datasetTabRemoved")
+    {
+        chart.data.datasets[6].hidden = false;
     }
     chart.update();
     return chart;
@@ -122,28 +137,46 @@ function makeDatasetChart(dataDict)
     var datasetChart = new Chart(datasetChartElement, {
         type: 'doughnut',
         data: {
-            labels: dataDict.datasets,
+            labels: dataDict.name,
             datasets: [{
-                label: '# of users',
-                data: dataDict.users,
-                borderWidth: 0,
-                hidden: true
-            },
-            {
-                label: '# of accesses',
-                data: dataDict.accesses,
-                borderWidth: 0,
-                hidden: true
-            },
-            {
                 label: 'size',
                 data: dataDict.size,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of activity days',
-                data: dataDict.activitydays,
+                label: '# of datasets',
+                data: dataDict.datasets,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: '# of deposits',
+                data: dataDict.deposits,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: '# of directories',
+                data: dataDict.directories,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: '# of symlinks',
+                data: dataDict.symlinks,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: '# of removed directories',
+                data: dataDict.removedDirs,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: '# of removed files',
+                data: dataDict.removedFiles,
                 borderWidth: 0,
                 hidden: true
             }

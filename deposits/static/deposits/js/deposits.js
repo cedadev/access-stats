@@ -15,7 +15,7 @@ function formatBytes(a, b){if(0==a)return"0 Bytes";var c=1024, d=b||2, e=["Bytes
 function formatDate(a)
 {
     var dated = new Date(a);
-    return dated.toString("yyyy/MM");
+    return dated.toString("yyyy/MM/dd");
 }
 
 //Code to make sure upon refresh the correct tab is shown

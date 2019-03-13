@@ -56,19 +56,19 @@ class DepositsQueryBuilder(QueryBuilder):
                 }
             },
             "grand_total_deposits": {
-                "filter": { "term": { "operation": "DEPOSIT" }}
+                "filter": { "term": { "operation.keyword": "DEPOSIT" }}
             },
             "grand_total_mkdir": {
-                "filter": { "term": { "operation": "MKDIR" }}
+                "filter": { "term": { "operation.keyword": "MKDIR" }}
             },
             "grand_total_symlink": {
-                "filter": { "term": { "operation": "SYMLINK" }}
+                "filter": { "term": { "operation.keyword": "SYMLINK" }}
             },
             "grand_total_rmdir": {
-                "filter": { "term": { "operation": "RMDIR" }}
+                "filter": { "term": { "operation.keyword": "RMDIR" }}
             },
             "grand_total_remove": {
-                "filter": { "term": { "operation": "REMOVE" }}
+                "filter": { "term": { "operation.keyword": "REMOVE" }}
             }
         })
 
@@ -87,19 +87,19 @@ class DepositsQueryBuilder(QueryBuilder):
                         }
                     },
                     "number_of_deposits": {
-                        "filter": { "term": { "operation": "DEPOSIT" }}
+                        "filter": { "term": { "operation.keyword": "DEPOSIT" }}
                     },
                     "number_of_mkdir": {
-                        "filter": { "term": { "operation": "MKDIR" }}
+                        "filter": { "term": { "operation.keyword": "MKDIR" }}
                     },
                     "number_of_symlink": {
-                        "filter": { "term": { "operation": "SYMLINK" }}
+                        "filter": { "term": { "operation.keyword": "SYMLINK" }}
                     },
                     "number_of_rmdir": {
-                        "filter": { "term": { "operation": "RMDIR" }}
+                        "filter": { "term": { "operation.keyword": "RMDIR" }}
                     },
                     "number_of_remove": {
-                        "filter": { "term": { "operation": "REMOVE" }}
+                        "filter": { "term": { "operation.keyword": "REMOVE" }}
                     }
                 }
             }
