@@ -9,8 +9,8 @@ django-bootstrap-datepicker-plus==3.0.5
 django-classy-tags==0.8.0
 django-cookie-law==2.0.1
 elasticsearch==6.3.1
-git+git://github.com/cedadev/fwtheme-django@moles-reskin#egg=fwtheme_django
-git+git://github.com/cedadev/fwtheme-django-ceda-serv@master#egg=fwtheme_django_ceda_serv
+git+https://github.com/cedadev/fwtheme-django@moles_reskin#egg=fwtheme_django
+git+https://github.com/cedadev/fwtheme-django-ceda-serv@master#egg=fwtheme_django_ceda_serv
 idna==2.8
 pycparser==2.19
 pyOpenSSL==19.0.0
