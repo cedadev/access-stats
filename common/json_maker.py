@@ -10,7 +10,7 @@ class JsonMaker:
         self.user = self.get_credentials("access_stats/user.key")
         self.secret = self.get_credentials("access_stats/secret.key")
         self.host = "https://jasmin-es1.ceda.ac.uk"
-        self.index = "logstash-test"
+        self.index = "logstash-access-stats-test"
         
         self.es = Elasticsearch(
             [self.host],
