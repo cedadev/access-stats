@@ -109,4 +109,4 @@ venv.bak/
 *settings_local.py
 
 # Private https authentification username and password for ES
-*.key
+*settings.yml*
