@@ -16,11 +16,9 @@ class JsonMaker:
             raise FileNotFoundError(f"{settings_file} not found")
 
         self.load_settings(settings_file)
-    
-        self.host = "https://jasmin-es1.ceda.ac.uk"
         
         self.es = Elasticsearch(
-            [self.host],
+            [self.settings["host"]],
             http_auth=(self.settings["user"], self.settings["password"]),
             timeout=30
         )
@@ -30,7 +28,7 @@ class JsonMaker:
             try:
                 self.settings = yaml.safe_load(secrets)
             except yaml.YAMLError as e:
-                print(e)
+                raise RuntimeError(f"settings.yml file incorrect yaml: {e}")
 
     def get_elasticsearch_response(self, after_key = None, deposits = False):
         query = QueryBuilderFactory(deposits=deposits).get(self.filters, self.analysis_method, after_key).query()
