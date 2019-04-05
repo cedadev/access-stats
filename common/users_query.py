@@ -17,13 +17,13 @@ class UsersQuery(QueryBuilder):
     def group_by_main(self):
         self.generated_aggs["group_by"]["aggs"]["country"] = {}
         self.generated_aggs["group_by"]["aggs"]["country"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["country"]["terms"]["field"] = "institute.isocode.keyword"
+        self.generated_aggs["group_by"]["aggs"]["country"]["terms"]["field"] = "user_data.isocode.keyword"
         self.generated_aggs["group_by"]["aggs"]["field"] = {}
         self.generated_aggs["group_by"]["aggs"]["field"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["field"]["terms"]["field"] = "institute.field.keyword"
+        self.generated_aggs["group_by"]["aggs"]["field"]["terms"]["field"] = "user_data.field.keyword"
         self.generated_aggs["group_by"]["aggs"]["institute_type"] = {}
         self.generated_aggs["group_by"]["aggs"]["institute_type"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["institute_type"]["terms"]["field"] = "institute.institute_type.keyword"
+        self.generated_aggs["group_by"]["aggs"]["institute_type"]["terms"]["field"] = "user_data.type.keyword"
 
         if self.after_key is None:
             self.generated_aggs["group_by"]["terms"] = {}
