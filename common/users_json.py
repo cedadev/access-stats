@@ -19,14 +19,20 @@ class UsersJson(JsonMaker):
             while response["aggregations"]["group_by"]["buckets"] != []:
                 for result in response["aggregations"]["group_by"]["buckets"]:
                     self.generated_json["results"][result["key"]["user"]] = {}
-                    if result["key"]["user"].startswith("anonymous@"):
-                        self.generated_json["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
+                    if result["country"]["buckets"]:
+                        if result["key"]["user"].startswith("anonymous@"):
+                            self.generated_json["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
+                            self.generated_json["results"][result["key"]["user"]]["institute_type"] = "-"
+                            self.generated_json["results"][result["key"]["user"]]["field"] = "-"
+                        else:
+                            self.generated_json["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
+                            self.generated_json["results"][result["key"]["user"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
+                            self.generated_json["results"][result["key"]["user"]]["field"] = result["field"]["buckets"][0]["key"]
+                    else:
+                        self.generated_json["results"][result["key"]["user"]]["country"] = "-"
                         self.generated_json["results"][result["key"]["user"]]["institute_type"] = "-"
                         self.generated_json["results"][result["key"]["user"]]["field"] = "-"
-                    else:
-                        self.generated_json["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
-                        self.generated_json["results"][result["key"]["user"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
-                        self.generated_json["results"][result["key"]["user"]]["field"] = result["field"]["buckets"][0]["key"]
+
                     self.generated_json["results"][result["key"]["user"]]["methods"] = result["number_of_methods"]["value"]
                     self.generated_json["results"][result["key"]["user"]]["datasets"] = result["number_of_datasets"]["value"]
                     self.generated_json["results"][result["key"]["user"]]["accesses"] = result["doc_count"]
@@ -48,19 +54,19 @@ class UsersJson(JsonMaker):
             self.generated_json["results"] = {}
             for result in response["aggregations"]["group_by"]["buckets"]:
                 self.generated_json["results"][result["key"]] = {}
-                if result["key"].startswith("anonymous@"):
-                    if result["country"]["buckets"]:
+                if result["country"]["buckets"]:
+                    if result["key"].startswith("anonymous@"):
                         self.generated_json["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
                         self.generated_json["results"][result["key"]]["institute_type"] = "-"
                         self.generated_json["results"][result["key"]]["field"] = "-"
                     else:
-                        self.generated_json["results"][result["key"]]["country"] = "-"
-                        self.generated_json["results"][result["key"]]["institute_type"] = "-"
-                        self.generated_json["results"][result["key"]]["field"] = "-"
+                        self.generated_json["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
+                        self.generated_json["results"][result["key"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
+                        self.generated_json["results"][result["key"]]["field"] = result["field"]["buckets"][0]["key"]
                 else:
-                    self.generated_json["results"][result["key"]]["country"] = result["country"]["buckets"][0]["key"]
-                    self.generated_json["results"][result["key"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
-                    self.generated_json["results"][result["key"]]["field"] = result["field"]["buckets"][0]["key"]
+                    self.generated_json["results"][result["key"]]["country"] = "-"
+                    self.generated_json["results"][result["key"]]["institute_type"] = "-"
+                    self.generated_json["results"][result["key"]]["field"] = "-"
                 self.generated_json["results"][result["key"]]["methods"] = result["number_of_methods"]["value"]
                 self.generated_json["results"][result["key"]]["datasets"] = result["number_of_datasets"]["value"]
                 self.generated_json["results"][result["key"]]["accesses"] = result["doc_count"]
