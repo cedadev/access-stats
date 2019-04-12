@@ -20,9 +20,7 @@ class JsonMaker:
         self.es = Elasticsearch(
             [self.settings["host"]],
             http_auth=(self.settings["user"], self.settings["password"]),
-            timeout=30,
-            ca_certs=False, 
-            verify_certs=False
+            timeout=30
         )
 
     def load_settings(self, file_name):
