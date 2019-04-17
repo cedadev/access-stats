@@ -3,7 +3,8 @@ class QueryBuilder:
         self.filters = filters
         self.analysis_method = analysis_method
         
-    def query(self):
+    def query(self, activity_days):
+        self.activity_days = activity_days
         self.generate_query()
         return self.generated_query
 
@@ -17,6 +18,11 @@ class QueryBuilder:
 
     def update_aggs(self):
         return NotImplementedError
+    
+    def get_date_unit(self):
+        if self.activity_days:
+            return "date"
+        return "datetime"
     
     def base_query(self):
         return {
@@ -33,7 +39,7 @@ class QueryBuilder:
                     "should": [],
                     "filter": {
                         "range": {
-                            "datetime": {
+                            self.get_date_unit(): {
                                 "gte": "2012-01-01",
                                 "lte": "now",
                                 "format": "yyyy-MM-dd"
@@ -49,9 +55,9 @@ class QueryBuilder:
 
     def update_filters(self):
         if self.filters["start"]:
-            self.generated_query["query"]["bool"]["filter"]["range"]["datetime"]["gte"] = self.filters["start"]
+            self.generated_query["query"]["bool"]["filter"]["range"][self.get_date_unit()]["gte"] = self.filters["start"]
         if self.filters["end"]:
-            self.generated_query["query"]["bool"]["filter"]["range"]["datetime"]["lte"] = self.filters["end"]
+            self.generated_query["query"]["bool"]["filter"]["range"][self.get_date_unit()]["lte"] = self.filters["end"]
         if self.filters["user"]:
             self.generated_query["query"]["bool"]["must"].append({
                         "match_phrase": {
@@ -87,94 +93,71 @@ class QueryBuilder:
     # Functions that add aggregations to the generated query:
     # To be called per subclass in update_aggs()
     def grand_totals(self):
-        self.generated_query["aggs"].update({
-            "grand_total_users": {
-                "cardinality": {
-                    "field": "user.keyword"
+        if not self.activity_days:
+            self.generated_query["aggs"].update({
+                "grand_total_users": {
+                    "cardinality": {
+                        "field": "user.keyword"
+                    }
+                },
+                "grand_total_methods": {
+                    "cardinality": {
+                        "field": "method.keyword"
+                    }
+                },
+                "grand_total_datasets": {
+                    "cardinality": {
+                        "field": "dataset.keyword"
+                    }
+                },
+                "grand_total_size": {
+                    "sum": {
+                        "field": "size"
+                    }
                 }
-            },
-            "grand_total_methods": {
-                "cardinality": {
-                    "field": "method.keyword"
-                }
-            },
-            "grand_total_datasets": {
-                "cardinality": {
-                    "field": "dataset.keyword"
-                }
-            },
-            "grand_total_size": {
-                "sum": {
-                    "field": "size"
-                }
-            }
-        })
-
-    def grand_total_activity_days(self):
-        self.generated_query["aggs"].update({"grand_total_activitydays": {
-            "sum_bucket": {
-                "buckets_path": "group_by>group_by_activitydays"
-            }
-        }
-        })
+            })
     
     def group_by(self):
         self.generated_aggs = self.base_aggs()
         self.group_by_main()
-        self.group_by_nested()
         self.generated_query["aggs"].update(self.generated_aggs)
 
     def group_by_main(self):
         return NotImplementedError
 
-    def group_by_nested(self):
-        return NotImplementedError
-
     def base_aggs(self):
-        return {
-            "group_by": {
-                "aggs": {
-                    "number_of_users": {
-                        "cardinality": {
-                            "field": "user.keyword"
-                        }
-                    },
-                    "number_of_methods": {
-                        "cardinality": {
-                            "field": "method.keyword"
-                        }
-                    },
-                    "number_of_datasets": {
-                        "cardinality": {
-                            "field": "dataset.keyword"
-                        }
-                    },
-                    "total_size": {
-                        "sum": {
-                            "field": "size"
-                        }
-                    },
-                    "group_by_first_nested": {
-                        "aggs": {
-                            "group_by_second_nested": {
-                                "aggs": {
-                                    "activity_days": {
-                                        "cardinality": {}
-                                    }
-                                }
-                            },
-                            "group_by_first_nested_activitydays": {
-                                "sum_bucket": {
-                                    "buckets_path": "group_by_second_nested>activity_days.value"
-                                }
+        if self.activity_days:
+            return {
+                "group_by": {
+                    "aggs": {
+                        
+                    }
+                }
+            }
+        else:
+            return {
+                "group_by": {
+                    "aggs": {
+                        "number_of_users": {
+                            "cardinality": {
+                                "field": "user.keyword"
                             }
-                        }
-                    },
-                    "group_by_activitydays": {
-                        "sum_bucket": {
-                            "buckets_path": "group_by_first_nested>group_by_first_nested_activitydays"
+                        },
+                        "number_of_methods": {
+                            "cardinality": {
+                                "field": "method.keyword"
+                            }
+                        },
+                        "number_of_datasets": {
+                            "cardinality": {
+                                "field": "dataset.keyword"
+                            }
+                        },
+                        "total_size": {
+                            "sum": {
+                                "field": "size"
+                            }
                         }
                     }
                 }
             }
-        }

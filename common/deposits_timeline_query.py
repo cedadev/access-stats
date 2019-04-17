@@ -11,6 +11,4 @@ class DepositsTimelineQuery(DepositsQueryBuilder, TimelineQuery):
             self.generated_aggs["group_by"]["date_histogram"]["field"] =  "datetime"
             self.generated_aggs["group_by"]["date_histogram"]["interval"] =  "day"
 
-    def group_by_nested(self):
-        pass
     

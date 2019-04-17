@@ -48,8 +48,5 @@ class UserQuery(QueryBuilder):
         self.generated_aggs["group_by_area"]["aggs"]["users"]["cardinality"] = {}
         self.generated_aggs["group_by_area"]["aggs"]["users"]["cardinality"]["field"] = "user.keyword"
 
-    def group_by_nested(self):
-        return
-
     def base_aggs(self):
         return {}

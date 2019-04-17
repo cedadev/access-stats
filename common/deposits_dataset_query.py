@@ -24,7 +24,4 @@ class DepositsDatasetQuery(DepositsQueryBuilder, DatasetQuery):
                     }
                 }
             })
-
-    def group_by_nested(self):
-        pass
     
