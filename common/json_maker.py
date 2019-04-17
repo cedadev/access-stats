@@ -30,9 +30,28 @@ class JsonMaker:
             except yaml.YAMLError as e:
                 raise RuntimeError(f"settings.yml file incorrect yaml: {e}")
 
-    def get_elasticsearch_response(self, after_key = None, deposits = False):
-        query = QueryBuilderFactory(deposits=deposits).get(self.filters, self.analysis_method, after_key).query()
-        return self.es.search(index = self.settings["index"], body = query)
+    def get_elasticsearch_response(self, after_key = None, deposits = False, activity_days = False):
+        query = QueryBuilderFactory(deposits = deposits).get(self.filters, self.analysis_method, after_key).query(activity_days)
+        if activity_days:
+            index = self.settings["index"]["activity_days"]
+        else:
+            index = self.settings["index"]["main"]
+
+        return self.es.search(index = index, body = query)
+
+    def get_activity_days(self, response, identifier):
+        buckets = response["aggregations"]["group_by"]["buckets"]
+        for bucket in buckets:
+            if bucket["key"] == identifier:
+                return bucket["doc_count"]
+
+    def get_activity_days_scroll(self, response, field, identifier):
+        while response["aggregations"]["group_by"]["buckets"] != []:
+            for bucket in response["aggregations"]["group_by"]["buckets"]:
+                if bucket["key"][field] == identifier[field]:
+                    return bucket["doc_count"]
+            after_key = response["aggregations"]["group_by"]["after_key"]
+            response = self.get_elasticsearch_response(after_key = after_key, activity_days=True)
 
     def get_title(self):
         return NotImplementedError
