@@ -88,5 +88,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'access_stats/static')]
 
 STATIC_URL = '/static/'
 
+# Use fwtheme with container fluid
+CONTAINER_FLUID = True
+
 # Sensitive settings imported from local settings
 from access_stats.settings_local import *
