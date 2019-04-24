@@ -71,8 +71,6 @@ function renderTimelinePage(data)
 
 function formatDepositsDate(a)
 {
-    var dated = new Date("2019-01-02T00:00:00.000Z");
-    console.log(dated);
-    console.log(dated.toString("yyyy/MM/dd"));
+    var dated = new Date(a);
     return dated.toString("yyyy/MM/dd");
 }
