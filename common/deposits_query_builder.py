@@ -17,7 +17,7 @@ class DepositsQueryBuilder(QueryBuilder):
                     "should": [],
                     "filter": {
                         "range": {
-                            "datetime": {
+                            self.get_date_unit(): {
                                 "gte": "2012-01-01",
                                 "lte": "now",
                                 "format": "yyyy-MM-dd"
