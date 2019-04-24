@@ -1,5 +1,4 @@
 // On default page load, get values in filters and add them to query in url
-// TODO: Convert date safely
 if (!window.location.search)
 {
     var start = $("#id_start").val()
