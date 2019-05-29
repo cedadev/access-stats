@@ -57,7 +57,8 @@ function renderMethodsPage(data)
         columnDefs: [
             { type: 'file-size', targets: 4 }
         ],
-        "paging": false
+        "paging": false,
+        "info": false
     })
     
     $("#methodsTableTotals").html(totals);
