@@ -139,6 +139,7 @@ function makeTimelineChart(dataDict)
             labels: dataDict.months,
             datasets: [{
                 label: '# of users',
+                lineTension: 0,
                 data: dataDict.users,
                 fill: false,
                 borderColor: "#00628d",
@@ -149,6 +150,7 @@ function makeTimelineChart(dataDict)
             },
             {
                 label: '# of methods',
+                lineTension: 0,
                 data: dataDict.methods,
                 fill: false,
                 borderColor: "#00628d",
@@ -159,6 +161,7 @@ function makeTimelineChart(dataDict)
             },
             {
                 label: '# of datasets',
+                lineTension: 0,
                 data: dataDict.datasets,
                 fill: false,
                 borderColor: "#00628d",
@@ -169,6 +172,7 @@ function makeTimelineChart(dataDict)
             },
             {
                 label: '# of accesses',
+                lineTension: 0,
                 data: dataDict.accesses,
                 fill: false,
                 borderColor: "#00628d",
@@ -179,6 +183,7 @@ function makeTimelineChart(dataDict)
             },
             {
                 label: 'size',
+                lineTension: 0,
                 data: dataDict.size,
                 fill: false,
                 borderColor: "#00628d",
@@ -189,6 +194,7 @@ function makeTimelineChart(dataDict)
             },
             {
                 label: '# of activity days',
+                lineTension: 0,
                 data: dataDict.activitydays,
                 fill: false,
                 borderColor: "#00628d",
