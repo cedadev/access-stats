@@ -64,7 +64,10 @@ function renderTimelinePage(data)
         ],
         columnDefs: [
             { type: 'file-size', targets: 1 }
-          ]
+        ],
+        "pageLength": 7,
+        "lengthMenu": [ [7, 31, -1], [7, 31, "All"] ],
+        "order": [[0 , "desc"]]
     })
     
     $("#timelineTableTotals").html(totals);
