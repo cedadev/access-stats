@@ -54,9 +54,11 @@ function renderMethodsPage(data)
         ],
         columnDefs: [
             { type: 'file-size', targets: 4 }
-          ],
-        responsive: true
-          
+        ],
+        responsive: true,
+        "paging": false,
+        "info": false,
+        "searching": false
     })
     
     $("#downloadsTableTotals").html(totals);
