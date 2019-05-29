@@ -62,7 +62,10 @@ function renderTimelinePage(data)
         ],
         columnDefs: [
             { type: 'file-size', targets: 1 }
-          ]
+        ],
+        "pageLength": 7,
+        "lengthMenu": [ [7, 30, -1], [7, 30, "All"] ],
+        "order": [[0 , "desc"]]
     })
     
     $("#depositsTableTotals").html(totals);
