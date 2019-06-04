@@ -79,7 +79,7 @@ function renderDatasetPage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: 'file-size', targets: 4 }
+            { type: "file-size", targets: 4 }
         ],
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
@@ -108,7 +108,7 @@ function renderDatasetPage(data)
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
     datasetTabs = ["datasetTabUsers", "datasetTabAccesses", "datasetTabSize", "datasetTabActivitydays"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (datasetTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -147,29 +147,29 @@ function makeDatasetChart(dataDict)
     $("#datasetChartBox").html(html);
     var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
             labels: dataDict.datasets,
             datasets: [{
-                label: '# of users',
+                label: "# of users",
                 data: dataDict.users,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of accesses',
+                label: "# of accesses",
                 data: dataDict.accesses,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: 'size',
+                label: "size",
                 data: dataDict.size,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of activity days',
+                label: "# of activity days",
                 data: dataDict.activitydays,
                 borderWidth: 0,
                 hidden: true
@@ -183,7 +183,7 @@ function makeDatasetChart(dataDict)
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Paired12'
+                    scheme: "brewer.Paired12"
                 }
             }
         }

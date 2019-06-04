@@ -85,7 +85,7 @@ function renderDatasetPage(data)
             { title: "Removed files" }
         ],
         columnDefs: [
-            { type: 'file-size', targets: 1 }
+            { type: "file-size", targets: 1 }
         ],
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
@@ -114,7 +114,7 @@ function renderDatasetPage(data)
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
     datasetTabs = ["datasetTabSize", "datasetTabDatasets", "datasetTabDeposits", "datasetTabDirectories", "datasetTabSymlinks", "datasetTabRmdir", "datasetTabRemoved"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (datasetTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -165,47 +165,47 @@ function makeDatasetChart(dataDict)
     $("#datasetChartBox").html(html);
     var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
             labels: dataDict.name,
             datasets: [{
-                label: 'size',
+                label: "size",
                 data: dataDict.size,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of datasets',
+                label: "# of datasets",
                 data: dataDict.datasets,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of deposits',
+                label: "# of deposits",
                 data: dataDict.deposits,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of directories',
+                label: "# of directories",
                 data: dataDict.directories,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of symlinks',
+                label: "# of symlinks",
                 data: dataDict.symlinks,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of removed directories',
+                label: "# of removed directories",
                 data: dataDict.removedDirs,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of removed files',
+                label: "# of removed files",
                 data: dataDict.removedFiles,
                 borderWidth: 0,
                 hidden: true
@@ -219,7 +219,7 @@ function makeDatasetChart(dataDict)
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Paired12'
+                    scheme: "brewer.Paired12"
                 }
             }
         }
