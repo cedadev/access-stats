@@ -55,7 +55,7 @@ function renderMethodsPage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: 'file-size', targets: 4 }
+            { type: "file-size", targets: 4 }
         ],
         "paging": false,
         "info": false
@@ -84,7 +84,7 @@ function renderMethodsPage(data)
     methodsChart = updateMethodsChart(methodsChart, activeTab, dataDict);
 
     methodsTabs = ["methodsTabUsers", "methodsTabMethods", "methodsTabDatasets", "methodsTabAccesses", "methodsTabSize", "methodsTabActivitydays"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (methodsTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -125,31 +125,31 @@ function makeMethodsChart(dataDict)
 {
     var methodsChartElement = $("#methodsChart");
     var methodsChart = new Chart(methodsChartElement, {
-        type: 'bar',
+        type: "bar",
         data: {
             labels: dataDict.methods,
             datasets: [{
-                label: '# of users',
+                label: "# of users",
                 data: dataDict.users,
                 hidden: true
             },
             {
-                label: '# of datasets',
+                label: "# of datasets",
                 data: dataDict.datasets,
                 hidden: true
             },
             {
-                label: '# of accesses',
+                label: "# of accesses",
                 data: dataDict.accesses,
                 hidden: true
             },
             {
-                label: 'size',
+                label: "size",
                 data: dataDict.size,
                 hidden: true
             },
             {
-                label: '# of activity days',
+                label: "# of activity days",
                 data: dataDict.activitydays,
                 hidden: true
             }
@@ -174,7 +174,7 @@ function makeMethodsChart(dataDict)
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Pastel1-9'
+                    scheme: "brewer.Pastel1-9"
                 }
             }
         }

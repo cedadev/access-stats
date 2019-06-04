@@ -58,7 +58,7 @@ function renderTimelinePage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: 'file-size', targets: 5 }
+            { type: "file-size", targets: 5 }
         ],
         "pageLength": 12,
         "lengthMenu": [ [12, 24, -1], [12, 24, "All"] ],
@@ -89,7 +89,7 @@ function renderTimelinePage(data)
 
 
     timelineTabs = ["timelineTabUsers", "timelineTabMethods", "timelineTabDatasets", "timelineTabAccesses", "timelineTabSize", "timelineTabActivitydays"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (timelineTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -134,11 +134,11 @@ function makeTimelineChart(dataDict)
 {
     var timelineChartElement = $("#timelineChart");
     var timelineChart = new Chart(timelineChartElement, {
-        type: 'line',
+        type: "line",
         data: {
             labels: dataDict.months,
             datasets: [{
-                label: '# of users',
+                label: "# of users",
                 lineTension: 0,
                 data: dataDict.users,
                 fill: false,
@@ -149,7 +149,7 @@ function makeTimelineChart(dataDict)
                 hidden: true
             },
             {
-                label: '# of methods',
+                label: "# of methods",
                 lineTension: 0,
                 data: dataDict.methods,
                 fill: false,
@@ -160,7 +160,7 @@ function makeTimelineChart(dataDict)
                 hidden: true
             },
             {
-                label: '# of datasets',
+                label: "# of datasets",
                 lineTension: 0,
                 data: dataDict.datasets,
                 fill: false,
@@ -171,7 +171,7 @@ function makeTimelineChart(dataDict)
                 hidden: true
             },
             {
-                label: '# of accesses',
+                label: "# of accesses",
                 lineTension: 0,
                 data: dataDict.accesses,
                 fill: false,
@@ -182,7 +182,7 @@ function makeTimelineChart(dataDict)
                 hidden: true
             },
             {
-                label: 'size',
+                label: "size",
                 lineTension: 0,
                 data: dataDict.size,
                 fill: false,
@@ -193,7 +193,7 @@ function makeTimelineChart(dataDict)
                 hidden: true
             },
             {
-                label: '# of activity days',
+                label: "# of activity days",
                 lineTension: 0,
                 data: dataDict.activitydays,
                 fill: false,

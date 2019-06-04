@@ -63,7 +63,7 @@ function renderTimelinePage(data)
             { title: "Removed files" }
         ],
         columnDefs: [
-            { type: 'file-size', targets: 1 }
+            { type: "file-size", targets: 1 }
         ],
         "pageLength": 7,
         "lengthMenu": [ [7, 31, -1], [7, 31, "All"] ],

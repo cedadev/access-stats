@@ -16,11 +16,11 @@ class FileResponse:
         raise NotImplementedError
 
     def get_filename(self, file_ending):
-        filename = f'{self.get_view()}-{self.analysis_method}'
+        filename = f"{self.get_view()}-{self.analysis_method}"
         for value in self.filters.values():
             if value:
-                filename += f'-{value}'
-        filename += f'.{file_ending}'
+                filename += f"-{value}"
+        filename += f".{file_ending}"
         return filename
 
     def get_json(self):
@@ -31,7 +31,7 @@ class FileResponse:
 
     def make_csv(self):
         response = HttpResponse(content_type="text/csv")
-        response['Content-Disposition'] = f'attachment; filename={self.get_filename("csv")}'
+        response["Content-Disposition"] = f'attachment; filename={self.get_filename("csv")}'
         writer = csv.writer(response)
 
         json_data = self.get_json()
@@ -49,9 +49,9 @@ class FileResponse:
         json_data = self.get_json()
 
         output = io.BytesIO()
-        workbook = Workbook(output, {"in_memory": True, 'remove_timezone': True})
+        workbook = Workbook(output, {"in_memory": True, "remove_timezone": True})
         worksheet = workbook.add_worksheet()
-        date_format = workbook.add_format({'num_format': 'yyyymm'})
+        date_format = workbook.add_format({"num_format": "yyyymm"})
         
         self._write_xlsx(json_data, worksheet, date_format)
 
@@ -59,7 +59,7 @@ class FileResponse:
         output.seek(0)
 
         response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        response['Content-Disposition'] = f'attachment; filename={self.get_filename("xlsx")}'
+        response["Content-Disposition"] = f'attachment; filename={self.get_filename("xlsx")}'
 
         return response
 

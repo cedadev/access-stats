@@ -3,7 +3,7 @@ if (!window.location.search)
 {
     var start = $("#id_start").val()
     var end = $("#id_end").val()
-    window.history.replaceState('default', 'Title', window.location.pathname + "?start=" + start + "&end=" + end + "&dataset=");
+    window.history.replaceState("default", "Title", window.location.pathname + "?start=" + start + "&end=" + end + "&dataset=");
 }
 
 // Sets up template for loading bar
@@ -19,14 +19,14 @@ function formatDate(a)
 
 //Code to make sure upon refresh the correct tab is shown
 if (location.hash) {
-    $("a[href='" + location.hash.split(".")[0] + "']").tab('show');
-    $("a[href='#" + location.hash.split(".")[1] + "']").tab('show');
+    $("a[href='" + location.hash.split(".")[0] + "']").tab("show");
+    $("a[href='#" + location.hash.split(".")[1] + "']").tab("show");
 }
 var currentDatasetTab = null;
 
-$('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
+$("body").on("click", "a[data-toggle='tab-main']", function (e) {
     e.preventDefault();
-    var tabName = this.getAttribute('href')
+    var tabName = this.getAttribute("href")
     if (tabName == "#dataset") 
     {
         if (currentDatasetTab != null)
@@ -40,23 +40,23 @@ $('body').on('click', 'a[data-toggle=\'tab-main\']', function (e) {
     }
 
     location.hash = tabName;
-    $(this).tab('show');
+    $(this).tab("show");
     return false;
 });
-$('body').on('click', 'a[data-toggle=\'tab-sub\']', function (e) {
+$("body").on("click", "a[data-toggle='tab-sub']", function (e) {
     e.preventDefault()
-    var tabName = this.getAttribute('id')
+    var tabName = this.getAttribute("id")
     location.hash = location.hash.split(".")[0] + "." + tabName;
     if (location.hash.split(".")[0] == "#dataset") 
     {
         currentDatasetTab = tabName;
     }
 
-    $(this).tab('show');
+    $(this).tab("show");
     return false;
 });
-$(window).on('popstate', function () {
+$(window).on("popstate", function () {
     var anchor = location.hash ||
-        $('a[data-toggle=\'tab-main\']').first().attr('href');
-    $('a[href=\'' + anchor + '\']').tab('show');
+        $("a[data-toggle='tab-main']").first().attr("href");
+    $("a[href='" + anchor + "']").tab("show");
 });
