@@ -24,7 +24,7 @@ class JsonView(TemplateView):
     def get(self, request, analysis_method):
         form = FilterForm(request.GET)
         if analysis_method not in ["methods", "timeline", "dataset",
-                          "dataset-limited", "user", "users", "users-limited", "trace"] or not form.is_valid():
+                                   "user", "users", "trace"] or not form.is_valid():
             return default_404_response
         return JsonResponse(JsonMakerFactory().get(form.cleaned_data, analysis_method).json(), json_dumps_params={'indent': 2})
 

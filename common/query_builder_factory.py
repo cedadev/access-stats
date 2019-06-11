@@ -19,13 +19,13 @@ class QueryBuilderFactory:
             return TimelineQuery(filters, analysis_method)
         if analysis_method == "timeline" and self.deposits:
             return DepositsTimelineQuery(filters, analysis_method)
-        if analysis_method in ["dataset", "dataset-limited"] and not self.deposits:
+        if analysis_method == "dataset" and not self.deposits:
             return DatasetQuery(filters, analysis_method, after_key)
-        if analysis_method in ["dataset", "dataset-limited"] and self.deposits:
+        if analysis_method == "dataset" and self.deposits:
             return DepositsDatasetQuery(filters, analysis_method, after_key)
         if analysis_method == "user":
             return UserQuery(filters, analysis_method)
-        if analysis_method in ["users", "users-limited"]:
+        if analysis_method == "users":
             return UsersQuery(filters, analysis_method, after_key)
         if analysis_method == "trace" and not self.deposits:
             return TraceQuery(filters, analysis_method)

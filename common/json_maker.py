@@ -20,7 +20,7 @@ class JsonMaker:
         self.es = Elasticsearch(
             [self.settings["host"]],
             http_auth=(self.settings["user"], self.settings["password"]),
-            timeout=30
+            timeout=60
         )
 
     def load_settings(self, file_name):
@@ -50,6 +50,15 @@ class JsonMaker:
             for bucket in response["aggregations"]["group_by"]["buckets"]:
                 if bucket["key"][field] == identifier[field]:
                     return bucket["doc_count"]
+            after_key = response["aggregations"]["group_by"]["after_key"]
+            response = self.get_elasticsearch_response(after_key = after_key, activity_days=True)
+
+    def setup_activity_days_dict(self, field):
+        self.activity_days_dict = {}
+        response = self.get_elasticsearch_response(after_key=0, activity_days=True)
+        while response["aggregations"]["group_by"]["buckets"] != []:
+            for bucket in response["aggregations"]["group_by"]["buckets"]:
+                self.activity_days_dict[bucket["key"][field]] = bucket["doc_count"]
             after_key = response["aggregations"]["group_by"]["after_key"]
             response = self.get_elasticsearch_response(after_key = after_key, activity_days=True)
 

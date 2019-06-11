@@ -1,37 +1,12 @@
 $("#dataset-message").html(loadingHTML);
 $.get(
 {
-    url: window.location.origin + window.location.pathname + "json/" + "dataset-limited" + window.location.search,
+    url: window.location.origin + window.location.pathname + "json/" + "dataset" + window.location.search,
     success: function (data) {
         renderDatasetPage(data);
-        if(data.totals.datasets > 500)
-        {
-            var html = Mustache.render(templates.warningMessage, {analysis_method:"Datasets", total:data.totals.datasets, allFunction:"datasetsGetAll()"});
-            $("#dataset-message").html(html);
-        }
-        else
-        {
-            $("#dataset-message").hide();
-        }
+        $("#dataset-message").hide();
     }
 })
-
-function datasetsGetAll()
-{
-    $("#dataset-message").html(loadingHTML);
-    $.get(
-    {
-        url: window.location.origin + window.location.pathname + "json/" + "dataset" + window.location.search,
-        success: function (data) {
-            renderDatasetPage(data);
-            $("#dataset-message").hide();
-        },
-        error: function () {
-            var html = Mustache.render(templates.errorMessage);
-            $("#dataset-message").html(html);
-        }
-    })
-}
 
 function renderDatasetPage(data)
 {
@@ -68,8 +43,8 @@ function renderDatasetPage(data)
 
     totals = Mustache.render(templates.datasetTableTotals, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
     
-    $("#datasetTable").DataTable({
-        data: dataList,
+    table = $("#datasetTable").DataTable({
+        retrieve: true,
         columns: [
             { title: "Dataset" },
             { title: "Users" },
@@ -84,6 +59,10 @@ function renderDatasetPage(data)
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
     })
+
+    table.clear();
+    table.rows.add(dataList);
+    table.draw();
 
     $("#datasetTableTotals").html(totals);
 

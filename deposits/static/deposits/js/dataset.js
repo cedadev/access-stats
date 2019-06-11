@@ -1,37 +1,12 @@
 $("#dataset-message").html(loadingHTML);
 $.get(
 {
-    url: window.location.origin + window.location.pathname + "json/" + "dataset-limited" + window.location.search,
+    url: window.location.origin + window.location.pathname + "json/" + "dataset" + window.location.search,
     success: function (data) {
         renderDatasetPage(data);
-        if(data.totals.datasets > 500)
-        {
-            var html = Mustache.render(templates.warningMessage, {analysis_method:"Datasets", total:data.totals.datasets, allFunction:"datasetsGetAll()"});
-            $("#dataset-message").html(html);
-        }
-        else
-        {
-            $("#dataset-message").hide();
-        }
+        $("#dataset-message").hide();
     }
 })
-
-function datasetsGetAll()
-{
-    $("#dataset-message").html(loadingHTML);
-    $.get(
-    {
-        url: window.location.origin + window.location.pathname + "json/" + "dataset" + window.location.search,
-        success: function (data) {
-            renderDatasetPage(data);
-            $("#dataset-message").hide();
-        },
-        error: function () {
-            var html = Mustache.render(templates.errorMessage);
-            $("#dataset-message").html(html);
-        }
-    })
-}
 
 function renderDatasetPage(data)
 {
