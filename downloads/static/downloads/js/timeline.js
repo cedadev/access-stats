@@ -58,7 +58,7 @@ function renderTimelinePage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: 'file-size', targets: 5 }
+            { type: "file-size", targets: 5 }
         ],
         "pageLength": 12,
         "lengthMenu": [ [12, 24, -1], [12, 24, "All"] ],

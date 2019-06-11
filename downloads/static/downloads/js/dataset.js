@@ -54,7 +54,7 @@ function renderDatasetPage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: 'file-size', targets: 4 }
+            { type: "file-size", targets: 4 }
         ],
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
