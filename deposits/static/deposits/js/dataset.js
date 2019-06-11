@@ -60,7 +60,7 @@ function renderDatasetPage(data)
             { title: "Removed files" }
         ],
         columnDefs: [
-            { type: 'file-size', targets: 1 }
+            { type: "file-size", targets: 1 }
         ],
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
