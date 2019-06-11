@@ -20,11 +20,11 @@ function renderUsersPage(data)
         row.push(data.results[user].country);
         row.push(data.results[user].institute_type);
         row.push(data.results[user].field);
-        row.push(data.results[user].methods);
-        row.push(data.results[user].datasets);
-        row.push(data.results[user].accesses);
+        row.push(data.results[user].methods.toLocaleString());
+        row.push(data.results[user].datasets.toLocaleString());
+        row.push(data.results[user].accesses.toLocaleString());
         row.push(formatBytes(data.results[user].size));
-        row.push(data.results[user].activitydays);
+        row.push(data.results[user].activitydays.toLocaleString());
 
         dataList.push(row);
     }

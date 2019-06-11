@@ -29,17 +29,17 @@ function renderTimelinePage(data)
         dataDict.months.push(formatDate(month));
         row.push(formatDate(month));
         dataDict.users.push(data.results[month].users);
-        row.push(data.results[month].users);
+        row.push(data.results[month].users.toLocaleString());
         dataDict.methods.push(data.results[month].methods);
-        row.push(data.results[month].methods);
+        row.push(data.results[month].methods.toLocaleString());
         dataDict.datasets.push(data.results[month].datasets);
-        row.push(data.results[month].datasets);
+        row.push(data.results[month].datasets.toLocaleString());
         dataDict.accesses.push(data.results[month].accesses);
-        row.push(data.results[month].accesses);
+        row.push(data.results[month].accesses.toLocaleString());
         dataDict.size.push(data.results[month].size);
         row.push(formatBytes(data.results[month].size));
         dataDict.activitydays.push(data.results[month].activitydays);
-        row.push(data.results[month].activitydays);
+        row.push(data.results[month].activitydays.toLocaleString());
 
         dataList.push(row);
     }
