@@ -19,13 +19,13 @@ class JsonMakerFactory:
             return TimelineJson(filters, analysis_method)
         if analysis_method == "timeline" and self.deposits:
             return DepositsTimelineJson(filters, analysis_method)
-        if analysis_method in ["dataset", "dataset-limited"] and not self.deposits:
+        if analysis_method == "dataset" and not self.deposits:
             return DatasetJson(filters, analysis_method)
-        if analysis_method in ["dataset", "dataset-limited"] and self.deposits:
+        if analysis_method == "dataset" and self.deposits:
             return DepositsDatasetJson(filters, analysis_method)
         if analysis_method == "user":
             return UserJson(filters, analysis_method)
-        if analysis_method == "users" or analysis_method == "users-limited":
+        if analysis_method == "users":
             return UsersJson(filters, analysis_method)
         if analysis_method == "trace" and not self.deposits:
             return TraceJson(filters, analysis_method)

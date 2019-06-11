@@ -11,5 +11,4 @@ class MethodsQuery(QueryBuilder):
     def group_by_main(self):
         self.generated_aggs["group_by"]["terms"] = {}
         self.generated_aggs["group_by"]["terms"]["field"] = "method.keyword"
-        self.generated_aggs["group_by"]["terms"]["size"] = 50
-
+        self.generated_aggs["group_by"]["terms"]["size"] = 10000

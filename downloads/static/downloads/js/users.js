@@ -1,37 +1,12 @@
 $("#users-message").html(loadingHTML);
 $.get(
 {
-    url: window.location.origin + window.location.pathname + "json/" + "users-limited" + window.location.search,
+    url: window.location.origin + window.location.pathname + "json/" + "users" + window.location.search,
     success: function (data) {
         renderUsersPage(data);
-        if(data.totals.users > 500)
-        {
-            var html = Mustache.render(templates.warningMessage, {analysis_method:"Users", total:data.totals.users, allFunction:"usersGetAll()"});
-            $("#users-message").html(html);
-        }
-        else
-        {
-            $("#users-message").hide();
-        }
+        $("#users-message").hide();
     }
 })
-
-function usersGetAll()
-{
-    $("#users-message").html(loadingHTML);
-    $.get(
-    {
-        url: window.location.origin + window.location.pathname + "json/" + "users" + window.location.search,
-        success: function (data) {
-            renderUsersPage(data);
-            $("#users-message").hide();
-        },
-        error: function () {
-            var html = Mustache.render(templates.errorMessage);
-            $("#users-message").html(html);
-        }
-    })
-}
 
 function renderUsersPage(data)
 {
@@ -52,13 +27,12 @@ function renderUsersPage(data)
         row.push(data.results[user].activitydays);
 
         dataList.push(row);
-         //institute:, field:, methods:, datasets:, accesses:, size:, activitydays:});
     }
 
     totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
     
-    $("#usersTable").DataTable({
-        data: dataList,
+    table = $("#usersTable").DataTable({
+        retrieve: true,
         columns: [
             { title: "User" },
             { title: "Country" },
@@ -76,6 +50,10 @@ function renderUsersPage(data)
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
     })
+
+    table.clear();
+    table.rows.add(dataList);
+    table.draw();
     
     $("#usersTableTotals").html(totals);
 }
