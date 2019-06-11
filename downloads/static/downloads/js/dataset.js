@@ -28,15 +28,15 @@ function renderDatasetPage(data)
         dataDict.datasets.push(dataset);
         row.push(dataset);
         dataDict.users.push(data.results[dataset].users);
-        row.push(data.results[dataset].users);
+        row.push(data.results[dataset].users.toLocaleString());
         dataDict.methods.push(data.results[dataset].methods);
-        row.push(data.results[dataset].methods);
+        row.push(data.results[dataset].methods.toLocaleString());
         dataDict.accesses.push(data.results[dataset].accesses);
-        row.push(data.results[dataset].accesses);
+        row.push(data.results[dataset].accesses.toLocaleString());
         dataDict.size.push(data.results[dataset].size);
         row.push(formatBytes(data.results[dataset].size));
         dataDict.activitydays.push(data.results[dataset].activitydays);
-        row.push(data.results[dataset].activitydays);
+        row.push(data.results[dataset].activitydays.toLocaleString());
 
         dataList.push(row);
     }

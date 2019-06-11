@@ -33,17 +33,17 @@ function renderTimelinePage(data)
         dataDict.size.push(data.results[day].size);
         row.push(formatBytes(data.results[day].size));
         dataDict.datasets.push(data.results[day].datasets);
-        row.push(data.results[day].datasets);
+        row.push(data.results[day].datasets.toLocaleString());
         dataDict.deposits.push(data.results[day].deposits);
-        row.push(data.results[day].deposits);
+        row.push(data.results[day].deposits.toLocaleString());
         dataDict.directories.push(data.results[day].mkdir);
-        row.push(data.results[day].mkdir);
+        row.push(data.results[day].mkdir.toLocaleString());
         dataDict.symlinks.push(data.results[day].symlink);
-        row.push(data.results[day].symlink);
+        row.push(data.results[day].symlink.toLocaleString());
         dataDict.removedDirs.push(data.results[day].rmdir);
-        row.push(data.results[day].rmdir);
+        row.push(data.results[day].rmdir.toLocaleString());
         dataDict.removedFiles.push(data.results[day].remove);
-        row.push(data.results[day].remove);
+        row.push(data.results[day].remove.toLocaleString());
 
         dataList.push(row);
     }

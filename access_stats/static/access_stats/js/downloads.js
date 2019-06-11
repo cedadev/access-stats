@@ -27,15 +27,15 @@ function renderMethodsPage(data)
         dataDict.methods.push(method);
         row.push(method);
         dataDict.users.push(data.results[method].users);
-        row.push(data.results[method].users);
+        row.push(data.results[method].users.toLocaleString());
         dataDict.datasets.push(data.results[method].datasets);
-        row.push(data.results[method].datasets);
+        row.push(data.results[method].datasets.toLocaleString());
         dataDict.accesses.push(data.results[method].accesses);
-        row.push(data.results[method].accesses);
+        row.push(data.results[method].accesses.toLocaleString());
         dataDict.size.push(data.results[method].size);
         row.push(formatBytes(data.results[method].size));
         dataDict.activitydays.push(data.results[method].activitydays);
-        row.push(data.results[method].activitydays);
+        row.push(data.results[method].activitydays.toLocaleString());
 
         dataList.push(row);
     }

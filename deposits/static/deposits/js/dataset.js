@@ -31,17 +31,17 @@ function renderDatasetPage(data)
         dataDict.size.push(data.results[dataset].size);
         row.push(formatBytes(data.results[dataset].size));
         dataDict.datasets.push(data.results[dataset].datasets);
-        row.push(data.results[dataset].datasets);
+        row.push(data.results[dataset].datasets.toLocaleString());
         dataDict.deposits.push(data.results[dataset].deposits);
-        row.push(data.results[dataset].deposits);
+        row.push(data.results[dataset].deposits.toLocaleString());
         dataDict.directories.push(data.results[dataset].mkdir);
-        row.push(data.results[dataset].mkdir);
+        row.push(data.results[dataset].mkdir.toLocaleString());
         dataDict.symlinks.push(data.results[dataset].symlink);
-        row.push(data.results[dataset].symlink);
+        row.push(data.results[dataset].symlink.toLocaleString());
         dataDict.removedDirs.push(data.results[dataset].rmdir);
-        row.push(data.results[dataset].rmdir);
+        row.push(data.results[dataset].rmdir.toLocaleString());
         dataDict.removedFiles.push(data.results[dataset].remove);
-        row.push(data.results[dataset].remove);
+        row.push(data.results[dataset].remove.toLocaleString());
         
         dataList.push(row);
     }
