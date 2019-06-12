@@ -40,7 +40,7 @@ function renderMethodsPage(data)
         dataList.push(row);
     }
     
-    totals = Mustache.render(templates.downloadsTableTotals, {totals:"Totals", users:data.totals.users, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    totals = Mustache.render(templates.downloadsTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
     
     $("#downloadsTable").DataTable({
         data: dataList,

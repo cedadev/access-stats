@@ -45,7 +45,7 @@ function renderDatasetPage(data)
         
         dataList.push(row);
     }
-    totals = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+    totals = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets.toLocaleString(), deposits:data.totals.deposits.toLocaleString(), directories:data.totals.mkdir.toLocaleString(), symlinks:data.totals.symlink.toLocaleString(), removedDirs:data.totals.rmdir.toLocaleString(), removedFiles:data.totals.remove.toLocaleString()});
 
     $("#datasetTable").DataTable({
         data: dataList,
@@ -89,7 +89,7 @@ function renderDatasetPage(data)
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
     datasetTabs = ["datasetTabSize", "datasetTabDatasets", "datasetTabDeposits", "datasetTabDirectories", "datasetTabSymlinks", "datasetTabRmdir", "datasetTabRemoved"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (datasetTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -140,47 +140,47 @@ function makeDatasetChart(dataDict)
     $("#datasetChartBox").html(html);
     var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
             labels: dataDict.name,
             datasets: [{
-                label: 'size',
+                label: "size",
                 data: dataDict.size,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of datasets',
+                label: "# of datasets",
                 data: dataDict.datasets,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of deposits',
+                label: "# of deposits",
                 data: dataDict.deposits,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of directories',
+                label: "# of directories",
                 data: dataDict.directories,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of symlinks',
+                label: "# of symlinks",
                 data: dataDict.symlinks,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of removed directories',
+                label: "# of removed directories",
                 data: dataDict.removedDirs,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of removed files',
+                label: "# of removed files",
                 data: dataDict.removedFiles,
                 borderWidth: 0,
                 hidden: true
@@ -194,7 +194,7 @@ function makeDatasetChart(dataDict)
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Paired12'
+                    scheme: "brewer.Paired12"
                 }
             }
         }

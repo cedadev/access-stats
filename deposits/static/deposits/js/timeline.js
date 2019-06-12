@@ -48,7 +48,7 @@ function renderTimelinePage(data)
         dataList.push(row);
     }
 
-    totals = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets, deposits:data.totals.deposits, directories:data.totals.mkdir, symlinks:data.totals.symlink, removedDirs:data.totals.rmdir, removedFiles:data.totals.remove});
+    totals = Mustache.render(templates.tableTotals, {totals:"Totals", size:formatBytes(data.totals.size), datasets:data.totals.datasets.toLocaleString(), deposits:data.totals.deposits.toLocaleString(), directories:data.totals.mkdir.toLocaleString(), symlinks:data.totals.symlink.toLocaleString(), removedDirs:data.totals.rmdir.toLocaleString(), removedFiles:data.totals.remove.toLocaleString()});
     
     $("#timelineTable").DataTable({
         data: dataList,

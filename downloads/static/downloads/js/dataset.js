@@ -41,7 +41,7 @@ function renderDatasetPage(data)
         dataList.push(row);
     }
 
-    totals = Mustache.render(templates.datasetTableTotals, {totals:"Totals", users:data.totals.users, methods:data.totals.methods, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    totals = Mustache.render(templates.datasetTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), methods:data.totals.methods.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
     
     table = $("#datasetTable").DataTable({
         retrieve: true,
@@ -87,7 +87,7 @@ function renderDatasetPage(data)
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
     datasetTabs = ["datasetTabUsers", "datasetTabAccesses", "datasetTabSize", "datasetTabActivitydays"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (datasetTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -126,29 +126,29 @@ function makeDatasetChart(dataDict)
     $("#datasetChartBox").html(html);
     var datasetChartElement = $("#datasetChart");
     var datasetChart = new Chart(datasetChartElement, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
             labels: dataDict.datasets,
             datasets: [{
-                label: '# of users',
+                label: "# of users",
                 data: dataDict.users,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of accesses',
+                label: "# of accesses",
                 data: dataDict.accesses,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: 'size',
+                label: "size",
                 data: dataDict.size,
                 borderWidth: 0,
                 hidden: true
             },
             {
-                label: '# of activity days',
+                label: "# of activity days",
                 data: dataDict.activitydays,
                 borderWidth: 0,
                 hidden: true
@@ -162,7 +162,7 @@ function makeDatasetChart(dataDict)
             },
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Paired12'
+                    scheme: "brewer.Paired12"
                 }
             }
         }

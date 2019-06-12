@@ -7,7 +7,7 @@ from downloads.forms import FilterForm
 from common.json_maker_factory import JsonMakerFactory
 from common.file_response_factory import FileResponseFactory
 
-default_404_response = HttpResponseNotFound('<h1>404 - Not found</h1>')
+default_404_response = HttpResponseNotFound("<h1>404 - Not found</h1>")
 
 class IndexView(TemplateView):
     template_name = "downloads/index.html"
@@ -18,7 +18,7 @@ class IndexView(TemplateView):
         else:
             form = FilterForm()
         
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"form": form})
 
 class JsonView(TemplateView):
     def get(self, request, analysis_method):
@@ -26,7 +26,7 @@ class JsonView(TemplateView):
         if analysis_method not in ["methods", "timeline", "dataset",
                                    "user", "users", "trace"] or not form.is_valid():
             return default_404_response
-        return JsonResponse(JsonMakerFactory().get(form.cleaned_data, analysis_method).json(), json_dumps_params={'indent': 2})
+        return JsonResponse(JsonMakerFactory().get(form.cleaned_data, analysis_method).json(), json_dumps_params={"indent": 2})
 
 class TxtView(TemplateView):
     def generate_text_file(self, filters, analysis_method):
