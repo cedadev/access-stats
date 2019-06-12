@@ -29,7 +29,7 @@ function renderUsersPage(data)
         dataList.push(row);
     }
 
-    totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods, datasets:data.totals.datasets, accesses:data.totals.accesses, size:formatBytes(data.totals.size), activitydays:data.totals.activitydays});
+    totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
     
     table = $("#usersTable").DataTable({
         retrieve: true,

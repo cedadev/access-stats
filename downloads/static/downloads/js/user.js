@@ -79,7 +79,7 @@ function renderUserPage(data)
     userChart = updateUserChart(userChart, activeTab, dataDict, labelsDict);
 
     userTabs = ["userTabField", "userTabCountry", "userTabInstituteType", "userTabOdaCountry", "userTabArea"]
-    $('a[data-toggle="tab-sub"]').on('shown.bs.tab', function (e) {
+    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (userTabs.includes(e.target.id))
         {
             activeTab = e.target.id;
@@ -127,7 +127,7 @@ function makeUserChart(activeTab, dataDict, labelsDict)
     $("#userChartBox").html(html);
     var userChartElement = $("#userChart");
     var userChart = new Chart(userChartElement, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
             labels: activeLabels,
             datasets: [{
@@ -139,7 +139,7 @@ function makeUserChart(activeTab, dataDict, labelsDict)
             responsive: true,
             plugins: {
                 colorschemes: {
-                    scheme: 'brewer.Paired12'
+                    scheme: "brewer.Paired12"
                 }
             },
             tooltips: {
@@ -150,7 +150,7 @@ function makeUserChart(activeTab, dataDict, labelsDict)
                     var total = meta.total;
                     var currentValue = dataset.data[tooltipItem.index];
                     var percentage = parseFloat((currentValue/total*100).toFixed(1));
-                    return currentValue + ' (' + percentage + '%)';
+                    return currentValue + " (" + percentage + "%)";
                   },
                   title: function(tooltipItem, data) {
                     return data.labels[tooltipItem[0].index];
