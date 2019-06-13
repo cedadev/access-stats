@@ -45,22 +45,15 @@ class JsonMaker:
             if bucket["key"] == identifier:
                 return bucket["doc_count"]
 
-    def get_activity_days_scroll(self, response, field, identifier):
-        while response["aggregations"]["group_by"]["buckets"] != []:
-            for bucket in response["aggregations"]["group_by"]["buckets"]:
-                if bucket["key"][field] == identifier[field]:
-                    return bucket["doc_count"]
-            after_key = response["aggregations"]["group_by"]["after_key"]
-            response = self.get_elasticsearch_response(after_key = after_key, activity_days=True)
-
-    def setup_activity_days_dict(self, field):
-        self.activity_days_dict = {}
+    def get_activity_days_dict(self, field):
+        activity_days_dict = {}
         response = self.get_elasticsearch_response(after_key=0, activity_days=True)
         while response["aggregations"]["group_by"]["buckets"] != []:
             for bucket in response["aggregations"]["group_by"]["buckets"]:
-                self.activity_days_dict[bucket["key"][field]] = bucket["doc_count"]
+                activity_days_dict[bucket["key"][field]] = bucket["doc_count"]
             after_key = response["aggregations"]["group_by"]["after_key"]
             response = self.get_elasticsearch_response(after_key = after_key, activity_days=True)
+        return activity_days_dict
 
     def get_title(self):
         return NotImplementedError

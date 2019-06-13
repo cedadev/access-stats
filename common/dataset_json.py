@@ -5,7 +5,7 @@ class DatasetJson(JsonMaker):
         return "Summary of downloads from CEDA archive by dataset"
 
     def _populate_json(self):
-        self.setup_activity_days_dict("dataset")
+        activity_days_dict = self.get_activity_days_dict("dataset")
         response = self.get_elasticsearch_response(after_key = 0)
         self.generated_json["totals"] = {}
         self.generated_json["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
@@ -23,7 +23,7 @@ class DatasetJson(JsonMaker):
                 self.generated_json["results"][result["key"]["dataset"]]["methods"] = result["number_of_methods"]["value"]
                 self.generated_json["results"][result["key"]["dataset"]]["accesses"] = result["doc_count"]
                 self.generated_json["results"][result["key"]["dataset"]]["size"] = result["total_size"]["value"]
-                activity_days = self.activity_days_dict.get(result["key"]["dataset"], 0)
+                activity_days = activity_days_dict.get(result["key"]["dataset"], 0)
                 self.generated_json["results"][result["key"]["dataset"]]["activitydays"] = activity_days
                 self.generated_json["totals"]["activitydays"] += activity_days
 
