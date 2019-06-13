@@ -8,6 +8,9 @@ from setuptools import setup, find_packages
 with open("README.md") as readme_file:
     _long_description = readme_file.read()
 
+with open("requirements.txt") as requirements_file:
+    _requirements = requirements_file.readlines()
+
 setup(
     name='access-stats',
     version='0.1.0',
@@ -20,9 +23,7 @@ setup(
     license='BSD - See LICENSE file for details',
     packages=find_packages(),
     python_requires='>=3.0',
-    install_requires=[
-        'django',
-    ],
+    install_requires=_requirements,
     # See:
     # https://www.python.org/dev/peps/pep-0301/#distutils-trove-classification
     classifiers=[
