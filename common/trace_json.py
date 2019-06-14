@@ -4,6 +4,9 @@ class TraceJson(JsonMaker):
     def get_title(self):
         return "List of logs within filter"
 
+    def index(self):
+        return "main"
+
     def _populate_json(self):
         response = self.get_elasticsearch_response()
         self.generated_json["logs"] = []

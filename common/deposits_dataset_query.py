@@ -15,7 +15,7 @@ class DepositsDatasetQuery(DepositsQueryBuilder, DatasetQuery):
         self.generated_aggs["group_by"]["composite"]["sources"].append({
             "dataset": {
                 "terms": {
-                    "field": "dataset.keyword"
+                    "field": "dataset.keyword.terms.value"
                 }
             }
         })
