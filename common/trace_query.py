@@ -6,3 +6,21 @@ class TraceQuery(QueryBuilder):
 
     def update_aggs(self):
         return
+
+    def method(self):
+        return "method.keyword"
+
+    def datetime(self):
+        return "datetime"
+
+    def user(self):
+        return "user.keyword"
+    
+    def dataset(self):
+        return "dataset.keyword"
+    
+    def size(self):
+        return "size"
+
+    def base_aggs(self):
+        return
