@@ -17,7 +17,7 @@ class DepositsQueryBuilder(QueryBuilder):
                     "should": [],
                     "filter": {
                         "range": {
-                            self.get_date_unit(): {
+                            "datetime.date_histogram.timestamp": {
                                 "gte": "2012-01-01",
                                 "lte": "now",
                                 "format": "yyyy-MM-dd"
