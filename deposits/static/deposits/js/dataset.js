@@ -88,7 +88,7 @@ function renderDatasetPage(data)
     }
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
-    datasetTabs = ["datasetTabSize", "datasetTabDatasets", "datasetTabDeposits", "datasetTabDirectories", "datasetTabSymlinks", "datasetTabRmdir", "datasetTabRemoved"]
+    datasetTabs = ["datasetTabSize", "datasetTabDatasets", "datasetTabDeposits", "datasetTabDirectories", "datasetTabSymlinks", "datasetTabRemovedDirectories", "datasetTabRemovedFiles"]
     $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (datasetTabs.includes(e.target.id))
         {
@@ -122,11 +122,11 @@ function updateDatasetChart(chart, activeTab, dataDict)
     {
         chart.data.datasets[4].hidden = false;
     }
-    if(activeTab == "datasetTabRmdir")
+    if(activeTab == "datasetTabRemovedDirectories")
     {
         chart.data.datasets[5].hidden = false;
     }
-    if(activeTab == "datasetTabRemoved")
+    if(activeTab == "datasetTabRemovedFiles")
     {
         chart.data.datasets[6].hidden = false;
     }
