@@ -9,7 +9,6 @@ class TraceJson(JsonMaker):
 
     def _populate_json(self):
         response = self.get_elasticsearch_response()
-        print(response)
         self.generated_json["logs"] = []
         for result in response["hits"]["hits"]:
             try:

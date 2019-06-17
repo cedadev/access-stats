@@ -2,6 +2,9 @@ from common.query_builder import QueryBuilder
 
 
 class DepositsQueryBuilder(QueryBuilder):
+    def operation(self):
+        return "operation.keyword.terms.value"
+
     def base_query(self):
         return {
             "query": {
@@ -9,7 +12,7 @@ class DepositsQueryBuilder(QueryBuilder):
                     "must": [
                         {
                             "match": {
-                                "method": "deposits"
+                                self.method(): "deposits"
                             }
                         }
                     ],
@@ -17,7 +20,7 @@ class DepositsQueryBuilder(QueryBuilder):
                     "should": [],
                     "filter": {
                         "range": {
-                            "datetime.date_histogram.timestamp": {
+                            self.datetime(): {
                                 "gte": "2012-01-01",
                                 "lte": "now",
                                 "format": "yyyy-MM-dd"
@@ -33,13 +36,13 @@ class DepositsQueryBuilder(QueryBuilder):
 
     def update_filters(self):
         if self.filters["start"]:
-            self.generated_query["query"]["bool"]["filter"]["range"]["datetime"]["gte"] = self.filters["start"]
+            self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["gte"] = self.filters["start"]
         if self.filters["end"]:
-            self.generated_query["query"]["bool"]["filter"]["range"]["datetime"]["lte"] = self.filters["end"]
+            self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["lte"] = self.filters["end"]
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
                         "match_phrase_prefix": {
-                            "dataset": self.filters["dataset"]
+                            self.dataset(): self.filters["dataset"]
                         }
                     })
 
@@ -47,28 +50,28 @@ class DepositsQueryBuilder(QueryBuilder):
         self.generated_query["aggs"].update({
             "grand_total_size": {
                 "sum": {
-                    "field": "size"
+                    "field": self.size()
                 }
             },
             "grand_total_datasets": {
                 "cardinality": {
-                    "field": "dataset.keyword"
+                    "field": self.dataset()
                 }
             },
             "grand_total_deposits": {
-                "filter": { "term": { "operation.keyword": "DEPOSIT" }}
+                "filter": { "term": { self.operation(): "DEPOSIT" }}
             },
             "grand_total_mkdir": {
-                "filter": { "term": { "operation.keyword": "MKDIR" }}
+                "filter": { "term": { self.operation(): "MKDIR" }}
             },
             "grand_total_symlink": {
-                "filter": { "term": { "operation.keyword": "SYMLINK" }}
+                "filter": { "term": { self.operation(): "SYMLINK" }}
             },
             "grand_total_rmdir": {
-                "filter": { "term": { "operation.keyword": "RMDIR" }}
+                "filter": { "term": { self.operation(): "RMDIR" }}
             },
             "grand_total_remove": {
-                "filter": { "term": { "operation.keyword": "REMOVE" }}
+                "filter": { "term": { self.operation(): "REMOVE" }}
             }
         })
 
@@ -78,28 +81,28 @@ class DepositsQueryBuilder(QueryBuilder):
                 "aggs": {
                     "total_size": {
                         "sum": {
-                            "field": "size"
+                            "field": self.size()
                         }
                     },
                     "number_of_datasets": {
                         "cardinality": {
-                            "field": "dataset.keyword"
+                            "field": self.dataset()
                         }
                     },
                     "number_of_deposits": {
-                        "filter": { "term": { "operation.keyword": "DEPOSIT" }}
+                        "filter": { "term": { self.operation(): "DEPOSIT" }}
                     },
                     "number_of_mkdir": {
-                        "filter": { "term": { "operation.keyword": "MKDIR" }}
+                        "filter": { "term": { self.operation(): "MKDIR" }}
                     },
                     "number_of_symlink": {
-                        "filter": { "term": { "operation.keyword": "SYMLINK" }}
+                        "filter": { "term": { self.operation(): "SYMLINK" }}
                     },
                     "number_of_rmdir": {
-                        "filter": { "term": { "operation.keyword": "RMDIR" }}
+                        "filter": { "term": { self.operation(): "RMDIR" }}
                     },
                     "number_of_remove": {
-                        "filter": { "term": { "operation.keyword": "REMOVE" }}
+                        "filter": { "term": { self.operation(): "REMOVE" }}
                     }
                 }
             }
