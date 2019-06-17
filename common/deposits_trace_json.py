@@ -1,9 +1,6 @@
-from common.json_maker import JsonMaker
+from common.trace_json import TraceJson
 
-class DepositsTraceJson(JsonMaker):
-    def get_title(self):
-        return "List of logs within filter"
-
+class DepositsTraceJson(TraceJson):
     def _populate_json(self):
         response = self.get_elasticsearch_response(deposits=True)
         self.generated_json["logs"] = []
