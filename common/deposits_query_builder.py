@@ -41,8 +41,10 @@ class DepositsQueryBuilder(QueryBuilder):
             self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["lte"] = self.filters["end"]
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
-                        "match_phrase_prefix": {
-                            self.dataset(): self.filters["dataset"]
+                        "wildcard": {
+                            self.dataset(): {
+                                "value": f'*{self.filters["dataset"]}*'
+                            }
                         }
                     })
 

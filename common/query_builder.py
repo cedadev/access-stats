@@ -69,33 +69,43 @@ class QueryBuilder:
             self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["lte"] = self.filters["end"]
         if self.filters["user"]:
             self.generated_query["query"]["bool"]["must"].append({
-                        "match_phrase": {
-                            self.user(): self.filters["user"]
+                        "wildcard": {
+                            self.user(): {
+                                "value": f'*{self.filters["user"]}*'
+                            }
                         }
                     })
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
-                        "match_phrase_prefix": {
-                            self.dataset(): self.filters["dataset"]
+                        "wildcard": {
+                            self.dataset(): {
+                                "value": f'*{self.filters["dataset"]}*'
+                            }
                         }
                     })
         if self.filters["method"]:
             self.generated_query["query"]["bool"]["must"].append({
-                        "match_phrase": {
-                            self.method(): self.filters["method"]
+                        "wildcard": {
+                            self.method(): {
+                                "value": f'*{self.filters["method"]}*'
+                            }
                         }
                     })
         if self.filters["anon"]:
             if self.filters["anon"] == "anon":
                 self.generated_query["query"]["bool"]["must"].append({
-                            "match_phrase_prefix": {
-                                self.user(): "anonymous@"
+                            "wildcard": {
+                                self.user(): {
+                                    "value": "anonymous@*"
+                                }
                             }
                         })
             if self.filters["anon"] == "non-anon":
                 self.generated_query["query"]["bool"]["must_not"].append({
-                            "match_phrase_prefix": {
-                                self.user(): "anonymous@"
+                            "wildcard": {
+                                self.user(): {
+                                    "value": "anonymous@*"
+                                }
                             }
                         })
 
