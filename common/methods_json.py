@@ -6,7 +6,6 @@ class MethodsJson(JsonMaker):
 
     def _populate_json(self):
         response = self.get_elasticsearch_response()
-        print(response)
         self.generated_json["totals"] = {}
         self.generated_json["totals"]["users"] = response["aggregations"]["grand_total_users"]["value"]
         self.generated_json["totals"]["methods"] = response["aggregations"]["grand_total_methods"]["value"]
