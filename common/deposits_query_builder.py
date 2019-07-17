@@ -41,12 +41,12 @@ class DepositsQueryBuilder(QueryBuilder):
             self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["lte"] = self.filters["end"]
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
-                        "wildcard": {
-                            self.dataset(): {
-                                "value": f'*{self.filters["dataset"]}*'
-                            }
-                        }
-                    })
+                "wildcard": {
+                    self.dataset(): {
+                        "value": f'*{self.filters["dataset"]}*'
+                    }
+                }
+            })
 
     def grand_totals(self):
         self.generated_query["aggs"].update({
@@ -60,20 +60,18 @@ class DepositsQueryBuilder(QueryBuilder):
                     "field": self.dataset()
                 }
             },
-            "grand_total_deposits": {
-                "filter": { "term": { self.operation(): "DEPOSIT" }}
-            },
-            "grand_total_mkdir": {
-                "filter": { "term": { self.operation(): "MKDIR" }}
-            },
-            "grand_total_symlink": {
-                "filter": { "term": { self.operation(): "SYMLINK" }}
-            },
-            "grand_total_rmdir": {
-                "filter": { "term": { self.operation(): "RMDIR" }}
-            },
-            "grand_total_remove": {
-                "filter": { "term": { self.operation(): "REMOVE" }}
+            "grand_total_operations": {
+                "terms": {
+                    "field": "operation.keyword.terms.value",
+                    "size": 30
+                },
+                "aggs": {
+                    "amount": {
+                        "sum": {
+                            "field": "operation.keyword.terms._count"
+                        }
+                    }
+                }
             }
         })
 
@@ -91,20 +89,18 @@ class DepositsQueryBuilder(QueryBuilder):
                             "field": self.dataset()
                         }
                     },
-                    "number_of_deposits": {
-                        "filter": { "term": { self.operation(): "DEPOSIT" }}
-                    },
-                    "number_of_mkdir": {
-                        "filter": { "term": { self.operation(): "MKDIR" }}
-                    },
-                    "number_of_symlink": {
-                        "filter": { "term": { self.operation(): "SYMLINK" }}
-                    },
-                    "number_of_rmdir": {
-                        "filter": { "term": { self.operation(): "RMDIR" }}
-                    },
-                    "number_of_remove": {
-                        "filter": { "term": { self.operation(): "REMOVE" }}
+                    "total_operations": {
+                        "terms": {
+                            "field": "operation.keyword.terms.value",
+                            "size": 20
+                        },
+                        "aggs": {
+                            "amount": {
+                                "sum": {
+                                    "field": "operation.keyword.terms._count"
+                                }
+                            }
+                        }
                     }
                 }
             }
