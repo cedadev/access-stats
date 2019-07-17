@@ -9,11 +9,12 @@ class DepositsTimelineJson(JsonMaker):
         self.generated_json["totals"] = {}
         self.generated_json["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
         self.generated_json["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
-        self.generated_json["totals"]["deposits"] = response["aggregations"]["grand_total_deposits"]["doc_count"]
-        self.generated_json["totals"]["mkdir"] = response["aggregations"]["grand_total_mkdir"]["doc_count"]
-        self.generated_json["totals"]["symlink"] = response["aggregations"]["grand_total_symlink"]["doc_count"]
-        self.generated_json["totals"]["rmdir"] = response["aggregations"]["grand_total_rmdir"]["doc_count"]
-        self.generated_json["totals"]["remove"] = response["aggregations"]["grand_total_remove"]["doc_count"]
+        operations = self.extract_operations(response["aggregations"]["grand_total_operations"]["buckets"])
+        self.generated_json["totals"]["deposits"] = operations["deposits"]
+        self.generated_json["totals"]["mkdir"] = operations["mkdir"]
+        self.generated_json["totals"]["symlink"] = operations["symlink"]
+        self.generated_json["totals"]["rmdir"] = operations["rmdir"]
+        self.generated_json["totals"]["remove"] = operations["remove"]
 
         self.generated_json["results"] = {}
         for result in response["aggregations"]["group_by"]["buckets"]:
@@ -23,8 +24,30 @@ class DepositsTimelineJson(JsonMaker):
             self.generated_json["results"][day] = {}
             self.generated_json["results"][day]["size"] = result["total_size"]["value"]
             self.generated_json["results"][day]["datasets"] = result["number_of_datasets"]["value"]
-            self.generated_json["results"][day]["deposits"] = result["number_of_deposits"]["doc_count"]
-            self.generated_json["results"][day]["mkdir"] = result["number_of_mkdir"]["doc_count"]
-            self.generated_json["results"][day]["symlink"] = result["number_of_symlink"]["doc_count"]
-            self.generated_json["results"][day]["rmdir"] = result["number_of_rmdir"]["doc_count"]
-            self.generated_json["results"][day]["remove"] = result["number_of_remove"]["doc_count"]
+            operations = self.extract_operations(result["total_operations"]["buckets"])
+            self.generated_json["results"][day]["deposits"] = operations["deposits"]
+            self.generated_json["results"][day]["mkdir"] = operations["mkdir"]
+            self.generated_json["results"][day]["symlink"] = operations["symlink"]
+            self.generated_json["results"][day]["rmdir"] = operations["rmdir"]
+            self.generated_json["results"][day]["remove"] = operations["remove"]
+
+    def extract_operations(self, buckets):
+        operations = {
+            "deposits": 0,
+            "mkdir": 0,
+            "symlink": 0,
+            "rmdir": 0,
+            "remove": 0
+        }
+        for bucket in buckets:
+            if bucket["key"] == "DEPOSIT":
+                operations["deposits"] = bucket["amount"]["value"]
+            elif bucket["key"] == "MKDIR":
+                operations["mkdir"] = bucket["amount"]["value"]
+            elif bucket["key"] == "SYMLINK":
+                operations["symlink"] = bucket["amount"]["value"]
+            elif bucket["key"] == "RMDIR":
+                operations["rmdir"] = bucket["amount"]["value"]
+            elif bucket["key"] == "REMOVE":
+                operations["remove"] = bucket["amount"]["value"]
+        return operations
