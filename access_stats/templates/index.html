@@ -1,0 +1,137 @@
+{% extends "fwtheme_django/layout.html" %}
+
+{% load staticfiles %}
+
+{% block stylesheets_extra %}
+<link rel="shortcut icon" href="{% static 'access_stats/favicon.ico' %}">
+{% endblock %}
+
+{% block head_title %}
+Access stats
+{% endblock %}
+
+{% block page_title %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-10">
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card border-primary">
+                    <div class="row no-gutters">
+                        <div class="col-auto bg-primary">
+                            <span class="fa-stack fa-2x" style="font-size:6vw">
+                                <i class="fas fa-square fa-stack-2x text-primary"></i>
+                                <i class="fas fa-hdd fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <a href="http://stats.ceda.ac.uk/ingest_state/index.html?namefilter=&owner=&reclen=30&ingest1=on&ingest2=on&ingest3=on&running=on&warn=on&fail=on&killed=on&died=on" class="stretched-link"></a>
+                        </div>
+                        <div class="col">
+                            <div class="card-block px-2">
+                                <h3 class="card-title mt-2"><b>Ingest</b></h3>
+                                <p class="card-text">
+                                    CEDA Ingest Stream state app
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card border-primary">
+                    <div class="row no-gutters">
+                        <div class="col-auto bg-primary">
+                            <span class="fa-stack fa-2x" style="font-size:6vw">
+                                <i class="fas fa-square fa-stack-2x text-primary"></i>
+                                <i class="fas fa-hdd fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <a href="http://cedaarchiveapp.ceda.ac.uk/admin/login/?next=/admin/cedaarchiveapp/partition/" class="stretched-link"></a>
+                        </div>
+                        <div class="col">
+                            <div class="card-block px-2">
+                                <h3 class="card-title mt-2"><b>Archive</b></h3>
+                                <p class="card-text">
+                                    CEDA Archive app
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card border-primary">
+                    <div class="row no-gutters">
+                        <div class="col-auto bg-primary">
+                            <span class="fa-stack fa-2x" style="font-size:6vw">
+                                <i class="fas fa-square fa-stack-2x text-primary"></i>
+                                <i class="fas fa-download fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <a href="downloads" class="stretched-link"></a>
+                        </div>
+                        <div class="col">
+                            <div class="card-block px-2">
+                                <h3 class="card-title mt-2"><b>Download stats</b></h3>
+                                <div class="card-text">
+                                    <table class="table-sm compact" id="downloadsTable" style="width:100%">
+                                        <tfoot id="downloadsTableTotals">
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card border-primary">
+                    <div class="row no-gutters">
+                        <div class="col-auto bg-primary">
+                            <span class="fa-stack fa-2x" style="font-size:6vw">
+                                <i class="fas fa-square fa-stack-2x text-primary"></i>
+                                <i class="fas fa-upload fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <a href="deposits" class="stretched-link"></a>
+                        </div>
+                        <div class="col">
+                            <div class="card-block px-2">
+                                <h3 class="card-title mt-2"><b>Deposit stats</b></h3>
+                                <div class="card-text">
+                                    <table class="table-sm compact" id="depositsTable" style="width:100%">
+                                        <tfoot id="depositsTableTotals">
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block tail_js_extra %}
+<script type="text/javascript" src="{% static 'downloads/js/mustache.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'downloads/js/date.js'%}"></script>
+<script type="text/javascript" src="{% static 'access_stats/js/templates.js'%}"></script>
+<script type="text/javascript" src="{% static 'access_stats/js/access_stats.js'%}"></script>
+<script type="text/javascript" src="{% static 'access_stats/js/downloads.js'%}"></script>
+<script type="text/javascript" src="{% static 'access_stats/js/deposits.js'%}"></script>
+<script type="text/javascript" src="{% static 'access_stats/js/dataTables-combined.js'%}"></script>
+
+{% endblock %}
