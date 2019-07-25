@@ -3,7 +3,7 @@ var nextYear = currentYear + 1;
 
 $.get(
 {
-    url: window.location.origin + "/deposits/json/timeline?start=${currentYear}%2F01%2F01&end=${nextYear}%2F01%2F01&dataset=",
+    url: window.location.origin + `/deposits/json/timeline?start=${currentYear}%2F01%2F01&end=${nextYear}%2F01%2F01&dataset=`,
     success: function(data) 
     {
         renderTimelinePage(data);
