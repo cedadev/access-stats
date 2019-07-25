@@ -1,6 +1,9 @@
+var currentYear = new Date().getFullYear();
+var nextYear = currentYear + 1;
+
 $.get(
 {
-    url: window.location.origin + "/downloads/json/methods?start=2019%2F01%2F01&end=2020%2F01%2F01&user=&dataset=&method=&anon=all",
+    url: window.location.origin + "/downloads/json/methods?start=${currentYear}%2F01%2F01&end=${nextYear}%2F01%2F01&user=&dataset=&method=&anon=all",
     success: function(data) 
     {
         renderMethodsPage(data);
