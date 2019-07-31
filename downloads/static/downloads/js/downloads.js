@@ -1,10 +1,11 @@
 // On default page load, get values in filters and add them to query in url
-// TODO: Convert date safely
 if (!window.location.search)
 {
-    var start = $("#id_start").val()
-    var end = $("#id_end").val()
-    window.history.replaceState("default", "Title", window.location.pathname + "?start=" + start + "&end=" + end + "&user=&dataset=&method=&anon=all");
+    var start = encodeURIComponent($("#id_start").val());
+    var end = encodeURIComponent($("#id_end").val());
+    var url = window.location.pathname + "?start=" + start + "&end=" + end + "&user=&dataset=&method=&anon=all";
+    window.history.replaceState("default", "Title", url);
+    location.reload(); 
 }
 
 // Sets up template for loading bar
