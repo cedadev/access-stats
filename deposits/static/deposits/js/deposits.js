@@ -1,9 +1,11 @@
 // On default page load, get values in filters and add them to query in url
 if (!window.location.search)
 {
-    var start = $("#id_start").val()
-    var end = $("#id_end").val()
-    window.history.replaceState("default", "Title", window.location.pathname + "?start=" + start + "&end=" + end + "&dataset=");
+    var start = encodeURIComponent($("#id_start").val());
+    var end = encodeURIComponent($("#id_end").val());
+    var url = window.location.pathname + "?start=" + start + "&end=" + end + "&dataset=";
+    window.history.replaceState("default", "Title", url);
+    window.location.href = window.location.href;
 }
 
 // Sets up template for loading bar

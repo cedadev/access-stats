@@ -5,7 +5,7 @@ if (!window.location.search)
     var end = encodeURIComponent($("#id_end").val());
     var url = window.location.pathname + "?start=" + start + "&end=" + end + "&user=&dataset=&method=&anon=all";
     window.history.replaceState("default", "Title", url);
-    location.reload(); 
+    window.location.href = window.location.href;
 }
 
 // Sets up template for loading bar
