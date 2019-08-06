@@ -67,14 +67,15 @@ class QueryBuilder:
             self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["gte"] = self.filters["start"]
         if self.filters["end"]:
             self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["lte"] = self.filters["end"]
-        if self.filters["user"]:
-            self.generated_query["query"]["bool"]["must"].append({
-                        "wildcard": {
-                            self.user(): {
-                                "value": f'*{self.filters["user"]}*'
+        if "user" in self.filters:
+            if self.filters["user"]:
+                self.generated_query["query"]["bool"]["must"].append({
+                            "wildcard": {
+                                self.user(): {
+                                    "value": f'*{self.filters["user"]}*'
+                                }
                             }
-                        }
-                    })
+                        })
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
                         "wildcard": {
