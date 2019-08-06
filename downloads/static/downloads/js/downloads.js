@@ -3,7 +3,16 @@ if (!window.location.search)
 {
     var start = encodeURIComponent($("#id_start").val());
     var end = encodeURIComponent($("#id_end").val());
-    var url = window.location.pathname + "?start=" + start + "&end=" + end + "&user=&dataset=&method=&anon=all";
+    var private = $("#id_user").length > 0;
+    if (private)
+    {
+        var user = "&user=";
+    }
+    else
+    {
+        var user = "";
+    }
+    var url = window.location.pathname + "?start=" + start + "&end=" + end + user + "&dataset=&method=&anon=all";
     window.history.replaceState("default", "Title", url);
     window.location.href = window.location.href;
 }

@@ -32,13 +32,14 @@ class UserQuery(QueryBuilder):
         self.generated_aggs["group_by_institute_type"]["aggs"]["users"]["cardinality"] = {}
         self.generated_aggs["group_by_institute_type"]["aggs"]["users"]["cardinality"]["field"] = "user.keyword.terms.value"
 
-        self.generated_aggs["group_by_oda_type"] = {}
-        self.generated_aggs["group_by_oda_type"]["terms"] = {}
-        self.generated_aggs["group_by_oda_type"]["terms"]["field"] = "user_data.oda_country.keyword.terms.value"
-        self.generated_aggs["group_by_oda_type"]["aggs"] = {}
-        self.generated_aggs["group_by_oda_type"]["aggs"]["users"] = {}
-        self.generated_aggs["group_by_oda_type"]["aggs"]["users"]["cardinality"] = {}
-        self.generated_aggs["group_by_oda_type"]["aggs"]["users"]["cardinality"]["field"] = "user.keyword.terms.value"
+        if "user" in self.filters:
+            self.generated_aggs["group_by_oda_type"] = {}
+            self.generated_aggs["group_by_oda_type"]["terms"] = {}
+            self.generated_aggs["group_by_oda_type"]["terms"]["field"] = "user_data.oda_country.keyword.terms.value"
+            self.generated_aggs["group_by_oda_type"]["aggs"] = {}
+            self.generated_aggs["group_by_oda_type"]["aggs"]["users"] = {}
+            self.generated_aggs["group_by_oda_type"]["aggs"]["users"]["cardinality"] = {}
+            self.generated_aggs["group_by_oda_type"]["aggs"]["users"]["cardinality"]["field"] = "user.keyword.terms.value"
 
         self.generated_aggs["group_by_area"] = {}
         self.generated_aggs["group_by_area"]["terms"] = {}
