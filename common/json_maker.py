@@ -50,6 +50,9 @@ class JsonMaker:
             return total_response['value']
         else:
             query = self.get_elasticsearch_query()
+            query.pop('_source', None)
+            query.pop('aggs', None)
+            query.pop('size', None)
             return self.es.count(index=self.index, body=query)['count']
 
     def get_elasticsearch_response(self, after_key=None, deposits=False):
