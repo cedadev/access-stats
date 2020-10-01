@@ -12,7 +12,7 @@ class UsersJson(JsonMaker):
         self.generated_json["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         self.generated_json["totals"]["accesses"] = 0
         self.generated_json["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
-        self.generated_json["totals"]["activitydays"] = response["hits"]["total"]
+        self.generated_json["totals"]["activitydays"] = self.get_activity_days(response["hits"]["total"])
 
         self.generated_json["results"] = {}
         while response["aggregations"]["group_by"]["buckets"] != []:
