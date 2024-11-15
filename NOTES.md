@@ -79,4 +79,6 @@ ten datasets can influence work on reducing queries but updating documentation.
 ### EDS Annual reporting
 In May ever year some stats go in the EDS annual reporting. This is generally total downloads number, volume, Estimates of number of 
 users. Likely to have summary by data centre in future years. These are sometimes combinned with metrics from other 
-data centre services.
+data centre services. Caviates are we don't know the JASMIN direct access numbers and these are likely to be subtantially more 
+in terms of volume.
+
