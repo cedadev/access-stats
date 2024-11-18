@@ -71,8 +71,11 @@ ten datasets can influence work on reducing queries but updating documentation.
 
 ## Spesific Access stats requests
 
-### MO for Hadly centre reporting
-(Graham to add sometime here)
+### MO for Hadley centre reporting
+Met Office Hadly Centre Pipeline contract 2024-2027 required quarterly reporting from 2nd week of January onwards. These will be within returns the Met Office have to make to government. We will be required to provide download/access stats for:
+ - HadObs datassets via the CEDA Archive
+ - CMIP data via the CEDA Archive
+Other statistics will be sought from the ESGF interfaces.
 
 ### CCI reporting
 (Alison to add sometime here)
