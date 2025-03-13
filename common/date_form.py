@@ -1,7 +1,7 @@
 from django import forms
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.utils.timezone import now
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 def get_start_date():
@@ -14,14 +14,14 @@ def get_end_date():
 
 class DateForm(forms.Form):
     start = forms.DateField(
-        widget=DatePickerInput(format="%Y/%m/%d"),
+        widget=DatePickerInput(options={"format": "YYYY/MM/DD"}),
         label="Start date:",
         required=False,
         input_formats=["%Y/%m/%d"],
         initial=get_start_date,
     )
     end = forms.DateField(
-        widget=DatePickerInput(format="%Y/%m/%d"),
+        widget=DatePickerInput(options={"format": "YYYY/MM/DD"}),
         label="End date:",
         required=False,
         input_formats=["%Y/%m/%d"],
