@@ -6,7 +6,7 @@ chardet==3.0.4
 cryptography==2.5
 Django==4.2
 django-bootstrap-datepicker-plus==5.0.0
-django-classy-tags==0.8.0
+django-classy-tags>=1.0.0
 django-cookie-law==2.0.1
 elasticsearch==7.9.1
 git+https://github.com/cedadev/fwtheme-django@master#egg=fwtheme_django
@@ -16,7 +16,7 @@ pycparser==2.19
 pyOpenSSL==19.0.0
 PySocks==1.6.8
 pytest-runner==4.4
-python-dateutil==2.8.2
+python-dateutil==2.9.0
 pytz==2018.9
 PyYAML==6.0.1
 pydantic==1.10.8
