@@ -18,7 +18,7 @@ PySocks==1.6.8
 pytest-runner==4.4
 python-dateutil==2.8.2
 pytz==2018.9
-PyYAML==3.13
+PyYAML==6.0.1
 pydantic==1.10.8
 requests==2.31.0
 six==1.16.0
