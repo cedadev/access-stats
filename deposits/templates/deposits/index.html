@@ -63,9 +63,9 @@
                     <div class="dropdown mt-3 ml-3">
                       <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                       <div class="dropdown-menu" aria-labelledby="timelineDropdown">
-                        <a class="dropdown-item" href="{% url 'deposits/json' 'timeline' %}?{{ request.GET.urlencode }}">json</a>
-                        <a class="dropdown-item" href="{% url 'deposits/csv' 'timeline' %}?{{ request.GET.urlencode }}">csv</a>
-                        <a class="dropdown-item" href="{% url 'deposits/xlsx' 'timeline' %}?{{ request.GET.urlencode }}">excel</a>
+                        <a class="dropdown-item" href="{% url 'deposits_json' 'timeline' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'deposits_csv' 'timeline' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'deposits_xlsx' 'timeline' %}?{{ request.GET.urlencode }}">excel</a>
                       </div>
                     </div>
                   </div>
@@ -91,9 +91,9 @@
                     <div class="dropdown mt-3 ml-3">
                       <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                       <div class="dropdown-menu" aria-labelledby="datasetDropdown">
-                        <a class="dropdown-item" href="{% url 'deposits/json' 'dataset' %}?{{ request.GET.urlencode }}">json</a>
-                        <a class="dropdown-item" href="{% url 'deposits/csv' 'dataset' %}?{{ request.GET.urlencode }}">csv</a>
-                        <a class="dropdown-item" href="{% url 'deposits/xlsx' 'dataset' %}?{{ request.GET.urlencode }}">excel</a>
+                        <a class="dropdown-item" href="{% url 'deposits_json' 'dataset' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'deposits_csv' 'dataset' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'deposits_xlsx' 'dataset' %}?{{ request.GET.urlencode }}">excel</a>
                       </div>
                     </div>
                     <div class="d-flex flex-row mt-2">
@@ -137,7 +137,7 @@
               <div class="dropdown mb-2">
                 <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="traceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                 <div class="dropdown-menu" aria-labelledby="traceDropdown">
-                  <a class="dropdown-item" href="{% url 'deposits/txt' 'trace' %}?{{ request.GET.urlencode }}">txt</a>
+                  <a class="dropdown-item" href="{% url 'deposits_txt' 'trace' %}?{{ request.GET.urlencode }}">txt</a>
                 </div>
               </div>
               <div class="row">
