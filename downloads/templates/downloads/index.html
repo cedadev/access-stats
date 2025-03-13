@@ -1,16 +1,16 @@
-{% extends "fwtheme_django/layout.html" %}
+{% extends 'fwtheme_django/layout.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block stylesheets_extra %}
-<link rel="shortcut icon" href="{% static 'access_stats/favicon.ico' %}">
-{{form.media.css}}
-<link rel="stylesheet" type="text/css" href="{% static 'downloads/css/downloads.css' %}">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+  <link rel="shortcut icon" href="{% static 'access_stats/favicon.ico' %}" />
+  {{ form.media.css }}
+  <link rel="stylesheet" type="text/css" href="{% static 'downloads/css/downloads.css' %}" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" />
 {% endblock %}
 
 {% block head_title %}
-Downloads
+  Downloads
 {% endblock %}
 
 {% block page_title %}
@@ -18,334 +18,297 @@ Downloads
 {% endblock %}
 
 {% block content %}
-<div class="row ">
-    <div class="col-xl-11 mx-auto ">
-        <div class="row">
-            <div class="col-xl-3">
-                <form action="{% url 'downloads' %}" method="get">
-                    <div class="col mt-2">
-                        <div class="row">
-                            <div class="col mr-0">
-                                {{ form.start.label_tag }}
-                                {{ form.start }}
-                            </div>
-                            <div class="col ml-0">
-                                {{ form.end.label_tag }}
-                                {{ form.end }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                {{ form.user.label_tag }}
-                                {{ form.user }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                {{ form.dataset.label_tag }}
-                                {{ form.dataset }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                {{ form.method.label_tag }}
-                                {{ form.method }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                {{ form.anon.label_tag }}
-                                {{ form.anon }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary mb-2 mt-2">Filter</button>
-                        </div>
-                    </div>
-                </form>
+  <div class="row">
+    <div class="col-xl-11 mx-auto">
+      <div class="row">
+        <div class="col-xl-3">
+          <form action="{% url 'downloads' %}" method="get">
+            <div class="col mt-2">
+              <div class="row">
+                <div class="col mr-0">{{ form.start.label_tag }}
+                  {{ form.start }}</div>
+                <div class="col ml-0">{{ form.end.label_tag }}
+                  {{ form.end }}</div>
+              </div>
+              <div class="row">
+                <div class="col">{{ form.user.label_tag }}
+                  {{ form.user }}</div>
+              </div>
+              <div class="row">
+                <div class="col">{{ form.dataset.label_tag }}
+                  {{ form.dataset }}</div>
+              </div>
+              <div class="row">
+                <div class="col">{{ form.method.label_tag }}
+                  {{ form.method }}</div>
+              </div>
+              <div class="row">
+                <div class="col">{{ form.anon.label_tag }}
+                  {{ form.anon }}</div>
+              </div>
             </div>
-
-            <div class="col-xl-9 border border-right-0 border-top-0 border-bottom-0">
-                <nav>
-                    <div class="nav nav-fill nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" data-toggle="tab-main" href="#methods" id="methodsTab">Methods</a>
-                        <a class="nav-item nav-link" data-toggle="tab-main" href="#timeline" id="timelineTab">Timeline</a>
-                        <a class="nav-item nav-link" data-toggle="tab-main" href="#dataset" id="datasetTab">Dataset Breakdown</a>
-                        <a class="nav-item nav-link" data-toggle="tab-main" href="#user" id="userTab">User Breakdown</a>
-                        {% if not public %}
-                        <a class="nav-item nav-link" data-toggle="tab-main" href="#users" id="usersTab">Users</a>
-                        <a class="nav-item nav-link" data-toggle="tab-main" href="#trace" id="traceTab">Trace</a>
-                        {% endif %}
-                    </div>
-                </nav>
-
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
-                        <div class="col ml-1">
-                            <div class="row">
-                                <div class="col-10 mr-0 pr-0">
-                                    <canvas id="methodsChart" width="600" height="350"></canvas>
-                                </div>
-                                <div class="col-2 ml-0 pl-0">
-                                    <div class="dropdown mt-3 ml-3">
-                                        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Convert to
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="methodsDropdown">
-                                            <a class="dropdown-item" href="{% url 'downloads/json' 'methods' %}?{{request.GET.urlencode}}">json</a>
-                                            <a class="dropdown-item" href="{% url 'downloads/csv' 'methods' %}?{{request.GET.urlencode}}">csv</a>
-                                            <a class="dropdown-item" href="{% url 'downloads/xlsx' 'methods' %}?{{request.GET.urlencode}}">excel</a>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row mt-2">
-                                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="methods-tab">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab-sub" href="#methodsTabUsers" id="methodsTabUsers">Users</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#methodsTabDatasets" id="methodsTabDatasets">Datasets</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#methodsTabAccesses" id="methodsTabAccesses">Accesses</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#methodsTabSize" id="methodsTabSize">Size</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#methodsTabActivitydays" id="methodsTabActivitydays">Activity days</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col messages" id="methods-message">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                <table class="table" id="methodsTable" style="width:100%">
-                                    <tfoot id="methodsTableTotals">
-                                    </tfoot>
-                                </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
-                        <div class="col ml-1">
-                            <div class="row">
-                                <div class="col-10 mr-0 pr-0">
-                                    <canvas class="my-2" id="timelineChart" width="600" height="350"></canvas>
-                                </div>
-                                <div class="col-2 ml-0 pl-0">
-                                    <div class="dropdown mt-3 ml-3">
-                                        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Convert to
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="timelineDropdown">
-                                            <a class="dropdown-item" href="{% url 'downloads/json' 'timeline' %}?{{request.GET.urlencode}}">json</a>
-                                            <a class="dropdown-item" href="{% url 'downloads/csv' 'timeline' %}?{{request.GET.urlencode}}">csv</a>
-                                            <a class="dropdown-item" href="{% url 'downloads/xlsx' 'timeline' %}?{{request.GET.urlencode}}">excel</a>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row mt-2">
-                                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="timeline-tab">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab-sub" href="#timelineTabUsers" id="timelineTabUsers">Users</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabMethods" id="timelineTabMethods">Methods</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabDatasets" id="timelineTabDatasets">Datasets</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabAccesses" id="timelineTabAccesses">Accesses</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabSize" id="timelineTabSize">Size</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#timelineTabActivitydays" id="timelineTabActivitydays">Activity days</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col messages" id="timeline-message">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                <table class="table" id="timelineTable" style="width:100%">
-                                    <tfoot id="timelineTableTotals">
-                                    </tfoot>
-                                </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
-                        <div class="col ml-1">
-                            <div class="row">
-                                <div class="col-10 mr-0 pr-0" id="datasetChartBox">
-                                </div>
-                                <div class="col-2 ml-0 pl-0">
-                                    <div class="dropdown mt-3 ml-3" >
-                                        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Convert to
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="datasetDropdown">
-                                            <a class="dropdown-item" href="{% url 'downloads/json' 'dataset' %}?{{request.GET.urlencode}}">json</a>
-                                            <a class="dropdown-item" href="{% url 'downloads/csv' 'dataset' %}?{{request.GET.urlencode}}">csv</a>
-                                            <a class="dropdown-item" href="{% url 'downloads/xlsx' 'dataset' %}?{{request.GET.urlencode}}">excel</a>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row mt-2">
-                                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="dataset-tab">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab-sub" href="#datasetTabUsers" id="datasetTabUsers">Users</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabAccesses" id="datasetTabAccesses">Accesses</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabSize" id="datasetTabSize">Size</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#datasetTabActivitydays" id="datasetTabActivitydays">Activity days</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col messages" id="dataset-message">
-                                </div>
-                            </div>
-                            <div class="row">
-                            <div class="col-12">
-                                <table class="table" id="datasetTable" style="width:100%">
-                                <tfoot id="datasetTableTotals">
-                                </tfoot>
-                            </table>
-                            </div>
-                            </div>
-                        </div> 
-                    </div>
-
-                    <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-                        <div class="col ml-1">
-                            <div class="row">
-                                <div class="col-10 mr-0 pr-0" id="userChartBox">
-                                </div>
-                                <div class="col-2 ml-0 pl-0">
-                                    <div class="dropdown mt-3 ml-3" >
-                                        <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Convert to
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                            <a class="dropdown-item" href="{% url 'downloads/json' 'user' %}?{{request.GET.urlencode}}">json</a>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-row mt-2">
-                                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="user-tab">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab-sub" href="#userTabField" id="userTabField">Field</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabCountry" id="userTabCountry">Country</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabInstituteType" id="userTabInstituteType">Institute Type</a>
-                                            </li>
-                                            {% if not public %}
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabOdaCountry" id="userTabOdaCountry">ODA Status</a>
-                                            </li>
-                                            {% endif %}
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab-sub" href="#userTabArea" id="userTabArea">Area</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col messages" id="user-message">
-                                </div>
-                            </div>
-                        </div> 
-                    </div>
-
-                    {% if not public %}
-                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-                        <div class="dropdown mb-2" >
-                            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Convert to
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                                <a class="dropdown-item" href="{% url 'downloads/json' 'users' %}?{{request.GET.urlencode}}">json</a>
-                                <a class="dropdown-item" href="{% url 'downloads/csv' 'users' %}?{{request.GET.urlencode}}">csv</a>
-                                <a class="dropdown-item" href="{% url 'downloads/xlsx' 'users' %}?{{request.GET.urlencode}}">excel</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col messages" id="users-message">
-                            </div>
-                        </div>
-                        <table class="table" id="usersTable" style="width:100%">
-                            <tfoot id="usersTableTotals">
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <div class="tab-pane fade" id="trace" role="tabpanel" aria-labelledby="trace-tab">
-                        <div class="dropdown mb-2" >
-                            <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="traceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Convert to
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="traceDropdown">
-                                <a class="dropdown-item" href="{% url 'downloads/txt' 'trace' %}?{{request.GET.urlencode}}">txt</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col messages" id="trace-message">
-                            </div>
-                        </div>
-                        <pre id="traceTableBody"></pre>
-                    </div>
-                    {% endif %}
-                </div>
+            <div class="input-group">
+              <div class="col">
+                <button type="submit" class="btn btn-primary mb-2 mt-2">Filter</button>
+              </div>
             </div>
+          </form>
         </div>
+
+        <div class="col-xl-9 border border-right-0 border-top-0 border-bottom-0">
+          <nav>
+            <div class="nav nav-fill nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" data-toggle="tab-main" href="#methods" id="methodsTab">Methods</a>
+              <a class="nav-item nav-link" data-toggle="tab-main" href="#timeline" id="timelineTab">Timeline</a>
+              <a class="nav-item nav-link" data-toggle="tab-main" href="#dataset" id="datasetTab">Dataset Breakdown</a>
+              <a class="nav-item nav-link" data-toggle="tab-main" href="#user" id="userTab">User Breakdown</a>
+              {% if not public %}
+                <a class="nav-item nav-link" data-toggle="tab-main" href="#users" id="usersTab">Users</a>
+                <a class="nav-item nav-link" data-toggle="tab-main" href="#trace" id="traceTab">Trace</a>
+              {% endif %}
+            </div>
+          </nav>
+
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="methods" role="tabpanel" aria-labelledby="methods-tab">
+              <div class="col ml-1">
+                <div class="row">
+                  <div class="col-10 mr-0 pr-0">
+                    <canvas id="methodsChart" width="600" height="350"></canvas>
+                  </div>
+                  <div class="col-2 ml-0 pl-0">
+                    <div class="dropdown mt-3 ml-3">
+                      <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
+                      <div class="dropdown-menu" aria-labelledby="methodsDropdown">
+                        <a class="dropdown-item" href="{% url 'downloads/json' 'methods' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads/csv' 'methods' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'downloads/xlsx' 'methods' %}?{{ request.GET.urlencode }}">excel</a>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row mt-2">
+                      <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="methods-tab">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab-sub" href="#methodsTabUsers" id="methodsTabUsers">Users</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#methodsTabDatasets" id="methodsTabDatasets">Datasets</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#methodsTabAccesses" id="methodsTabAccesses">Accesses</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#methodsTabSize" id="methodsTabSize">Size</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#methodsTabActivitydays" id="methodsTabActivitydays">Activity days</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col messages" id="methods-message"></div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table" id="methodsTable" style="width:100%">
+                      <tfoot id="methodsTableTotals"></tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+              <div class="col ml-1">
+                <div class="row">
+                  <div class="col-10 mr-0 pr-0">
+                    <canvas class="my-2" id="timelineChart" width="600" height="350"></canvas>
+                  </div>
+                  <div class="col-2 ml-0 pl-0">
+                    <div class="dropdown mt-3 ml-3">
+                      <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
+                      <div class="dropdown-menu" aria-labelledby="timelineDropdown">
+                        <a class="dropdown-item" href="{% url 'downloads/json' 'timeline' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads/csv' 'timeline' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'downloads/xlsx' 'timeline' %}?{{ request.GET.urlencode }}">excel</a>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row mt-2">
+                      <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="timeline-tab">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab-sub" href="#timelineTabUsers" id="timelineTabUsers">Users</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#timelineTabMethods" id="timelineTabMethods">Methods</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#timelineTabDatasets" id="timelineTabDatasets">Datasets</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#timelineTabAccesses" id="timelineTabAccesses">Accesses</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#timelineTabSize" id="timelineTabSize">Size</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#timelineTabActivitydays" id="timelineTabActivitydays">Activity days</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col messages" id="timeline-message"></div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table" id="timelineTable" style="width:100%">
+                      <tfoot id="timelineTableTotals"></tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="dataset" role="tabpanel" aria-labelledby="dataset-tab">
+              <div class="col ml-1">
+                <div class="row">
+                  <div class="col-10 mr-0 pr-0" id="datasetChartBox"></div>
+                  <div class="col-2 ml-0 pl-0">
+                    <div class="dropdown mt-3 ml-3">
+                      <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
+                      <div class="dropdown-menu" aria-labelledby="datasetDropdown">
+                        <a class="dropdown-item" href="{% url 'downloads/json' 'dataset' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads/csv' 'dataset' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'downloads/xlsx' 'dataset' %}?{{ request.GET.urlencode }}">excel</a>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row mt-2">
+                      <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="dataset-tab">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab-sub" href="#datasetTabUsers" id="datasetTabUsers">Users</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#datasetTabAccesses" id="datasetTabAccesses">Accesses</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#datasetTabSize" id="datasetTabSize">Size</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#datasetTabActivitydays" id="datasetTabActivitydays">Activity days</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col messages" id="dataset-message"></div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table" id="datasetTable" style="width:100%">
+                      <tfoot id="datasetTableTotals"></tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+              <div class="col ml-1">
+                <div class="row">
+                  <div class="col-10 mr-0 pr-0" id="userChartBox"></div>
+                  <div class="col-2 ml-0 pl-0">
+                    <div class="dropdown mt-3 ml-3">
+                      <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
+                      <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="{% url 'downloads/json' 'user' %}?{{ request.GET.urlencode }}">json</a>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row mt-2">
+                      <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="user-tab">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab-sub" href="#userTabField" id="userTabField">Field</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#userTabCountry" id="userTabCountry">Country</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#userTabInstituteType" id="userTabInstituteType">Institute Type</a>
+                        </li>
+                        {% if not public %}
+                          <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab-sub" href="#userTabOdaCountry" id="userTabOdaCountry">ODA Status</a>
+                          </li>
+                        {% endif %}
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#userTabArea" id="userTabArea">Area</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col messages" id="user-message"></div>
+                </div>
+              </div>
+            </div>
+
+            {% if not public %}
+              <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <div class="dropdown mb-2">
+                  <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
+                  <div class="dropdown-menu" aria-labelledby="usersDropdown">
+                    <a class="dropdown-item" href="{% url 'downloads/json' 'users' %}?{{ request.GET.urlencode }}">json</a>
+                    <a class="dropdown-item" href="{% url 'downloads/csv' 'users' %}?{{ request.GET.urlencode }}">csv</a>
+                    <a class="dropdown-item" href="{% url 'downloads/xlsx' 'users' %}?{{ request.GET.urlencode }}">excel</a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col messages" id="users-message"></div>
+                </div>
+                <table class="table" id="usersTable" style="width:100%">
+                  <tfoot id="usersTableTotals"></tfoot>
+                </table>
+              </div>
+
+              <div class="tab-pane fade" id="trace" role="tabpanel" aria-labelledby="trace-tab">
+                <div class="dropdown mb-2">
+                  <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="traceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
+                  <div class="dropdown-menu" aria-labelledby="traceDropdown">
+                    <a class="dropdown-item" href="{% url 'downloads/txt' 'trace' %}?{{ request.GET.urlencode }}">txt</a>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col messages" id="trace-message"></div>
+                </div>
+                <pre id="traceTableBody"></pre>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}
 
 {% block tail_js_extra %}
-<script type="text/javascript" src="{% static 'downloads/js/mustache.min.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/Chart.bundle.min.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/chartjs-plugin-colorschemes.min.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/templates.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/date.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/downloads.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/methods.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/timeline.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/dataset.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/user.js'%}"></script>
-{% if not public %}
-<script type="text/javascript" src="{% static 'downloads/js/users.js'%}"></script>
-<script type="text/javascript" src="{% static 'downloads/js/trace.js'%}"></script>
-{% endif %}
-<script type="text/javascript" src="{% static 'downloads/js/dataTables-combined.js'%}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/mustache.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/Chart.bundle.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/chartjs-plugin-colorschemes.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/templates.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/date.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/downloads.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/methods.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/timeline.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/dataset.js' %}"></script>
+  <script type="text/javascript" src="{% static 'downloads/js/user.js' %}"></script>
+  {% if not public %}
+    <script type="text/javascript" src="{% static 'downloads/js/users.js' %}"></script>
+    <script type="text/javascript" src="{% static 'downloads/js/trace.js' %}"></script>
+  {% endif %}
+  <script type="text/javascript" src="{% static 'downloads/js/dataTables-combined.js' %}"></script>
 
-{{form.media.js}}
+  {{ form.media.js }}
 {% endblock %}
