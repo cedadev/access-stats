@@ -80,9 +80,9 @@
                     <div class="dropdown mt-3 ml-3">
                       <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="methodsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                       <div class="dropdown-menu" aria-labelledby="methodsDropdown">
-                        <a class="dropdown-item" href="{% url 'downloads/json' 'methods' %}?{{ request.GET.urlencode }}">json</a>
-                        <a class="dropdown-item" href="{% url 'downloads/csv' 'methods' %}?{{ request.GET.urlencode }}">csv</a>
-                        <a class="dropdown-item" href="{% url 'downloads/xlsx' 'methods' %}?{{ request.GET.urlencode }}">excel</a>
+                        <a class="dropdown-item" href="{% url 'downloads_json' 'methods' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads_csv' 'methods' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'downloads_xlsx' 'methods' %}?{{ request.GET.urlencode }}">excel</a>
                       </div>
                     </div>
                     <div class="d-flex flex-row mt-2">
@@ -129,9 +129,9 @@
                     <div class="dropdown mt-3 ml-3">
                       <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="timelineDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                       <div class="dropdown-menu" aria-labelledby="timelineDropdown">
-                        <a class="dropdown-item" href="{% url 'downloads/json' 'timeline' %}?{{ request.GET.urlencode }}">json</a>
-                        <a class="dropdown-item" href="{% url 'downloads/csv' 'timeline' %}?{{ request.GET.urlencode }}">csv</a>
-                        <a class="dropdown-item" href="{% url 'downloads/xlsx' 'timeline' %}?{{ request.GET.urlencode }}">excel</a>
+                        <a class="dropdown-item" href="{% url 'downloads_json' 'timeline' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads_csv' 'timeline' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'downloads_xlsx' 'timeline' %}?{{ request.GET.urlencode }}">excel</a>
                       </div>
                     </div>
                     <div class="d-flex flex-row mt-2">
@@ -179,9 +179,9 @@
                     <div class="dropdown mt-3 ml-3">
                       <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="datasetDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                       <div class="dropdown-menu" aria-labelledby="datasetDropdown">
-                        <a class="dropdown-item" href="{% url 'downloads/json' 'dataset' %}?{{ request.GET.urlencode }}">json</a>
-                        <a class="dropdown-item" href="{% url 'downloads/csv' 'dataset' %}?{{ request.GET.urlencode }}">csv</a>
-                        <a class="dropdown-item" href="{% url 'downloads/xlsx' 'dataset' %}?{{ request.GET.urlencode }}">excel</a>
+                        <a class="dropdown-item" href="{% url 'downloads_json' 'dataset' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads_csv' 'dataset' %}?{{ request.GET.urlencode }}">csv</a>
+                        <a class="dropdown-item" href="{% url 'downloads_xlsx' 'dataset' %}?{{ request.GET.urlencode }}">excel</a>
                       </div>
                     </div>
                     <div class="d-flex flex-row mt-2">
@@ -223,7 +223,7 @@
                     <div class="dropdown mt-3 ml-3">
                       <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                       <div class="dropdown-menu" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="{% url 'downloads/json' 'user' %}?{{ request.GET.urlencode }}">json</a>
+                        <a class="dropdown-item" href="{% url 'downloads_json' 'user' %}?{{ request.GET.urlencode }}">json</a>
                       </div>
                     </div>
                     <div class="d-flex flex-row mt-2">
@@ -260,9 +260,9 @@
                 <div class="dropdown mb-2">
                   <button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Convert to</button>
                   <div class="dropdown-menu" aria-labelledby="usersDropdown">
-                    <a class="dropdown-item" href="{% url 'downloads/json' 'users' %}?{{ request.GET.urlencode }}">json</a>
-                    <a class="dropdown-item" href="{% url 'downloads/csv' 'users' %}?{{ request.GET.urlencode }}">csv</a>
-                    <a class="dropdown-item" href="{% url 'downloads/xlsx' 'users' %}?{{ request.GET.urlencode }}">excel</a>
+                    <a class="dropdown-item" href="{% url 'downloads_json' 'users' %}?{{ request.GET.urlencode }}">json</a>
+                    <a class="dropdown-item" href="{% url 'downloads_csv' 'users' %}?{{ request.GET.urlencode }}">csv</a>
+                    <a class="dropdown-item" href="{% url 'downloads_xlsx' 'users' %}?{{ request.GET.urlencode }}">excel</a>
                   </div>
                 </div>
                 <div class="row">
