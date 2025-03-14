@@ -20,3 +20,44 @@ Template can be found at [access_stats/settings_local.py.tmpl](access_stats/sett
 
 Contains credentials and configuration for Elasticsearch connection.  
 Template can be found at [access_stats/settings.yml.tmpl](access_stats/settings.yml.tmpl).  
+
+
+## Set up
+
+### Poetry Setup
+
+1. Install Poetry (if not already installed)
+   ```bash
+   curl -sSL https://install.python-poetry.org | python3 -
+   ```
+
+2. Install dependencies
+   ```bash
+   # Create virtual environment and install dependencies
+   poetry install
+   ```
+
+3. Create local settings from template
+   ```bash
+   cp access_stats/settings_local.py.tmpl access_stats/settings_local.py
+   cp access_stats/settings.yml.tmpl access_stats/settings.yml
+   # Edit these files with your configuration
+   ```
+
+### Django Setup
+
+1. Apply migrations
+   ```bash
+   poetry run python manage.py migrate
+   ```
+
+2. Start development server
+   ```bash
+   poetry run python manage.py runserver
+   ```
+
+### Managing Dependencies
+
+First add the dependency to poetry as normal `poetry add <dependency_name>`
+
+Then run `poetry export -f requirements.txt --output requirements.txt --without-hashes`
