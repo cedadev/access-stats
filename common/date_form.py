@@ -17,13 +17,13 @@ class DateForm(forms.Form):
         widget=DatePickerInput(options={"format": "YYYY/MM/DD"}),
         label="Start date:",
         required=False,
-        input_formats=["%Y/%m/%d"],
+        input_formats=["%Y/%m/%d", "%Y-%m-%d"],
         initial=get_start_date,
     )
     end = forms.DateField(
         widget=DatePickerInput(options={"format": "YYYY/MM/DD"}),
         label="End date:",
         required=False,
-        input_formats=["%Y/%m/%d"],
+        input_formats=["%Y/%m/%d", "%Y-%m-%d"],
         initial=get_end_date,
     )
