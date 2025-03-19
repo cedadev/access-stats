@@ -1,7 +1,7 @@
 import yaml
 from pathlib import Path
 
-from ceda_elasticsearch_tools.elasticsearch import CEDAElasticsearchClient
+from elasticsearch import Elasticsearch
 
 from common.query_builder_factory import QueryBuilderFactory
 
@@ -20,12 +20,12 @@ class JsonMaker:
             raise FileNotFoundError(f"{settings_file} not found")
 
         self.load_settings(settings_file)
-        
-        self.es = CEDAElasticsearchClient(
+
+        self.es = Elasticsearch(
             [self.settings["host"]],
             headers={"x-api-key": self.settings["es_api_key"]},
             ca_certs=None,
-            timeout=60
+            timeout=60,
         )
 
     @property
@@ -46,21 +46,25 @@ class JsonMaker:
         :return: <int> Total number of activity days
         """
 
-        if total_response['relation'] == 'eq':
-            return total_response['value']
+        if total_response["relation"] == "eq":
+            return total_response["value"]
         else:
             query = self.get_elasticsearch_query()
-            query.pop('_source', None)
-            query.pop('aggs', None)
-            query.pop('size', None)
-            return self.es.count(index=self.index, body=query)['count']
+            query.pop("_source", None)
+            query.pop("aggs", None)
+            query.pop("size", None)
+            return self.es.count(index=self.index, body=query)["count"]
 
     def get_elasticsearch_response(self, after_key=None, deposits=False):
         query = self.get_elasticsearch_query(after_key, deposits)
-        return self.es.search(index=self.index, body = query)
+        return self.es.search(index=self.index, body=query)
 
-    def get_elasticsearch_query(self,after_key=None, deposits=False):
-        return QueryBuilderFactory(deposits = deposits).get(self.filters, self.analysis_method, after_key).query()
+    def get_elasticsearch_query(self, after_key=None, deposits=False):
+        return (
+            QueryBuilderFactory(deposits=deposits)
+            .get(self.filters, self.analysis_method, after_key)
+            .query()
+        )
 
     def get_title(self):
         return NotImplementedError
