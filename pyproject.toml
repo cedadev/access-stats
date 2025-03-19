@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "access-stats"
+version = "0.1.0"
+description = "Django website to view access statistics from CEDA Elasticsearch"
+authors = ["Tommy Godfrey <tommy.godfrey@stfc.ac.uk>"]
+license = "BSD - See LICENSE file for details"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: BSD License", 
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3"
+]
+repository = "https://github.com/cedadev/access-stats/"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+asn1crypto = ">=1.5.1"
+bitmath = "1.3.3.1"
+certifi = ">=2024.2.2"
+cffi = ">=1.16.0"
+chardet = ">=5.0.0" 
+cryptography = ">=42.0.0"
+Django = "4.2"
+django-bootstrap-datepicker-plus = "5.0.0"
+django-classy-tags = ">=1.0.0"
+django-cookie-law = "2.0.1"
+elasticsearch = "8.12.0"
+idna = ">=3.6"
+pycparser = ">=2.21"
+pyOpenSSL = ">=24.0.0"
+PySocks = ">=1.7.1"
+pytest-runner = "4.4"
+python-dateutil = "2.9.0"
+pytz = ">=2024.1"
+PyYAML = "6.0.1"
+pydantic = "1.10.8"
+requests = "2.31.0"
+six = "1.16.0"
+typing-extensions = "4.8.0"
+urllib3 = ">=2.2.0"
+XlsxWriter = ">=3.1.9"
+fwtheme-django = {git = "https://github.com/cedadev/fwtheme-django", branch = "master"}
+fwtheme-django-ceda-serv = {git = "https://github.com/cedadev/fwtheme-django-ceda-serv", branch = "master"}
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
