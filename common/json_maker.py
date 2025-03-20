@@ -15,7 +15,13 @@ class JsonMaker:
         self.analysis_method = analysis_method
 
         parent_dir = (Path(__file__).parent).parent
-        settings_file = parent_dir.joinpath("access_stats/settings.yml")
+        secrets_path = Path("/secrets/settings.yml")
+
+        if secrets_path.exists():
+            settings_file = secrets_path
+        else:
+            settings_file = parent_dir.joinpath("access_stats/settings.yml")
+
         if not settings_file.exists():
             raise FileNotFoundError(f"{settings_file} not found")
 
