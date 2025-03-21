@@ -15,6 +15,13 @@ classifiers = [
 ]
 repository = "https://github.com/cedadev/access-stats/"
 
+packages = [
+    { include = "access_stats"},
+    { include = "common"},
+    { include = "deposits"},
+    { include = "downloads"},
+]
+
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 asn1crypto = ">=1.5.1"
