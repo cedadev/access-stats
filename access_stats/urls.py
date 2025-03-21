@@ -10,7 +10,10 @@ def health_view(request):
 
 
 if settings.PUBLIC_SITE:
-    urlpatterns = [path("", include("downloads.urls"))]
+    urlpatterns = [
+        path("health/", health_view, name="health"),
+        path("", include("downloads.urls"))
+    ]
 else:
     urlpatterns = [
         path("", IndexView.as_view(), name="index"),
