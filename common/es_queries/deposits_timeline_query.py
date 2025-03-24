@@ -1,5 +1,5 @@
 from common.es_queries.deposits_query_builder import DepositsQueryBuilder
-from common.timeline_query import TimelineQuery
+from common.es_queries.timeline_query import TimelineQuery
 
 
 class DepositsTimelineQuery(DepositsQueryBuilder, TimelineQuery):
