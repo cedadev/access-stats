@@ -1,12 +1,12 @@
-from common.methods_json import MethodsJson
-from common.timeline_json import TimelineJson
-from common.deposits_timeline_json import DepositsTimelineJson
-from common.dataset_json import DatasetJson
-from common.deposits_dataset_json import DepositsDatasetJson
-from common.user_json import UserJson
-from common.users_json import UsersJson
-from common.trace_json import TraceJson
-from common.deposits_trace_json import DepositsTraceJson
+from common.json.methods_json import MethodsJson
+from common.json.timeline_json import TimelineJson
+from common.json.deposits_timeline_json import DepositsTimelineJson
+from common.json.dataset_json import DatasetJson
+from common.json.deposits_dataset_json import DepositsDatasetJson
+from common.json.user_json import UserJson
+from common.json.users_json import UsersJson
+from common.json.trace_json import TraceJson
+from common.json.deposits_trace_json import DepositsTraceJson
 
 class JsonMakerFactory:
     def __init__(self, deposits = False):
