@@ -1,9 +1,9 @@
-from common.methods_response import MethodsResponse
-from common.timeline_response import TimelineResponse
-from common.deposits_timeline_response import DepositsTimelineResponse
-from common.dataset_response import DatasetResponse
-from common.deposits_dataset_response import DepositsDatasetResponse
-from common.users_response import UsersResponse
+from common.response.methods_response import MethodsResponse
+from common.response.timeline_response import TimelineResponse
+from common.response.deposits_timeline_response import DepositsTimelineResponse
+from common.response.dataset_response import DatasetResponse
+from common.response.deposits_dataset_response import DepositsDatasetResponse
+from common.response.users_response import UsersResponse
 
 
 class FileResponseFactory:
