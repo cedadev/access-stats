@@ -1,12 +1,12 @@
-from common.methods_query import MethodsQuery
-from common.timeline_query import TimelineQuery
-from common.deposits_timeline_query import DepositsTimelineQuery
-from common.dataset_query import DatasetQuery
-from common.deposits_dataset_query import DepositsDatasetQuery
-from common.user_query import UserQuery
-from common.users_query import UsersQuery
-from common.trace_query import TraceQuery
-from common.deposits_trace_query import DepositsTraceQuery
+from common.es_queries.methods_query import MethodsQuery
+from common.es_queries.timeline_query import TimelineQuery
+from common.es_queries.deposits_timeline_query import DepositsTimelineQuery
+from common.es_queries.dataset_query import DatasetQuery
+from common.es_queries.deposits_dataset_query import DepositsDatasetQuery
+from common.es_queries.user_query import UserQuery
+from common.es_queries.users_query import UsersQuery
+from common.es_queries.trace_query import TraceQuery
+from common.es_queries.deposits_trace_query import DepositsTraceQuery
 
 class QueryBuilderFactory:
     def __init__(self, deposits = False):
