@@ -5,7 +5,7 @@ from common.response.file_response import FileResponse
 
 class UsersResponse(FileResponse):
     def get_headings(self):
-        return ["User", "Country", "Institute type", "Field", "Methods", "Datasets", "Accesses", "Size", "Activity Days"]
+        return ["User", "Country", "Methods", "Datasets", "Accesses", "Size", "Activity Days"]
 
     def _write_xlsx(self, json_data, worksheet, date_format):
         worksheet.set_column(0, 0, 27)
@@ -17,8 +17,6 @@ class UsersResponse(FileResponse):
         for row, result in enumerate(json_data["results"], start = 1):
             worksheet.write_string(row, 0, result)
             worksheet.write_string(row, 1, json_data["results"][result]["country"])
-            worksheet.write_string(row, 2, json_data["results"][result]["institute_type"])
-            worksheet.write_string(row, 3, json_data["results"][result]["field"])
             worksheet.write_number(row, 4, json_data["results"][result]["methods"])
             worksheet.write_number(row, 5, json_data["results"][result]["datasets"])
             worksheet.write_number(row, 6, json_data["results"][result]["accesses"])

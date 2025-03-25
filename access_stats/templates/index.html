@@ -82,35 +82,12 @@
           </div>
         </div>
       </div>
-
-      <div class="row mb-4">
-        <div class="col">
-          <div class="card border-primary">
-            <div class="row no-gutters">
-              <div class="col-auto bg-primary">
-                <span class="fa-stack fa-2x" style="font-size:6vw">
-                  <i class="fas fa-square fa-stack-2x text-primary"></i>
-                  <i class="fas fa-upload fa-stack-1x fa-inverse"></i>
-                </span>
-                <a href="deposits" class="stretched-link"></a>
-              </div>
-              <div class="col">
-                <div class="card-block px-2">
-                  <h3 class="card-title mt-2"><b>Deposit stats</b></h3>
-                  <div class="card-text">
-                    <table class="table-sm compact" id="depositsTable" style="width:100%">
-                      <tfoot id="depositsTableTotals"></tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <! --- Deposit code goes here once fbi indexer is setup properly --- >
     </div>
   </div>
+  
 {% endblock %}
+>
 
 {% block tail_js_extra %}
   <script type="text/javascript" src="{% static 'downloads/js/mustache.min.js' %}"></script>
@@ -118,6 +95,36 @@
   <script type="text/javascript" src="{% static 'access_stats/js/templates.js' %}"></script>
   <script type="text/javascript" src="{% static 'access_stats/js/access_stats.js' %}"></script>
   <script type="text/javascript" src="{% static 'access_stats/js/downloads.js' %}"></script>
-  <script type="text/javascript" src="{% static 'access_stats/js/deposits.js' %}"></script>
   <script type="text/javascript" src="{% static 'access_stats/js/dataTables-combined.js' %}"></script>
 {% endblock %}
+
+
+<!
+<div class="row mb-4">
+  <div class="col">
+    <div class="card border-primary">
+      <div class="row no-gutters">
+        <div class="col-auto bg-primary">
+          <span class="fa-stack fa-2x" style="font-size:6vw">
+            <i class="fas fa-square fa-stack-2x text-primary"></i>
+            <i class="fas fa-upload fa-stack-1x fa-inverse"></i>
+          </span>
+          <a href="deposits" class="stretched-link"></a>
+        </div>
+        <div class="col">
+          <div class="card-block px-2">
+            <h3 class="card-title mt-2"><b>Deposit stats</b></h3>
+            <div class="card-text">
+              <table class="table-sm compact" id="depositsTable" style="width:100%">
+                <tfoot id="depositsTableTotals"></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  >
+</div>
+
+<! <script type="text/javascript" src="{% static 'access_stats/js/deposits.js' %}"></script> >
