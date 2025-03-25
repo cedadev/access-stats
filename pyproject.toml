@@ -18,7 +18,6 @@ repository = "https://github.com/cedadev/access-stats/"
 packages = [
     { include = "access_stats"},
     { include = "common"},
-    { include = "deposits"},
     { include = "downloads"},
 ]
 

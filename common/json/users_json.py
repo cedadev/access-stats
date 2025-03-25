@@ -20,9 +20,6 @@ class UsersJson(JsonMaker):
                 self.generated_json["results"][result["key"]["user"]] = {}
 
                 self.generated_json["results"][result["key"]["user"]]["country"] = result["country"]["buckets"][0]["key"]
-                self.generated_json["results"][result["key"]["user"]]["institute_type"] = result["institute_type"]["buckets"][0]["key"]
-                self.generated_json["results"][result["key"]["user"]]["field"] = result["field"]["buckets"][0]["key"]
-
                 self.generated_json["results"][result["key"]["user"]]["methods"] = result["number_of_methods"]["value"]
                 self.generated_json["results"][result["key"]["user"]]["datasets"] = result["number_of_datasets"]["value"]
                 self.generated_json["results"][result["key"]["user"]]["accesses"] = result["number_of_accesses"]["value"]
