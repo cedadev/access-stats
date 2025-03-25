@@ -93,7 +93,7 @@ CONTAINER_FLUID = True
 # Public or private version of stats site
 # PUBLIC_SITE = True: Hides all user's names/ip and oda_status.
 # Blocks the api and makes changes to HTML templates
-PUBLIC_SITE = True
+PUBLIC_SITE = False
 
 # Sensitive settings imported from local settings
 from access_stats.settings_local import *
