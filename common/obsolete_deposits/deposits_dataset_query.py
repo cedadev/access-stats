@@ -1,4 +1,4 @@
-from common.es_queries.deposits_query_builder import DepositsQueryBuilder
+from common.obsolete_deposits.deposits_query_builder import DepositsQueryBuilder
 from common.es_queries.dataset_query import DatasetQuery
 
 class DepositsDatasetQuery(DepositsQueryBuilder, DatasetQuery):

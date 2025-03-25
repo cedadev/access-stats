@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.views.generic import TemplateView
 
-from deposits.forms import FilterForm
+from obsolete_deposits.forms import FilterForm
 
 from common.json_maker_factory import JsonMakerFactory
 from common.file_response_factory import FileResponseFactory

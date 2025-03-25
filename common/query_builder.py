@@ -25,7 +25,7 @@ class QueryBuilder:
         return "datetime.date_histogram.timestamp"
 
     def user(self):
-        return "user.keyword.terms.value"
+        return "user.terms.value"
     
     def dataset(self):
         return "dataset.keyword.terms.value"
@@ -135,6 +135,8 @@ class QueryBuilder:
                 }
             }
         })
+
+        pause = 1
     
     def group_by(self):
         self.generated_aggs = self.base_aggs()

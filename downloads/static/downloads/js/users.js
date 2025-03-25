@@ -18,8 +18,6 @@ function renderUsersPage(data)
 
         row.push(user);
         row.push(data.results[user].country);
-        row.push(data.results[user].institute_type);
-        row.push(data.results[user].field);
         row.push(data.results[user].methods.toLocaleString());
         row.push(data.results[user].datasets.toLocaleString());
         row.push(data.results[user].accesses.toLocaleString());
@@ -29,15 +27,13 @@ function renderUsersPage(data)
         dataList.push(row);
     }
 
-    totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", institute:"-", field:"-", methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
+    totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
     
     table = $("#usersTable").DataTable({
         retrieve: true,
         columns: [
             { title: "User" },
             { title: "Country" },
-            { title: "Institute type" },
-            { title: "Field" },
             { title: "Methods" },
             { title: "Datasets" },
             { title: "Accesses"},

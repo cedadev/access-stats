@@ -15,13 +15,7 @@ class UsersQuery(QueryBuilder):
     def group_by_main(self):
         self.generated_aggs["group_by"]["aggs"]["country"] = {}
         self.generated_aggs["group_by"]["aggs"]["country"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["country"]["terms"]["field"] = "user_data.isocode.keyword.terms.value"
-        self.generated_aggs["group_by"]["aggs"]["field"] = {}
-        self.generated_aggs["group_by"]["aggs"]["field"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["field"]["terms"]["field"] = "user_data.field.keyword.terms.value"
-        self.generated_aggs["group_by"]["aggs"]["institute_type"] = {}
-        self.generated_aggs["group_by"]["aggs"]["institute_type"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["institute_type"]["terms"]["field"] = "user_data.type.keyword.terms.value"
+        self.generated_aggs["group_by"]["aggs"]["country"]["terms"]["field"] = "country.terms.value"
 
         self.generated_aggs["group_by"]["composite"] = {}
         self.generated_aggs["group_by"]["composite"]["size"] = 10000
@@ -31,7 +25,7 @@ class UsersQuery(QueryBuilder):
         self.generated_aggs["group_by"]["composite"]["sources"].append({
             "user": {
                 "terms": {
-                    "field": "user.keyword.terms.value"
+                    "field": "user.terms.value"
                 }
             }
         })
