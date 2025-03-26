@@ -4,7 +4,7 @@ $.get(
     url: window.location.origin + window.location.pathname + "json/" + "user" + window.location.search,
     success: function (data) {
         renderUserPage(data);
-         //$("#user-message").hide();
+         $("#user-message").hide();
     }
 })
 

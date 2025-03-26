@@ -6,6 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'fwtheme_django_ceda_serv',
     'fwtheme_django',
     'django.contrib.auth',
@@ -19,7 +20,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,7 +85,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'access_stats/static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'access_stats/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'access_stats/staticfiles')
 
 STATIC_URL = '/static/'
 

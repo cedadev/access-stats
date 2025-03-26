@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "access-stats"
-version = "0.1.0"
+version = "0.3.12"
 description = "Django website to view access statistics from CEDA Elasticsearch"
-authors = ["Tommy Godfrey <tommy.godfrey@stfc.ac.uk>"]
+authors = ["Tommy Godfrey <> Matthew Paice <matthew.paice@stfc.ac.uk> Ed Borthwick <ed.borthwick@stfc.ac.uk>"]
 license = "BSD - See LICENSE file for details"
 readme = "README.md"
 classifiers = [
@@ -50,6 +50,7 @@ urllib3 = ">=2.2.0"
 XlsxWriter = ">=3.1.9"
 fwtheme-django = {git = "https://github.com/cedadev/fwtheme-django", branch = "master"}
 fwtheme-django-ceda-serv = {git = "https://github.com/cedadev/fwtheme-django-ceda-serv", branch = "master"}
+whitenoise = "^6.9.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
