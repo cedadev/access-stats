@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "access-stats"
-version = "0.3.12"
+version = "0.3.13"
 description = "Django website to view access statistics from CEDA Elasticsearch"
 authors = ["Tommy Godfrey <> Matthew Paice <matthew.paice@stfc.ac.uk> Ed Borthwick <ed.borthwick@stfc.ac.uk>"]
 license = "BSD - See LICENSE file for details"
