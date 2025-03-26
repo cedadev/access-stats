@@ -1,7 +1,7 @@
 # access-stats
 
 `access-stats` is a Django application that provides useful visualisations of access data from an Elasticsearch endpoint.  
-The access data is an index of data downloads from the CEDA archive, and data deposits to the CEDA archive, via various methods.  
+The access data is an index of data downloads from the CEDA archive, via various methods.  
 
 ## Configuration
 

@@ -27,7 +27,7 @@ function renderUsersPage(data)
         dataList.push(row);
     }
 
-    totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
+    // totals = Mustache.render(templates.usersTableTotals, {totals:"Totals", country:"-", methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
     
     table = $("#usersTable").DataTable({
         retrieve: true,
@@ -51,5 +51,5 @@ function renderUsersPage(data)
     table.rows.add(dataList);
     table.draw();
     
-    $("#usersTableTotals").html(totals);
+    //$("#usersTableTotals").html(totals);
 }

@@ -12,6 +12,6 @@ class TraceJson(JsonMaker):
         self.generated_json["logs"] = []
         for result in response["hits"]["hits"]:
             try:
-               self.generated_json["logs"].append(f'{result["_source"]["datetime"]},{result["_source"]["method"]},{result["_source"]["filename"]},{result["_source"]["size"]},{result["_source"]["user"]},{result["_source"]["ip"]},{result["_source"]["dataset"]}')
+               self.generated_json["logs"].append(f'{result["_source"]["datetime"]},{result["_source"]["method"]},{result["_source"]["archive_path"]},{result["_source"]["size"]},{result["_source"]["user"]},{result["_source"]["ip_address"]},{result["_source"]["dataset"]}')
             except KeyError:
                 continue

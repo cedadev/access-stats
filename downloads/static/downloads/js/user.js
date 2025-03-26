@@ -4,7 +4,7 @@ $.get(
     url: window.location.origin + window.location.pathname + "json/" + "user" + window.location.search,
     success: function (data) {
         renderUserPage(data);
-        $("#user-message").hide();
+         //$("#user-message").hide();
     }
 })
 
@@ -24,53 +24,13 @@ function renderUserPage(data)
         dataDict.country.push(data.results.group_by_country[country]);
     }
 
-    var activeTab = null;
-
-    userChart = makeUserChart(activeTab, dataDict, labelsDict);
-
-    
-    if (location.hash) 
-    {
-        if (location.hash.split(".")[0] != "#user")
-        {
-            activeTab = "userTabField";
-        }
-        else
-        {
-            activeTab = location.hash.split(".")[1];
-        }
-    }
-    else
-    {
-        activeTab = "userTabField";
-    }
-    userChart = updateUserChart(userChart, activeTab, dataDict, labelsDict);
-
-    userTabs = ["userTabCountry"]
-    $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
-        if (userTabs.includes(e.target.id))
-        {
-            activeTab = e.target.id;
-        }
-        userChart = updateUserChart(userChart, activeTab, dataDict, labelsDict);
-    })
+    userChart = makeUserChart(dataDict, labelsDict);
 }
 
-function updateUserChart(chart, activeTab, dataDict, labelsDict)
+function makeUserChart(dataDict, labelsDict)
 {
-    chart.destroy();
-    chart = makeUserChart(activeTab, dataDict, labelsDict);
-    chart.update();
-    return chart;
-}
-
-function makeUserChart(activeTab, dataDict, labelsDict)
-{
-    if (activeTab == "userTabCountry")
-    {
-        var activeLabels = labelsDict.country;
-        var activeData = dataDict.country;
-    }
+    var activeLabels = labelsDict.country;
+    var activeData = dataDict.country;
 
     var html = Mustache.render(templates.canvas, {id:"userChart"})
     $("#userChartBox").html(html);
