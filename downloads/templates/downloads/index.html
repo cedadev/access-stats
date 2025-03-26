@@ -60,7 +60,7 @@
               <a class="nav-item nav-link active" data-toggle="tab-main" href="#methods" id="methodsTab">Methods</a>
               <a class="nav-item nav-link" data-toggle="tab-main" href="#timeline" id="timelineTab">Timeline</a>
               <a class="nav-item nav-link" data-toggle="tab-main" href="#dataset" id="datasetTab">Dataset Breakdown</a>
-              <a class="nav-item nav-link" data-toggle="tab-main" href="#user" id="userTab">User Breakdown</a>
+              <a class="nav-item nav-link" data-toggle="tab-main" href="#user" id="userTab">User by Country Breakdown</a>
               {% if not public %}
                 <a class="nav-item nav-link" data-toggle="tab-main" href="#users" id="usersTab">Users</a>
                 <a class="nav-item nav-link" data-toggle="tab-main" href="#trace" id="traceTab">Trace</a>
@@ -224,13 +224,6 @@
                       <div class="dropdown-menu" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{% url 'downloads_json' 'user' %}?{{ request.GET.urlencode }}">json</a>
                       </div>
-                    </div>
-                    <div class="d-flex flex-row mt-2">
-                      <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--right" id="user-tab">
-                        <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab-sub" href="#userTabCountry" id="userTabCountry">Country</a>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>

@@ -61,15 +61,13 @@ class JsonMaker:
             query.pop("size", None)
             return self.es.count(index=self.index, body=query)["count"]
 
-    def get_elasticsearch_response(self, after_key=None, deposits=False):
-        query = self.get_elasticsearch_query(after_key, deposits)
+    def get_elasticsearch_response(self, after_key=None):
+        query = self.get_elasticsearch_query(after_key)
         return self.es.search(index=self.index, body=query)
 
-    def get_elasticsearch_query(self, after_key=None, deposits=False):
+    def get_elasticsearch_query(self, after_key=None):
         return (
-            QueryBuilderFactory(deposits=deposits)
-            .get(self.filters, self.analysis_method, after_key)
-            .query()
+            QueryBuilderFactory().get(self.filters, self.analysis_method, after_key).query()
         )
 
     def get_title(self):
