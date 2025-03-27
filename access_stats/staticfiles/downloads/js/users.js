@@ -41,7 +41,7 @@ function renderUsersPage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: "file-size", targets: 7 }
+            { type: "file-size", targets: 5}
         ],
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
