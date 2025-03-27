@@ -333,18 +333,18 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-bootstrap-datepicker-plus"
-version = "5.0.0"
+version = "5.0.5"
 description = "Bootstrap3/Bootstrap4/Bootstrap5 DatePickerInput, TimePickerInput, DateTimePickerInput, MonthPickerInput, YearPickerInput"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 groups = ["main"]
 files = [
-    {file = "django_bootstrap_datepicker_plus-5.0.0-py3-none-any.whl", hash = "sha256:4a5a2db0de2219bc03f1f8719666f324720b43661f04c91c42de3003fad84f12"},
-    {file = "django_bootstrap_datepicker_plus-5.0.0.tar.gz", hash = "sha256:2e0914e0c2968de59510600250c917361f154b78ec327421dec3d29c60656754"},
+    {file = "django_bootstrap_datepicker_plus-5.0.5-py3-none-any.whl", hash = "sha256:f0818dcaca6824f2bc3b42b53e2cd0e42e9ceb2c8802254f9d38d4cce04b31d8"},
+    {file = "django_bootstrap_datepicker_plus-5.0.5.tar.gz", hash = "sha256:ea5e2bc2137a72b57ba10d2a5f18373049b0d252052f921e5a76c260eaaa35ee"},
 ]
 
 [package.dependencies]
-Django = ">=2,<5"
+Django = ">=2,<6"
 pydantic = "*"
 typing-extensions = "*"
 
@@ -365,19 +365,19 @@ django = ">=3.2"
 
 [[package]]
 name = "django-cookie-law"
-version = "2.0.1"
+version = "2.2.0"
 description = "Helps your Django project comply with EU cookie law regulations"
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "django-cookie-law-2.0.1.tar.gz", hash = "sha256:cb8500c5db6285e31fd2ce224eadcda9834e79fe39031fc79e69371fe4f9ad7b"},
+    {file = "django-cookie-law-2.2.0.tar.gz", hash = "sha256:c3c6c10a01b257886077dd170ead11a49448b5bdfd06e81acc5c7c4e2292d4c8"},
+    {file = "django_cookie_law-2.2.0-py3-none-any.whl", hash = "sha256:121b503e8134287b6cb71bb0b617840e0cb350174d8f2947be2f5af0e7c8cf56"},
 ]
 
 [package.dependencies]
 Django = ">=1.8"
 django-classy-tags = ">=0.3.0"
-pytest-runner = ">=2.11.1"
 
 [[package]]
 name = "elastic-transport"
@@ -645,19 +645,19 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [[package]]
 name = "pytest-runner"
-version = "4.4"
+version = "6.0.1"
 description = "Invoke py.test as distutils command with dependency resolution"
 optional = false
-python-versions = ">=2.7,!=3.0,!=3.1"
+python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "pytest-runner-4.4.tar.gz", hash = "sha256:00ad6cd754ce55b01b868a6d00b77161e4d2006b3918bde882376a0a884d0df4"},
-    {file = "pytest_runner-4.4-py2.py3-none-any.whl", hash = "sha256:e946c7dbdc8c0c2ffa44e7b45450f68e7f08cb133983134fa63a1d1486c2b36b"},
+    {file = "pytest-runner-6.0.1.tar.gz", hash = "sha256:70d4739585a7008f37bf4933c013fdb327b8878a5a69fcbb3316c88882f0f49b"},
+    {file = "pytest_runner-6.0.1-py3-none-any.whl", hash = "sha256:ea326ed6f6613992746062362efab70212089a4209c08d67177b3df1c52cd9f2"},
 ]
 
 [package.extras]
-docs = ["jaraco.packaging (>=3.2)", "rst.linker (>=1.9)", "sphinx"]
-testing = ["collective.checkdocs", "pytest (>=2.8)", "pytest-flake8", "pytest-sugar (>=0.9.1)", "pytest-virtualenv"]
+docs = ["jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx"]
+testing = ["pytest (>=6)", "pytest-black (>=0.3.7) ; platform_python_implementation != \"PyPy\"", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.0.1)", "pytest-flake8", "pytest-mypy (>=0.9.1) ; platform_python_implementation != \"PyPy\"", "pytest-virtualenv", "types-setuptools"]
 
 [[package]]
 name = "python-dateutil"
@@ -913,4 +913,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<4.0"
-content-hash = "14809a28a4498a6c3d69f5fc78ac8faddbbcd843d3ef587755097a1dc92db8f8"
+content-hash = "d94913cfdecc7316ca895483ea2e8b25ecb4f26c880363f998274f5abdc35eb7"
