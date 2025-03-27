@@ -11,7 +11,7 @@ from common.file_response_factory import FileResponseFactory
 default_404_response = HttpResponseNotFound("<h1>404 - Not found</h1>")
 
 class IndexView(TemplateView):
-    template_name = "downloads/templates/index.html"
+    template_name = "./downloads/templates/index.html"
     
     def get(self, request):
         if request.GET:
