@@ -55,7 +55,7 @@ function renderMethodsPage(data)
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: "file-size", targets: 4 }
+            { type: "file-size", targets: 5 }
         ],
         "paging": false,
         "info": false
