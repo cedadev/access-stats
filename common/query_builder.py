@@ -8,6 +8,7 @@ class QueryBuilder:
         return self.generated_query
 
     def generate_query(self):
+        # GOT TO HERE, issue is "Key must_not not found, so need to sort ES query for new index"
         self.generated_query = self.base_query()
         self.update_filters()
         self.update_aggs()
@@ -25,7 +26,7 @@ class QueryBuilder:
         return "datetime.date_histogram.timestamp"
 
     def user(self):
-        return "user.keyword.terms.value"
+        return "user.terms.value"
     
     def dataset(self):
         return "dataset.keyword.terms.value"
@@ -38,13 +39,7 @@ class QueryBuilder:
             "query": {
                 "bool": {
                     "must": [],
-                    "must_not": [
-                        {
-                            "match": {
-                                self.method(): "deposits"
-                            }
-                        }
-                    ],
+                    "must_not": [],
                     "should": [],
                     "filter": {
                         "range": {

@@ -18,6 +18,5 @@ else:
     urlpatterns = [
         path("", IndexView.as_view(), name="index"),
         path("downloads/", include("downloads.urls")),
-        path("deposits/", include("deposits.urls")),
         path("health/", health_view, name="health"),
     ]

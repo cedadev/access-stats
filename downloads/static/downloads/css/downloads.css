@@ -1,5 +1,9 @@
 /* Code to get vertical tabs for second layer filtering */
 
+html {
+  overflow-y: scroll; 
+}
+
 .nav-tabs--vertical {
   border-bottom: none;
   border-left: 1px solid #ddd;
