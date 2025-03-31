@@ -1,7 +1,5 @@
 from django import forms
 from django.conf import settings
-from bootstrap_datepicker_plus.widgets import DatePickerInput
-from datetime import datetime, timedelta
 from common.date_form import DateForm
 
 

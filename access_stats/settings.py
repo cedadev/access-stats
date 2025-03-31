@@ -6,6 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'fwtheme_django_ceda_serv',
     'fwtheme_django',
     'django.contrib.auth',
@@ -14,13 +15,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'downloads',
-    'deposits',
     'cookielaw',
     'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -84,7 +85,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'access_stats/static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'access_stats/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'access_stats/staticfiles')
 
 STATIC_URL = '/static/'
 
@@ -94,7 +96,7 @@ CONTAINER_FLUID = True
 # Public or private version of stats site
 # PUBLIC_SITE = True: Hides all user's names/ip and oda_status.
 # Blocks the api and makes changes to HTML templates
-PUBLIC_SITE = True
+PUBLIC_SITE = False
 
 # Sensitive settings imported from local settings
 from access_stats.settings_local import *
