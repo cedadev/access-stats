@@ -8,7 +8,6 @@ class QueryBuilder:
         return self.generated_query
 
     def generate_query(self):
-        # GOT TO HERE, issue is "Key must_not not found, so need to sort ES query for new index"
         self.generated_query = self.base_query()
         self.update_filters()
         self.update_aggs()
@@ -33,6 +32,16 @@ class QueryBuilder:
     
     def size(self):
         return "size.sum.value"
+    
+    def bots(self):
+        bot_list = []
+
+        with open('bot_list.txt', 'r') as fh:
+            for line in fh:
+                bot_list.append(int(line))
+        query_bit = {}
+
+        return query_bit
     
     def base_query(self):
         return {
@@ -71,6 +80,13 @@ class QueryBuilder:
                                 }
                             }
                         })
+                
+
+        if self.filters["remove-bots"]:
+            # self.bots()
+
+
+        
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
                         "wildcard": {
@@ -104,6 +120,7 @@ class QueryBuilder:
                                 }
                             }
                         })
+
 
     # Functions that add aggregations to the generated query:
     # To be called per subclass in update_aggs()
