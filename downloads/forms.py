@@ -33,3 +33,12 @@ class FilterForm(DateForm):
         label="User type:",
         widget=forms.Select(attrs={"class": "form-control", "placeholder": ""}),
     )
+    bots = forms.ChoiceField(
+        choices=[
+            ("remove-bots", "Bots filtered"),
+            ("allow-bots", "Bots allowed"),
+        ],
+        required=False,
+        label="Bot type:",
+        widget=forms.Select(attrs={"class": "form-control", "placeholder": ""}),
+    )
