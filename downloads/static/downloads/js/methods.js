@@ -37,7 +37,7 @@ function renderMethodsPage(data)
         row.push(data.results[method].accesses.toLocaleString());
         dataDict.size.push(data.results[method].size);
         row.push(formatBytes(data.results[method].size));
-        dataDict.users.push(data.results[method].countries);
+        dataDict.countries.push(data.results[method].countries);
         row.push(data.results[method].countries.toLocaleString());
         dataDict.activitydays.push(data.results[method].activitydays);
         row.push(data.results[method].activitydays.toLocaleString());
@@ -87,7 +87,7 @@ function renderMethodsPage(data)
     }
     methodsChart = updateMethodsChart(methodsChart, activeTab, dataDict);
 
-    methodsTabs = ["methodsTabUsers", "methodsTabMethods", "methodsTabDatasets", "methodsTabAccesses", "methodsTabSize", "methodsTabActivitydays"]
+    methodsTabs = ["methodsTabUsers", "methodsTabMethods", "methodsTabDatasets", "methodsTabAccesses", "methodsTabSize", "methodsTabCountries", "methodsTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (methodsTabs.includes(e.target.id))
         {
@@ -117,9 +117,13 @@ function updateMethodsChart(chart, activeTab, dataDict)
     {
         chart.data.datasets[3].hidden = false;
     }
+    if(activeTab == "methodsTabCountries")
+        {
+            chart.data.datasets[4].hidden = false;
+        }
     if(activeTab == "methodsTabActivitydays")
     {
-        chart.data.datasets[4].hidden = false;
+        chart.data.datasets[5].hidden = false;
     }
     chart.update();
     return chart;
@@ -150,6 +154,11 @@ function makeMethodsChart(dataDict)
             {
                 label: "size",
                 data: dataDict.size,
+                hidden: true
+            },
+            {
+                label: "# of countries",
+                data: dataDict.countries,
                 hidden: true
             },
             {
