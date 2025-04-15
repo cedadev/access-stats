@@ -17,6 +17,7 @@ function renderMethodsPage(data)
         methods: [],
         datasets: [],
         accesses: [],
+        countries: [],
         size: [],
         activitydays: []
     }
@@ -37,13 +38,15 @@ function renderMethodsPage(data)
         row.push(data.results[method].accesses.toLocaleString());
         dataDict.size.push(data.results[method].size);
         row.push(formatBytes(data.results[method].size));
+        dataDict.countries.push(data.results[method].countries);
+        row.push(data.results[method].countries.toLocaleString());
         dataDict.activitydays.push(data.results[method].activitydays);
         row.push(data.results[method].activitydays.toLocaleString());
 
         dataList.push(row);
     }
     
-    totals = Mustache.render(templates.downloadsTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
+    totals = Mustache.render(templates.downloadsTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), countries:data.totals.countries.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
     
     $("#downloadsTable").DataTable({
         data: dataList,
@@ -53,6 +56,7 @@ function renderMethodsPage(data)
             { title: "Datasets" },
             { title: "Number of accesses" },
             { title: "Size" },
+            { title: "Countries" },
             { title: "Activity days"}
         ],
         columnDefs: [
