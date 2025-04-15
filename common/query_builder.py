@@ -33,6 +33,9 @@ class QueryBuilder:
     def size(self):
         return "size.sum.value"
     
+    def country(self):
+        return "country.terms.value"
+    
     def bots(self):
         bot_list = []
 
@@ -82,11 +85,10 @@ class QueryBuilder:
                         })
                 
 
-        if self.filters["remove-bots"]:
+        if self.filters["bots"]:
+            ...
             # self.bots()
 
-
-        
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
                         "wildcard": {
@@ -145,6 +147,11 @@ class QueryBuilder:
                 "sum": {
                     "field": self.size()
                 }
+            },
+            "grand_total_country": {
+                "cardinality": {
+                    "field": self.country()
+                }
             }
         })
     
@@ -183,6 +190,11 @@ class QueryBuilder:
                     "total_size": {
                         "sum": {
                             "field": self.size()
+                        }
+                    },
+                    "number_of_countries": {
+                        "cardinality": {
+                            "field": self.country()
                         }
                     }
                 }
