@@ -89,6 +89,8 @@ class QueryBuilder:
             ...
             # self.bots()
 
+
+        # Amend here, append dict instead of just one wildcard
         if self.filters["dataset"]:
             self.generated_query["query"]["bool"]["must"].append({
                         "wildcard": {

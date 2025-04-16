@@ -18,11 +18,39 @@ function renderUserPage(data)
         country: [],
     }
 
+    var dataList = [];
+
     for (var country in data.results.group_by_country)
+
     {
+        var row = [];
+        row.push("-")
         labelsDict.country.push(country);
+        row.push(country);
         dataDict.country.push(data.results.group_by_country[country]);
+        row.push(data.results.group_by_country[country].toLocaleString());
+
+        dataList.push(row);
     }
+
+    totals = Mustache.render(templates.userTableTotals, {totals:"Totals", countries:data.totals.countries.toLocaleString(), users:data.totals.users.toLocaleString()});
+
+    table = $("#userCountryTable").DataTable({
+        retrieve: true,
+        columns: [
+            { title: "Totals"},
+            { title: "Country" },
+            { title: "Users" },
+        ],
+       "pageLength": 50,
+       "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
+    })
+
+    table.clear();
+    table.rows.add(dataList);
+    table.draw();
+
+    $("userTableTotals").html(totals);
 
     userChart = makeUserChart(dataDict, labelsDict);
 }
