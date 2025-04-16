@@ -1,7 +1,7 @@
 var templates = {
     methodsTableTotals:  '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{datasets}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{countries}}</th><th>{{activitydays}}</th></tr>',
-    timelineTableTotals: '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{methods}}</th><th>{{datasets}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
-    datasetTableTotals:  '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{methods}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
+    timelineTableTotals: '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{methods}}</th><th>{{datasets}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{countries}}</th><th>{{activitydays}}</th></tr>',
+    datasetTableTotals:  '<tr><th scope="row">{{totals}}</th><th>{{users}}</th><th>{{methods}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{countries}}</th><th>{{activitydays}}</th></tr>',
     userTableTotals:     '<tr><th scope="row">{{totals}}</th><th>{{countries}}</th><th>{{users}}</th></tr>',
     usersTableTotals:    '<tr><th scope="row">{{totals}}</th><th>{{country}}</th><th>{{methods}}</th><th>{{datasets}}</th><th>{{accesses}}</th><th>{{size}}</th><th>{{activitydays}}</th></tr>',
     traceTableBody: '{{log}}\n',
