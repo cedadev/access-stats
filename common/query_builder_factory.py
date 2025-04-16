@@ -14,7 +14,7 @@ class QueryBuilderFactory:
         if analysis_method == "dataset":
             return DatasetQuery(filters, analysis_method, after_key)
         if analysis_method == "user":
-            return UserQuery(filters, analysis_method)
+            return UserQuery(filters, analysis_method, after_key)
         if analysis_method == "users":
             return UsersQuery(filters, analysis_method, after_key)
         if analysis_method == "trace":
