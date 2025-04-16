@@ -34,13 +34,13 @@ function renderUserPage(data)
     }
 
     totals = Mustache.render(templates.userTableTotals, {totals:"Totals", countries:data.totals.countries.toLocaleString(), users:data.totals.users.toLocaleString()});
-    
+
     table = $("#userCountryTable").DataTable({
         retrieve: true,
         columns: [
             { title: "Totals"},
             { title: "Country" },
-            { title: "Total users" },
+            { title: "Users" },
         ],
        "pageLength": 50,
        "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
