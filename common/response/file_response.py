@@ -31,7 +31,7 @@ class FileResponse:
 
     def make_csv(self):
         response = HttpResponse(content_type="text/csv")
-        response["Content-Disposition"] = f'attachment; filename={self.get_filename("csv")}'
+        response["Content-Disposition"] = f'attachment; filename="{self.get_filename("csv")}"'
         writer = csv.writer(response)
 
         json_data = self.get_json()
@@ -59,7 +59,7 @@ class FileResponse:
         output.seek(0)
 
         response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        response["Content-Disposition"] = f'attachment; filename={self.get_filename("xlsx")}'
+        response["Content-Disposition"] = f'attachment; filename="{self.get_filename("xlsx")}"'
 
         return response
 
