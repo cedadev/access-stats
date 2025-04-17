@@ -57,7 +57,7 @@ class QueryBuilder:
             filter_val_length = len(rows) - 1
             query_str = ""
             for i, row in enumerate(rows):
-                temp = 1
+
                 if "dataset.keyword" in field: # need to escape "/" as they are special characters in a query string
                     row = row.replace("/", "\\/")
 
