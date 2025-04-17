@@ -1,3 +1,6 @@
+import csv
+from io import StringIO
+
 class QueryBuilder:
     def __init__(self, filters, analysis_method):
         self.filters = filters
@@ -8,7 +11,6 @@ class QueryBuilder:
         return self.generated_query
 
     def generate_query(self):
-        # GOT TO HERE, issue is "Key must_not not found, so need to sort ES query for new index"
         self.generated_query = self.base_query()
         self.update_filters()
         self.update_aggs()
@@ -33,6 +35,43 @@ class QueryBuilder:
     
     def size(self):
         return "size.sum.value"
+    
+    def country(self):
+        return "country.terms.value"
+    
+    def bots(self):
+        bot_list = []
+
+        with open('bot_list.txt', 'r') as fh:
+            for line in fh:
+                bot_list.append(int(line))
+        query_bit = {}
+
+        return query_bit
+    
+    def must_wildcard_dict_create(self, field, filter_values):
+        f = StringIO(filter_values)
+        reader = csv.reader(f, delimiter=',')
+
+        for rows in reader:
+            filter_val_length = len(rows) - 1
+            query_str = ""
+            for i, row in enumerate(rows):
+                temp = 1
+                if "dataset.keyword" in field: # need to escape "/" as they are special characters in a query string
+                    row = row.replace("/", "\\/")
+
+                if (i == filter_val_length) | (filter_val_length == 0):
+                    query_str = query_str + f'*{row}*'
+                else:
+                    query_str = query_str + f'*{row}*' + " OR "
+
+        self.generated_query["query"]["bool"]["must"].append({
+            "query_string": {
+                "query": query_str,
+                "fields": [field]
+            }
+        })
     
     def base_query(self):
         return {
@@ -64,29 +103,17 @@ class QueryBuilder:
             self.generated_query["query"]["bool"]["filter"]["range"][self.datetime()]["lte"] = self.filters["end"]
         if "user" in self.filters:
             if self.filters["user"]:
-                self.generated_query["query"]["bool"]["must"].append({
-                            "wildcard": {
-                                self.user(): {
-                                    "value": f'*{self.filters["user"]}*'
-                                }
-                            }
-                        })
+                self.must_wildcard_dict_create(field=self.user(), filter_values= self.filters["user"])
+
+
+        if self.filters["bots"]:
+            ...
+            # self.bots()
+
         if self.filters["dataset"]:
-            self.generated_query["query"]["bool"]["must"].append({
-                        "wildcard": {
-                            self.dataset(): {
-                                "value": f'*{self.filters["dataset"]}*'
-                            }
-                        }
-                    })
+            self.must_wildcard_dict_create(field=self.dataset(), filter_values= self.filters["dataset"])
         if self.filters["method"]:
-            self.generated_query["query"]["bool"]["must"].append({
-                        "wildcard": {
-                            self.method(): {
-                                "value": f'*{self.filters["method"]}*'
-                            }
-                        }
-                    })
+            self.must_wildcard_dict_create(field=self.method(), filter_values= self.filters["method"])
         if self.filters["anon"]:
             if self.filters["anon"] == "anon":
                 self.generated_query["query"]["bool"]["must"].append({
@@ -104,6 +131,7 @@ class QueryBuilder:
                                 }
                             }
                         })
+
 
     # Functions that add aggregations to the generated query:
     # To be called per subclass in update_aggs()
@@ -127,6 +155,11 @@ class QueryBuilder:
             "grand_total_size": {
                 "sum": {
                     "field": self.size()
+                }
+            },
+            "grand_total_country": {
+                "cardinality": {
+                    "field": self.country()
                 }
             }
         })
@@ -166,6 +199,11 @@ class QueryBuilder:
                     "total_size": {
                         "sum": {
                             "field": self.size()
+                        }
+                    },
+                    "number_of_countries": {
+                        "cardinality": {
+                            "field": self.country()
                         }
                     }
                 }

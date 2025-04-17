@@ -45,6 +45,10 @@
                 <div class="col">{{ form.anon.label_tag }}
                   {{ form.anon }}</div>
               </div>
+              <div class="row">
+                <div class="col">{{ form.bots.label_tag }}
+                  {{ form.bots }}</div>
+              </div>
             </div>
             <div class="input-group">
               <div class="col">
@@ -99,6 +103,9 @@
                           <a class="nav-link" data-toggle="tab-sub" href="#methodsTabSize" id="methodsTabSize">Size</a>
                         </li>
                         <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#methodsTabCountries" id="methodsTabCountries">Countries</a>
+                        </li>
+                        <li class="nav-item">
                           <a class="nav-link" data-toggle="tab-sub" href="#methodsTabActivitydays" id="methodsTabActivitydays">Activity days</a>
                         </li>
                       </ul>
@@ -151,6 +158,9 @@
                           <a class="nav-link" data-toggle="tab-sub" href="#timelineTabSize" id="timelineTabSize">Size</a>
                         </li>
                         <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#timelineTabCountries" id="timelineTabCountries">Countries</a>
+                        </li>
+                        <li class="nav-item">
                           <a class="nav-link" data-toggle="tab-sub" href="#timelineTabActivitydays" id="timelineTabActivitydays">Activity days</a>
                         </li>
                       </ul>
@@ -195,6 +205,9 @@
                           <a class="nav-link" data-toggle="tab-sub" href="#datasetTabSize" id="datasetTabSize">Size</a>
                         </li>
                         <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab-sub" href="#datasetTabCountries" id="datasetTabCountries">Countries</a>
+                        </li>
+                        <li class="nav-item">
                           <a class="nav-link" data-toggle="tab-sub" href="#datasetTabActivitydays" id="datasetTabActivitydays">Activity days</a>
                         </li>
                       </ul>
@@ -230,6 +243,11 @@
                 <div class="row">
                   <div class="col messages" id="user-message"></div>
                 </div>
+                  <div class="col-12">
+                    <table class="table" id="userCountryTable" style="width:100%">
+                      <tfoot id="userTableTotals"></tfoot>
+                    </table>
+                  </div>
               </div>
             </div>
 
