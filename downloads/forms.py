@@ -6,19 +6,16 @@ from common.date_form import DateForm
 class FilterForm(DateForm):
     if not settings.PUBLIC_SITE:
         user = forms.CharField(
-            max_length=100,
             required=False,
             label="User:",
             widget=forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
         )
     dataset = forms.CharField(
-        max_length=100,
         required=False,
         label="Dataset:",
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
     )
     method = forms.CharField(
-        max_length=100,
         required=False,
         label="Method:",
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
