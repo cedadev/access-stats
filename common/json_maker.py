@@ -63,10 +63,10 @@ class JsonMaker:
 
     def get_elasticsearch_response(self, after_key=None):
         query = self.get_elasticsearch_query(after_key)
+
         return self.es.search(index=self.index, body=query)
 
     def get_elasticsearch_query(self, after_key=None):
-        pause = 1
         return (
             QueryBuilderFactory().get(self.filters, self.analysis_method, after_key).query()
         )
