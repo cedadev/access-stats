@@ -5,7 +5,7 @@ from common.response.file_response import FileResponse
 
 class TimelineResponse(FileResponse):
     def get_headings(self):
-        return ["Timeline", "Users", "Methods", "Dataset", "Accesses", "Size", "Activity Days"]
+        return ["Timeline", "Users", "Methods", "Dataset", "Accesses", "Size", "Countries", "Activity Days"]
 
     def _write_xlsx(self, json_data, worksheet, date_format):
         worksheet.set_column(0, 6, 11)
@@ -21,4 +21,5 @@ class TimelineResponse(FileResponse):
             worksheet.write_number(row, 4, json_data["results"][result]["accesses"])
             size = bitmath.parse_string(f'{str(json_data["results"][result]["size"])}B').best_prefix(bitmath.NIST).format("{value:.1f} {unit}")
             worksheet.write_string(row, 5, size)
-            worksheet.write_number(row, 6, json_data["results"][result]["activitydays"])
+            worksheet.write_number(row, 6, json_data["results"][result]["countries"])
+            worksheet.write_number(row, 7, json_data["results"][result]["activitydays"])

@@ -5,7 +5,7 @@ from common.response.file_response import FileResponse
 
 class DatasetResponse(FileResponse):
     def get_headings(self):
-        return ["Dataset", "Users", "Methods", "Accesses", "Size", "Activity Days"]
+        return ["Dataset", "Users", "Methods", "Accesses", "Size", "Countries", "Activity Days"]
 
     def _write_xlsx(self, json_data, worksheet, date_format):
         worksheet.set_column(0, 0, 74)
@@ -19,4 +19,5 @@ class DatasetResponse(FileResponse):
             worksheet.write_number(row, 3, json_data["results"][result]["accesses"])
             size = bitmath.parse_string(f'{str(json_data["results"][result]["size"])}B').best_prefix(bitmath.NIST).format("{value:.1f} {unit}")
             worksheet.write_string(row, 4, size)
-            worksheet.write_number(row, 5, json_data["results"][result]["activitydays"])
+            worksheet.write_number(row, 5, json_data["results"][result]["countries"])
+            worksheet.write_number(row, 6, json_data["results"][result]["activitydays"])
