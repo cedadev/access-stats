@@ -17,6 +17,7 @@ function renderMethodsPage(data)
         datasets: [],
         accesses: [],
         size: [],
+        countries: [],
         activitydays: []
     }
 
@@ -36,13 +37,15 @@ function renderMethodsPage(data)
         row.push(data.results[method].accesses.toLocaleString());
         dataDict.size.push(data.results[method].size);
         row.push(formatBytes(data.results[method].size));
+        dataDict.countries.push(data.results[method].countries);
+        row.push(data.results[method].countries.toLocaleString());
         dataDict.activitydays.push(data.results[method].activitydays);
         row.push(data.results[method].activitydays.toLocaleString());
 
         dataList.push(row);
     }
     
-    totals = Mustache.render(templates.methodsTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
+    totals = Mustache.render(templates.methodsTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), countries:data.totals.countries.toLocaleString(), activitydays:data.totals.activitydays.toLocaleString()});
     
     $("#methodsTable").DataTable({
         data: dataList,
@@ -52,10 +55,11 @@ function renderMethodsPage(data)
             { title: "Datasets" },
             { title: "Number of accesses" },
             { title: "Size" },
+            { title: "Countries" },
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: "file-size", targets: 5 }
+            { type: "file-size", targets: 4 }
         ],
         "paging": false,
         "info": false
@@ -83,7 +87,7 @@ function renderMethodsPage(data)
     }
     methodsChart = updateMethodsChart(methodsChart, activeTab, dataDict);
 
-    methodsTabs = ["methodsTabUsers", "methodsTabMethods", "methodsTabDatasets", "methodsTabAccesses", "methodsTabSize", "methodsTabActivitydays"]
+    methodsTabs = ["methodsTabUsers", "methodsTabMethods", "methodsTabDatasets", "methodsTabAccesses", "methodsTabSize", "methodsTabCountries", "methodsTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (methodsTabs.includes(e.target.id))
         {
@@ -113,9 +117,13 @@ function updateMethodsChart(chart, activeTab, dataDict)
     {
         chart.data.datasets[3].hidden = false;
     }
+    if(activeTab == "methodsTabCountries")
+        {
+            chart.data.datasets[4].hidden = false;
+        }
     if(activeTab == "methodsTabActivitydays")
     {
-        chart.data.datasets[4].hidden = false;
+        chart.data.datasets[5].hidden = false;
     }
     chart.update();
     return chart;
@@ -146,6 +154,11 @@ function makeMethodsChart(dataDict)
             {
                 label: "size",
                 data: dataDict.size,
+                hidden: true
+            },
+            {
+                label: "# of countries",
+                data: dataDict.countries,
                 hidden: true
             },
             {

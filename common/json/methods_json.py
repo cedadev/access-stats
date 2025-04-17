@@ -12,6 +12,7 @@ class MethodsJson(JsonMaker):
         self.generated_json["totals"]["datasets"] = response["aggregations"]["grand_total_datasets"]["value"]
         self.generated_json["totals"]["accesses"] = 0
         self.generated_json["totals"]["size"] = response["aggregations"]["grand_total_size"]["value"]
+        self.generated_json["totals"]["countries"] = response["aggregations"]["grand_total_country"]["value"]
         self.generated_json["totals"]["activitydays"] = self.get_activity_days(response["hits"]["total"])
 
         self.generated_json["results"] = {}
@@ -22,4 +23,5 @@ class MethodsJson(JsonMaker):
             self.generated_json["results"][result["key"]]["accesses"] = result["number_of_accesses"]["value"]
             self.generated_json["totals"]["accesses"] += result["number_of_accesses"]["value"]
             self.generated_json["results"][result["key"]]["size"] = result["total_size"]["value"]
+            self.generated_json["results"][result["key"]]["countries"] = result["number_of_countries"]["value"]
             self.generated_json["results"][result["key"]]["activitydays"] = result["doc_count"]

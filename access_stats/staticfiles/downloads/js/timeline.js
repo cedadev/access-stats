@@ -17,6 +17,7 @@ function renderTimelinePage(data)
         datasets: [],
         accesses: [],
         size: [],
+        countries: [],
         activitydays: []
     }
 
@@ -38,13 +39,15 @@ function renderTimelinePage(data)
         row.push(data.results[month].accesses.toLocaleString());
         dataDict.size.push(data.results[month].size);
         row.push(formatBytes(data.results[month].size));
+        dataDict.countries.push(data.results[month].countries);
+        row.push(data.results[month].countries.toLocaleString());
         dataDict.activitydays.push(data.results[month].activitydays);
         row.push(data.results[month].activitydays.toLocaleString());
 
         dataList.push(row);
     }
     
-    totals = Mustache.render(templates.timelineTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
+    totals = Mustache.render(templates.timelineTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), methods:data.totals.methods.toLocaleString(), datasets:data.totals.datasets.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), countries:data.totals.countries.toLocaleString(), activitydays:data.totals.activitydays.toLocaleString()});
     
     $("#timelineTable").DataTable({
         data: dataList,
@@ -55,6 +58,7 @@ function renderTimelinePage(data)
             { title: "Datasets" },
             { title: "Number of accesses" },
             { title: "Size" },
+            { title: "Countries" },
             { title: "Activity days"}
         ],
         columnDefs: [
@@ -88,7 +92,7 @@ function renderTimelinePage(data)
     timelineChart = updateTimelineChart(timelineChart, activeTab, dataDict);
 
 
-    timelineTabs = ["timelineTabUsers", "timelineTabMethods", "timelineTabDatasets", "timelineTabAccesses", "timelineTabSize", "timelineTabActivitydays"]
+    timelineTabs = ["timelineTabUsers", "timelineTabMethods", "timelineTabDatasets", "timelineTabAccesses", "timelineTabSize", "timelineTabCountries", "timelineTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (timelineTabs.includes(e.target.id))
         {
@@ -122,9 +126,13 @@ function updateTimelineChart(chart, activeTab, dataDict)
     {
         chart.data.datasets[4].hidden = false;
     }
-    if(activeTab == "timelineTabActivitydays")
+    if(activeTab == "timelineTabCountries")
     {
         chart.data.datasets[5].hidden = false;
+    }
+    if(activeTab == "timelineTabActivitydays")
+    {
+        chart.data.datasets[6].hidden = false;
     }
     chart.update();
     return chart;
@@ -185,6 +193,17 @@ function makeTimelineChart(dataDict)
                 label: "size",
                 lineTension: 0,
                 data: dataDict.size,
+                fill: false,
+                borderColor: "#00628d",
+                backgroundColor: "#00628d",
+                pointBackgroundColor: "#00628d",
+                borderWidth: 1,
+                hidden: true
+            },
+            {
+                label: "countries",
+                lineTension: 0,
+                data: dataDict.countries,
                 fill: false,
                 borderColor: "#00628d",
                 backgroundColor: "#00628d",

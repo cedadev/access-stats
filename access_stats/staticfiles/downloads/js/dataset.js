@@ -16,6 +16,7 @@ function renderDatasetPage(data)
         methods: [],
         accesses: [],
         size: [],
+        countries: [],
         activitydays: []
     }
 
@@ -35,13 +36,15 @@ function renderDatasetPage(data)
         row.push(data.results[dataset].accesses.toLocaleString());
         dataDict.size.push(data.results[dataset].size);
         row.push(formatBytes(data.results[dataset].size));
+        dataDict.countries.push(data.results[dataset].countries);
+        row.push(data.results[dataset].countries.toLocaleString());
         dataDict.activitydays.push(data.results[dataset].activitydays);
         row.push(data.results[dataset].activitydays.toLocaleString());
 
         dataList.push(row);
     }
 
-    totals = Mustache.render(templates.datasetTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), methods:data.totals.methods.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), activitydays:data.totals.activitydays.toLocaleString()});
+    totals = Mustache.render(templates.datasetTableTotals, {totals:"Totals", users:data.totals.users.toLocaleString(), methods:data.totals.methods.toLocaleString(), accesses:data.totals.accesses.toLocaleString(), size:formatBytes(data.totals.size), countries:data.totals.countries.toLocaleString(), activitydays:data.totals.activitydays.toLocaleString()});
     
     table = $("#datasetTable").DataTable({
         retrieve: true,
@@ -51,10 +54,11 @@ function renderDatasetPage(data)
             { title: "Methods" },
             { title: "Number of accesses" },
             { title: "Size" },
+            { title: "Countries" },
             { title: "Activity days"}
         ],
         columnDefs: [
-            { type: "file-size", targets: 5 }
+            { type: "file-size", targets: 4 }
         ],
         "pageLength": 50,
         "lengthMenu": [ [10, 50, 200, -1], [10, 50, 200, "All"] ]
@@ -86,7 +90,7 @@ function renderDatasetPage(data)
     }
     datasetChart = updateDatasetChart(datasetChart, activeTab, dataDict);
 
-    datasetTabs = ["datasetTabUsers", "datasetTabAccesses", "datasetTabSize", "datasetTabActivitydays"]
+    datasetTabs = ["datasetTabUsers", "datasetTabAccesses", "datasetTabSize", "datasetTabCountries", "datasetTabActivitydays"]
     $('a[data-toggle="tab-sub"]').on("shown.bs.tab", function (e) {
         if (datasetTabs.includes(e.target.id))
         {
@@ -112,9 +116,13 @@ function updateDatasetChart(chart, activeTab, dataDict)
     {
         chart.data.datasets[2].hidden = false;
     }
+    if(activeTab == "datasetTabCountries")
+        {
+            chart.data.datasets[3].hidden = false;
+        }
     if(activeTab == "datasetTabActivitydays")
     {
-        chart.data.datasets[3].hidden = false;
+        chart.data.datasets[4].hidden = false;
     }
     chart.update();
     return chart;
@@ -144,6 +152,12 @@ function makeDatasetChart(dataDict)
             {
                 label: "size",
                 data: dataDict.size,
+                borderWidth: 0,
+                hidden: true
+            },
+            {
+                label: "countries",
+                data: dataDict.countries,
                 borderWidth: 0,
                 hidden: true
             },
