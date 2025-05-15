@@ -14,13 +14,21 @@ class JsonMaker:
         self.filters = filters
         self.analysis_method = analysis_method
 
-        parent_dir = (Path(__file__).parent).parent
-        secrets_path = Path("/secrets/settings.yml")
-
-        if secrets_path.exists():
-            settings_file = secrets_path
+        if (filters["bots"] == "") | (filters["bots"] == "remove-bots"):
+            parent_dir = (Path(__file__).parent).parent
+            secrets_path = Path("/secrets/settings_no_bots.yml")
+            if secrets_path.exists():
+                settings_file = secrets_path
+            else:
+                settings_file = parent_dir.joinpath("access_stats/settings_no_bots.yml")
         else:
-            settings_file = parent_dir.joinpath("access_stats/settings.yml")
+            parent_dir = (Path(__file__).parent).parent
+            secrets_path = Path("/secrets/settings_bots.yml")
+            if secrets_path.exists():
+                settings_file = secrets_path
+            else:
+                settings_file = parent_dir.joinpath("access_stats/settings_bots.yml")
+
 
         if not settings_file.exists():
             raise FileNotFoundError(f"{settings_file} not found")
