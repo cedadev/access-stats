@@ -36,6 +36,6 @@ class FilterForm(DateForm):
             ("allow-bots", "Bots allowed"),
         ],
         required=False,
-        label="Bot type (not yet functional, does nothing):",
+        label="Bot filtering:",
         widget=forms.Select(attrs={"class": "form-control", "placeholder": ""}),
     )
