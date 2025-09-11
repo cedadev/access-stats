@@ -32,7 +32,7 @@ class FilterForm(DateForm):
     )
     bots = forms.ChoiceField(
         choices=[
-            ("remove-bots", "Bots filtered"),
+            ("remove-bots", "Bots filtered (experimental)"),
             ("allow-bots", "Bots allowed"),
         ],
         required=False,
