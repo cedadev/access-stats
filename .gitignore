@@ -114,3 +114,7 @@ venv.bak/
 # Private https authentification username and password for ES
 *settings.yml
 scratch.py
+access_stats/settings_bots.yml
+access_stats/settings_no_bots.yml
+settings_no_bots.yml
+settings_bots.yml
