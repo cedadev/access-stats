@@ -1,6 +1,0 @@
-# es_api_key: 3CA43s1BkhslMPGJo7tmNCGz486Dhu9gwKeKA7pyPN7tfUUPgG2I5zK9T7OTAoVD
-es_api_key: g9757ddxx1oeoai6umwn63cml5ca4e3tu6suvgvej6ghebttyck9p8bk7kver8ne
-index:
-  main: bot-filtered-access-stats-cci-testing
-  rollup: access-stats-rollup_es-no-bots-test
-host: https://elasticsearch.ceda.ac.uk:443
