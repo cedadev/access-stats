@@ -28,7 +28,7 @@ class QueryBuilder:
         return "datetime.date_histogram.timestamp"
 
     def user(self):
-        return "user.terms.value"
+        return "user.keyword.terms.value"
     
     def dataset(self):
         return "dataset.keyword.terms.value"
@@ -37,7 +37,7 @@ class QueryBuilder:
         return "size.sum.value"
     
     def country(self):
-        return "country.terms.value"
+        return "country.keyword.terms.value"
     
     def bots(self):
         bot_list = []

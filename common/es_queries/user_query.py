@@ -16,11 +16,11 @@ class UserQuery(QueryBuilder):
 
         self.generated_aggs["group_by_country"]["terms"] = {}
         self.generated_aggs["group_by_country"]["terms"]["size"] = 1000
-        self.generated_aggs["group_by_country"]["terms"]["field"] = "country.terms.value"
+        self.generated_aggs["group_by_country"]["terms"]["field"] = "country.keyword.terms.value"
         self.generated_aggs["group_by_country"]["aggs"] = {}
         self.generated_aggs["group_by_country"]["aggs"]["users"] = {}
         self.generated_aggs["group_by_country"]["aggs"]["users"]["cardinality"] = {}
-        self.generated_aggs["group_by_country"]["aggs"]["users"]["cardinality"]["field"] = "user.terms.value"
+        self.generated_aggs["group_by_country"]["aggs"]["users"]["cardinality"]["field"] = "user.keyword.terms.value"
 
     def base_aggs(self):
         return {}

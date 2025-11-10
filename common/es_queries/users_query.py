@@ -15,7 +15,7 @@ class UsersQuery(QueryBuilder):
     def group_by_main(self):
         self.generated_aggs["group_by"]["aggs"]["country"] = {}
         self.generated_aggs["group_by"]["aggs"]["country"]["terms"] = {}
-        self.generated_aggs["group_by"]["aggs"]["country"]["terms"]["field"] = "country.terms.value"
+        self.generated_aggs["group_by"]["aggs"]["country"]["terms"]["field"] = "country.keyword.terms.value"
 
         self.generated_aggs["group_by"]["composite"] = {}
         self.generated_aggs["group_by"]["composite"]["size"] = 10000
@@ -25,7 +25,7 @@ class UsersQuery(QueryBuilder):
         self.generated_aggs["group_by"]["composite"]["sources"].append({
             "user": {
                 "terms": {
-                    "field": "user.terms.value"
+                    "field": "user.keyword.terms.value"
                 }
             }
         })
