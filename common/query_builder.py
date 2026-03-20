@@ -39,16 +39,6 @@ class QueryBuilder:
     def country(self):
         return "country.keyword.terms.value"
     
-    def bots(self):
-        bot_list = []
-
-        with open('bot_list.txt', 'r') as fh:
-            for line in fh:
-                bot_list.append(int(line))
-        query_bit = {}
-
-        return query_bit
-    
     def must_wildcard_dict_create(self, field, filter_values):
         f = StringIO(filter_values)
         reader = csv.reader(f, delimiter=',')
@@ -104,12 +94,6 @@ class QueryBuilder:
         if "user" in self.filters:
             if self.filters["user"]:
                 self.must_wildcard_dict_create(field=self.user(), filter_values= self.filters["user"])
-
-
-        if self.filters["bots"]:
-            ...
-            # self.bots()
-
         if self.filters["dataset"]:
             self.must_wildcard_dict_create(field=self.dataset(), filter_values= self.filters["dataset"])
         if self.filters["method"]:
