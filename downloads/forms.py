@@ -8,7 +8,7 @@ class FilterForm(DateForm):
         user = forms.CharField(
             required=False,
             label="User:",
-            widget=forms.TextInput(attrs={"class": "form-control", "placeholder": ""}),
+            widget=forms.TextInput(attrs={"class": "form-control", "placeholder": ""}), 
         )
     dataset = forms.CharField(
         required=False,

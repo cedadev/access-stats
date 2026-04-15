@@ -75,6 +75,7 @@ class JsonMaker:
         return self.es.search(index=self.index, body=query)
 
     def get_elasticsearch_query(self, after_key=None):
+
         return (
             QueryBuilderFactory().get(self.filters, self.analysis_method, after_key).query()
         )
@@ -93,4 +94,5 @@ class JsonMaker:
 
     def json(self):
         self.generate_json()
+
         return self.generated_json

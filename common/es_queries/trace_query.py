@@ -14,7 +14,7 @@ class TraceQuery(QueryBuilder):
         return "datetime"
 
     def user(self):
-        return "user"
+        return "user.keyword"
     
     def dataset(self):
         return "dataset.keyword"
