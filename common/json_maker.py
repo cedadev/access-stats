@@ -35,12 +35,18 @@ class JsonMaker:
 
         self.load_settings(settings_file)
 
-        self.es = Elasticsearch(
-            [self.settings["host"]],
-            headers={"x-api-key": self.settings["es_api_key"]},
-            ca_certs=None,
-            timeout=60,
-        )
+        # Set the connection kwargs        
+        connection_kwargs = {
+                    'hosts': self.settings['host'],
+                    'basic_auth': (self.settings['basic_auth']['username'], 
+                                   self.settings['basic_auth']['password']),
+                    'retry_on_timeout': True,
+                    'request_timeout': 60,
+                    'sniff_timeout': 60
+                }
+
+        # Create API connection to elasticsearch
+        self.es = Elasticsearch(**connection_kwargs)
 
     @property
     def index(self):
